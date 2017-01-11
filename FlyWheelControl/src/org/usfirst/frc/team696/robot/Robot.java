@@ -40,13 +40,17 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-    	enc.setDistancePerPulse(1/256);
+    	enc.setDistancePerPulse(1/64);
     	enc.setPIDSourceType(PIDSourceType.kRate);
     	
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
+        
+        for(int i = 0; i <= 10; i++)oldButton[i] = false;
+        
+        vic.setInverted(false);
     }
     
 	/**
@@ -90,7 +94,7 @@ public class Robot extends IterativeRobot {
     	
     	if(xbox.getRawButton(1) && !oldButton[1])targetRPM-=100;
     	if(xbox.getRawButton(2) && !oldButton[2])targetRPM+=100;
-    	if(xbox.getRawButton(6) && !oldButton[6])targetRPM = 0;;
+    	if(xbox.getRawButton(6) && !oldButton[6])targetRPM = 0;
     	PID.setSetpoint(targetRPM/60);
     	
         PID.setOutputRange(-1, 1);
