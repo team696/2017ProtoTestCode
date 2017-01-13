@@ -20,10 +20,9 @@ public class Robot extends IterativeRobot {
     String autoSelected;
     SendableChooser chooser;
     
-    Joystick afterGlow = new Joystick(3);
+    Joystick afterGlow = new Joystick(0);
     Victor motorOne = new Victor(5);
     Victor motorTwo = new Victor(6);
-    
     double speedOne = 0;
     double speedTwo = 0;
     boolean[] oldButton = new boolean[11];
@@ -76,7 +75,7 @@ public class Robot extends IterativeRobot {
     	}
     }
 
-    /**
+    /*
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
