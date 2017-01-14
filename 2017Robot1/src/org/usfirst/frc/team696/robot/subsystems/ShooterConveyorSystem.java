@@ -1,22 +1,18 @@
 package org.usfirst.frc.team696.robot.subsystems;
 
+import org.usfirst.frc.team696.robot.Robot;
 import org.usfirst.frc.team696.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ShooterConveyorSystem extends Subsystem {
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	
-	Victor shooterConv = new Victor(RobotMap.shooterConveyor);
+	Victor shooterConveyor = new Victor(RobotMap.shooterConveyorMotor);
 	
 	double speed = 0;
 	
-	public void shooterConveyor(){
-		
-	}
+	public void shooterConveyor(){}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -28,8 +24,16 @@ public class ShooterConveyorSystem extends Subsystem {
     	run();
     }
     
-    public void run(){
-    	shooterConv.set(speed);
+    private void run(){
+    	shooterConveyor.set(speed);
+    }
+    
+    public double getSpeed(){
+    	return this.speed;
+    }
+    
+    public double getCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.shooterConveyorMotorPDP);
     }
 }
 

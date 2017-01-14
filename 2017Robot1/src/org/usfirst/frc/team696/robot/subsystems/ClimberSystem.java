@@ -14,8 +14,8 @@ public class ClimberSystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	Talon climber1 = new Talon(RobotMap.climber1);
-	Talon climber2 = new Talon(RobotMap.climber2);
+	Talon climber1 = new Talon(RobotMap.climberMotorOne);
+	Talon climber2 = new Talon(RobotMap.climberMotorTwo);
 	
 	double speed = 0;
 	

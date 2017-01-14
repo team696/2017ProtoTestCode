@@ -2,12 +2,13 @@
 package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import org.usfirst.frc.team696.robot.commands.ExampleCommand;
-import org.usfirst.frc.team696.robot.subsystems.ExampleSubsystem;
+
+import org.usfirst.frc.team696.robot.subsystems.ShooterConveyorSystem;
 
 import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
@@ -24,15 +25,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot {
 
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	/*
+	 * Input Setup
+	 */
 	public static OI oi;
-	
+	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	public static IMU navX;
 	SerialPort port;
 
+	/*
+	 * Autonomous Chooser Setup
+	 */
     Command autonomousCommand;
     SendableChooser chooser;
 
+    /*
+     * Setup Subsystems
+     */
+    ShooterConveyorSystem shooterConveyorSystem = new ShooterConveyorSystem();
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -40,7 +51,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		oi = new OI();
         chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", new ExampleCommand());
+//        chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
         

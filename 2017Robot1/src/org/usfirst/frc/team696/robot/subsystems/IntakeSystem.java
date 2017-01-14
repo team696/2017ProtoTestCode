@@ -13,8 +13,8 @@ public class IntakeSystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	Victor intake1 = new Victor(RobotMap.intake1);
-	Victor intake2 = new Victor(RobotMap.intake2);
+	Victor intake1 = new Victor(RobotMap.intakeMotorOne);
+	Victor intake2 = new Victor(RobotMap.intakeMotorTwo);
 	
 	double speed = 0;
 	

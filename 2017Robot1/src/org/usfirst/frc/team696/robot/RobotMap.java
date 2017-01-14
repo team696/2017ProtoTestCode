@@ -6,26 +6,37 @@ package org.usfirst.frc.team696.robot;
  * floating around.
  */
 public class RobotMap {
-    // For example to map the left and right motors, you could define the
-    // following variables to use with your drivetrain subsystem.
-    // public static int leftMotor = 1;
-    // public static int rightMotor = 2;
-    
-    // If you are using multiple modules, make sure to define both the port
-    // number and the module. For example you with a rangefinder:
-    // public static int rangefinderPort = 1;
-    // public static int rangefinderModule = 1;
-	
-	/**
-	 * Setting up Motors
+
+	/*
+	 * Intake Ports Needed
 	 */
+	public static int intakeMotorOne = 2;
+	public static int intakeMotorTwo = 3;
+	public static int intakeMotorOnePDP = 0;
+	public static int intakeMotorTwoPDP = 0;
 	
-	public static int shooter1 = 0;
-	public static int shooter2 = 1;
-	public static int intake1 = 2;
-	public static int intake2 = 3;
-	public static int shooterConveyor = 4;
-	public static int climber1 = 5;
-	public static int climber2 = 6;
+	/*
+	 * Shooter Converyor Ports Needed
+	 */
+	public static int shooterConveyorMotor = 4;
+	public static int shooterConveyorMotorPDP = 0;
+	
+	/*
+	 * Shooter Ports Needed
+	 */
+	public static int shooterMotorOne = 0;
+	public static int shooterMotorTwo = 1;
+	public static int shooterEncoderOneA = 0;
+	public static int shooterEncoderOneB = 0;
+	public static int shooterMotorOnePDP = 0;
+	public static int shooterMotorTwoPDP = 0;
+
+	/*
+	 * Climber Ports Needed
+	 */
+	public static int climberMotorOne = 5;
+	public static int climberMotorTwo = 6;
+	public static int climberMotorOnePDP = 0;
+	public static int climberMotorTwoPDP = 0;
 	
 }
