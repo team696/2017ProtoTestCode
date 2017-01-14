@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -29,11 +30,16 @@ public class Robot extends IterativeRobot {
     Joystick xbox = new Joystick(0);
     boolean[] oldButton = new boolean[11];
     
-    double targetRPM = 0;
+    double targetRPM;
+    double p;
+    double i;
+    double d;
     
     Encoder enc = new Encoder(0,1);
     Victor vic = new Victor(1);
-    PIDController PID = new PIDController(1, 0, 0, 0.7, enc, vic);
+    PIDController PID = new PIDController(p, i, d, 0.7, enc, vic);
+    
+    
 
     /**
      * This function is run when the robot is first started up and should be
@@ -48,9 +54,19 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
+        targetRPM = 0;
+        p = 0;
+        i = 0;
+        d = 0;
+        
         for(int i = 0; i <= 10; i++)oldButton[i] = false;
         
         vic.setInverted(false);
+        PID.enable();
+        SmartDashboard.putNumber("Target RPM", targetRPM);
+        SmartDashboard.putNumber("P", p);
+        SmartDashboard.putNumber("I", i);
+        SmartDashboard.putNumber("D", d);
     }
     
 	/**
@@ -99,7 +115,15 @@ public class Robot extends IterativeRobot {
     	
         PID.setOutputRange(-1, 1);
         
-        System.out.println("target: " + targetRPM + "   current: " + enc.getRate());
+        System.out.println("target: " + targetRPM + "   current: " + enc.getRate() + p + i + d);
+        
+        for(int i = 1; i<=10; i++)oldButton[i] = xbox.getRawButton(i);
+        
+        targetRPM = SmartDashboard.getNumber("Target RPM");
+        SmartDashboard.putNumber("Current RPM", enc.getRate());
+        p = SmartDashboard.getNumber("P");
+        i = SmartDashboard.getNumber("I");
+        d = SmartDashboard.getNumber("D");
     }
     
     /**
