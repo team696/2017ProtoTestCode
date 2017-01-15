@@ -2,6 +2,7 @@
 package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,7 +21,10 @@ public class Robot extends IterativeRobot {
     String autoSelected;
     SendableChooser chooser;
     Ultrasonic ultra = new Ultrasonic(5, 6); 
-	
+    RobotDrive drive = new RobotDrive(0,1,8,9);
+    double range = 0; 
+	double LeftDrive = 0; 
+	double RightDrive = 0; 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -30,6 +34,8 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
+        ultra.setAutomaticMode(true); 
+        
     }
     
 	/**
@@ -66,8 +72,23 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-        ultra.getRangeInches(); 
-        System.out.println("getRangeInches:" + "getRangeInches");  
+    	// robot will slow down as it gets closer to an object 
+        range = ultra.getRangeInches(); 
+        if(ultra.getRangeInches() >= 40)
+        {
+                    drive.setSensitivity(1);
+        }
+        else if(ultra.getRangeInches() >= 30); 
+        {
+                    drive.setSensitivity(0.5);
+        }
+               if(ultra.getRangeInches() < 30); 
+        {
+                   drive.setSensitivity(0.25);
+        }
+        System.out.println("getRangeInches:" + "getRangeInches"); 
+        
+        drive.tankDrive(LeftDrive, RightDrive);
     }
     
     /**
