@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,7 +27,8 @@ public class Robot extends IterativeRobot {
     double p; 
     double i;
     double d; 
-    double f; 
+    double f;
+    
     
     
 	
@@ -51,6 +53,8 @@ public class Robot extends IterativeRobot {
     	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
         
         talon.reset();
+        
+        SmartDashboard.putNumber("f", 0);
     }
     
 	/**
@@ -90,11 +94,12 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	talon.setSetpoint(SmartDashboard.getNumber("targetRPM"));
     	talon.setAllowableClosedLoopErr(2);
-    	talon.ClearIaccum();
+//    	talon.ClearIaccum();
     	SmartDashboard.putNumber("currentRPM", talon.get());
     	talon.setP(SmartDashboard.getNumber("p"));
     	talon.setI(SmartDashboard.getNumber("i"));
     	talon.setD(SmartDashboard.getNumber("d"));
+    	talon.setF(SmartDashboard.getNumber("f")); 
     	SmartDashboard.putNumber("output voltage", talon.getOutputVoltage());
     	SmartDashboard.putNumber("output current", talon.getOutputCurrent());
     	
