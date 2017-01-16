@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,6 +23,12 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     
     CANTalon talon = new CANTalon(0);
+    double p; 
+    double i;
+    double d; 
+    double f; 
+    
+    
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -79,11 +86,15 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
+    
     public void teleopPeriodic() {
     	talon.setSetpoint(SmartDashboard.getNumber("targetRPM"));
-    	talon.setAllowableClosedLoopErr(10);
-    	
+    	talon.setAllowableClosedLoopErr(2);
+    	talon.ClearIaccum();
     	SmartDashboard.putNumber("currentRPM", talon.get());
+    	talon.setP(SmartDashboard.getNumber("p"));
+    	talon.setI(SmartDashboard.getNumber("i"));
+    	talon.setD(SmartDashboard.getNumber("d"));
     	SmartDashboard.putNumber("output voltage", talon.getOutputVoltage());
     	SmartDashboard.putNumber("output current", talon.getOutputCurrent());
     	
