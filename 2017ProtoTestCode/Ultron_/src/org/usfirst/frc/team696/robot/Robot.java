@@ -1,12 +1,11 @@
 
 package org.usfirst.frc.team696.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.Ultrasonic.Unit;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,15 +21,12 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
-    
-    CANTalon talon = new CANTalon(0);
-    double p; 
-    double i;
-    double d; 
-    double f;
-    
-    
-    
+    Ultrasonic ultra = new Ultrasonic(5, 6); 
+    RobotDrive drive = new RobotDrive(0,1,8,9);
+    double range; 
+	double LeftDrive = 0; 
+	double RightDrive = 0; 
+
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -41,20 +37,9 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        SmartDashboard.putNumber("targetRPM", 0);
         
-        talon.reverseSensor(true);
-        talon.reverseOutput(true);
+        ultra.setAutomaticMode(true); 
         
-        talon.enable();
-        talon.changeControlMode(TalonControlMode.Speed);
-        talon.set(0);
-        
-    	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-        
-        talon.reset();
-        
-        SmartDashboard.putNumber("f", 0);
     }
     
 	/**
@@ -90,20 +75,19 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
-    
     public void teleopPeriodic() {
-    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM"));
-    	talon.setAllowableClosedLoopErr(10);
-//    	talon.ClearIaccum(); 
-    	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p"));
-    	talon.setI(SmartDashboard.getNumber("i"));
-    	talon.setD(SmartDashboard.getNumber("d"));
-    	talon.setF(SmartDashboard.getNumber("f")); 
-    	SmartDashboard.putNumber("output voltage", talon.getOutputVoltage());
-    	SmartDashboard.putNumber("output current", talon.getOutputCurrent());
-    	
-    	talon.enableControl();
+    	// robot will slow down as it gets closer to an object 
+        range = ultra.getRangeInches(); 
+         ultra.getDistanceUnits(); 
+         
+         if(ultra.getRangeInches() >= 10); 
+        {
+                    drive.setLeftRightMotorOutputs(0, 0);
+        }
+              
+        System.out.println("range:" + "getRangeInches"); 
+        
+        drive.tankDrive(LeftDrive, RightDrive);
     }
     
     /**

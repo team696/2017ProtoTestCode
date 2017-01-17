@@ -1,14 +1,18 @@
 
 package org.usfirst.frc.team696.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,38 +27,46 @@ public class Robot extends IterativeRobot {
     String autoSelected;
     SendableChooser chooser;
     
-    CANTalon talon = new CANTalon(0);
-    double p; 
+    Joystick xbox = new Joystick(0);
+    boolean[] oldButton = new boolean[11];
+    
+    double targetRPM;
+    double p;
     double i;
-    double d; 
-    double f;
+    double d;
+    
+    Encoder enc = new Encoder(0,1);
+    Victor vic = new Victor(1);
+    PIDController PID = new PIDController(p, i, d, 0.7, enc, vic);
     
     
-    
-	
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
+    	enc.setDistancePerPulse(1/64);
+    	enc.setPIDSourceType(PIDSourceType.kRate);
+    	
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        SmartDashboard.putNumber("targetRPM", 0);
         
-        talon.reverseSensor(true);
-        talon.reverseOutput(true);
+        targetRPM = 0;
+        p = 0;
+        i = 0;
+        d = 0;
         
-        talon.enable();
-        talon.changeControlMode(TalonControlMode.Speed);
-        talon.set(0);
+        for(int i = 0; i <= 10; i++)oldButton[i] = false;
         
-    	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-        
-        talon.reset();
-        
-        SmartDashboard.putNumber("f", 0);
+        vic.setInverted(false);
+        PID.enable();
+        SmartDashboard.putNumber("Target RPM", targetRPM);
+        SmartDashboard.putNumber("P", p);
+        SmartDashboard.putNumber("I", i);
+        SmartDashboard.putNumber("D", d);
     }
     
 	/**
@@ -90,20 +102,28 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
-    
     public void teleopPeriodic() {
-    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM"));
-    	talon.setAllowableClosedLoopErr(10);
-//    	talon.ClearIaccum(); 
-    	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p"));
-    	talon.setI(SmartDashboard.getNumber("i"));
-    	talon.setD(SmartDashboard.getNumber("d"));
-    	talon.setF(SmartDashboard.getNumber("f")); 
-    	SmartDashboard.putNumber("output voltage", talon.getOutputVoltage());
-    	SmartDashboard.putNumber("output current", talon.getOutputCurrent());
+    	if(xbox.getRawButton(7) && !oldButton[7])PID.enable();
+    	if(xbox.getRawButton(8) && !oldButton[8])PID.disable();
     	
-    	talon.enableControl();
+    	PID.setAbsoluteTolerance(50);
+    	
+    	if(xbox.getRawButton(1) && !oldButton[1])targetRPM-=100;
+    	if(xbox.getRawButton(2) && !oldButton[2])targetRPM+=100;
+    	if(xbox.getRawButton(6) && !oldButton[6])targetRPM = 0;
+    	PID.setSetpoint(targetRPM/60);
+    	
+        PID.setOutputRange(-1, 1);
+        
+        System.out.println("target: " + targetRPM + "   current: " + enc.getRate() + p + i + d);
+        
+        for(int i = 1; i<=10; i++)oldButton[i] = xbox.getRawButton(i);
+        
+        targetRPM = SmartDashboard.getNumber("Target RPM");
+        SmartDashboard.putNumber("Current RPM", enc.getRate());
+        p = SmartDashboard.getNumber("P");
+        i = SmartDashboard.getNumber("I");
+        d = SmartDashboard.getNumber("D");
     }
     
     /**
