@@ -42,12 +42,12 @@ public class Robot extends IterativeRobot {
         speed = 0;
         goodSpeed = speed;
         
-        victorOne = new Victor(1);
-        victorTwo = new Victor(2);
+        victorOne = new Victor(5);
+        victorTwo = new Victor(6);
         xbox = new Joystick(2);
         oldButton = new boolean[11];
         
-        for(int i = 0; i <= 10; i++)oldButton[i] = false;
+        for(int i = 1; i <= 10; i++)oldButton[i] = false;
         
         victorOne.setInverted(false);
         victorTwo.setInverted(false);
@@ -99,7 +99,9 @@ public class Robot extends IterativeRobot {
         victorOne.set(speed);
         victorTwo.set(speed);
         
-    	for(int i = 0; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
+    	for(int i = 1; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
+    	
+    	System.out.println(speed);
     }
     
     /**
