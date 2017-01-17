@@ -1,12 +1,10 @@
 
 package org.usfirst.frc.team696.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.SampleRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,14 +21,11 @@ public class Robot extends IterativeRobot {
     String autoSelected;
     SendableChooser chooser;
     
-    CANTalon talon = new CANTalon(0);
-    double p; 
-    double i;
-    double d; 
-    double f;
+    Joystick afterGlow = new Joystick(3);
+    Victor motorOne = new Victor(5);
     
-    
-    
+    double speed = 0;
+    boolean[] oldButton = new boolean[11];
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -41,20 +36,10 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        SmartDashboard.putNumber("targetRPM", 0);
         
-        talon.reverseSensor(true);
-        talon.reverseOutput(true);
+        for(int i = 0; i <= 10; i++)oldButton[i] = false;
         
-        talon.enable();
-        talon.changeControlMode(TalonControlMode.Speed);
-        talon.set(0);
-        
-    	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-        
-        talon.reset();
-        
-        SmartDashboard.putNumber("f", 0);
+        motorOne.setInverted(true);	
     }
     
 	/**
@@ -90,20 +75,20 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
-    
     public void teleopPeriodic() {
-    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM"));
-    	talon.setAllowableClosedLoopErr(10);
-//    	talon.ClearIaccum(); 
-    	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p"));
-    	talon.setI(SmartDashboard.getNumber("i"));
-    	talon.setD(SmartDashboard.getNumber("d"));
-    	talon.setF(SmartDashboard.getNumber("f")); 
-    	SmartDashboard.putNumber("output voltage", talon.getOutputVoltage());
-    	SmartDashboard.putNumber("output current", talon.getOutputCurrent());
+        
+    	if(!oldButton[1] && afterGlow.getRawButton(1))speed-=0.1;
+    	else if(!oldButton[2] && afterGlow.getRawButton(2))speed+=0.1;
+    	else if(!oldButton[6] && afterGlow.getRawButton(6))speed = 0;
     	
-    	talon.enableControl();
+    	if(!oldButton[3] && afterGlow.getRawButton(3))speed-=0.05;
+    	else if(!oldButton[4] && afterGlow.getRawButton(4))speed+=0.05;
+    	
+    	for(int i = 1; i <= 10; i++)oldButton[i] = afterGlow.getRawButton(i);
+    	
+    	motorOne.set(speed);
+    	
+    	System.out.println("speed: " + speed);
     }
     
     /**

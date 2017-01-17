@@ -93,8 +93,8 @@ public class Robot extends IterativeRobot {
     
     public void teleopPeriodic() {
     	talon.setSetpoint(SmartDashboard.getNumber("targetRPM"));
-    	talon.setAllowableClosedLoopErr(10);
-//    	talon.ClearIaccum(); 
+    	talon.setAllowableClosedLoopErr(2);
+//    	talon.ClearIaccum();
     	SmartDashboard.putNumber("currentRPM", talon.get());
     	talon.setP(SmartDashboard.getNumber("p"));
     	talon.setI(SmartDashboard.getNumber("i"));
