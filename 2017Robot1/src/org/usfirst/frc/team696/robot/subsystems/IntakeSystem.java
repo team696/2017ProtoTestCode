@@ -11,22 +11,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class IntakeSystem extends Subsystem {
     
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	
 	Victor intakeMotorOne = new Victor(RobotMap.intakeMotorOne);
 	Victor intakeMotorTwo = new Victor(RobotMap.intakeMotorTwo);
-	
 	double speed = 0;
 	
 	public void intakeSystem(){
 		
 	}
-	
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+
     }
     
     public void setSpeed(double speed){
@@ -51,5 +45,6 @@ public class IntakeSystem extends Subsystem {
     public double getMotorTwoCurrent(){
     	return Robot.PDP.getCurrent(RobotMap.intakeMotorTwoPDP);
     }
+    
 }
 

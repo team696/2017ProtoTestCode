@@ -11,9 +11,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class ShooterSystem extends Subsystem {
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 
 	CANTalon shooterMotorOne = new CANTalon(RobotMap.shooterMotorOne);
 	Victor shooterMotorTwo = new Victor(RobotMap.shooterMotorTwo);
@@ -24,8 +21,7 @@ public class ShooterSystem extends Subsystem {
 	}
 	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	
     }
     
     public void setSpeed(double speed){
@@ -33,7 +29,7 @@ public class ShooterSystem extends Subsystem {
     	run();
     }
     
-    public void setinverted(boolean invertMotorOne, boolean invertMotorTwo){
+    public void setInverted(boolean invertMotorOne, boolean invertMotorTwo){
     	shooterMotorOne.setInverted(invertMotorOne);
     	shooterMotorTwo.setInverted(invertMotorTwo);
     }

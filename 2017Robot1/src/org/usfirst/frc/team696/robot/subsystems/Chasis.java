@@ -12,12 +12,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Chasis extends Subsystem {
     
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	RobotDrive drive = new RobotDrive(RobotMap.frontLeftMotor, 
+	RobotDrive driveOne = new RobotDrive(RobotMap.frontLeftMotor, 
 										RobotMap.rearLeftMotor, 
 										RobotMap.frontRightMotor, 
 										RobotMap.rearRightMotor);
+	RobotDrive driveTwo = new RobotDrive(RobotMap.midLeftMotor, RobotMap.midRightMotor);
 	double leftSpeed = 0;
 	double rightSpeed = 0;
 	
@@ -26,8 +25,7 @@ public class Chasis extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	
     }
     
     public void setSpeeds(double leftSpeed, double rightSpeed){
@@ -37,21 +35,30 @@ public class Chasis extends Subsystem {
     }
     
     public void setInverted(boolean invertFrontLeftMotor, 
+    						boolean invertMidLeftMotor,
     						boolean invertRearLeftMotor, 
-    						boolean invertFrontRightMotor, 
+    						boolean invertFrontRightMotor,
+    						boolean invertMidRightMotor,
     						boolean invertRearRightMotor){
-    	drive.setInvertedMotor(MotorType.kFrontLeft, invertFrontLeftMotor);
-    	drive.setInvertedMotor(MotorType.kRearLeft, invertRearRightMotor);
-    	drive.setInvertedMotor(MotorType.kFrontRight, invertFrontRightMotor);
-    	drive.setInvertedMotor(MotorType.kRearRight, invertRearRightMotor);
+    	driveOne.setInvertedMotor(MotorType.kFrontLeft, invertFrontLeftMotor);
+    	driveTwo.setInvertedMotor(MotorType.kFrontLeft, invertMidLeftMotor);
+    	driveOne.setInvertedMotor(MotorType.kRearLeft, invertRearRightMotor);
+    	driveOne.setInvertedMotor(MotorType.kFrontRight, invertFrontRightMotor);
+    	driveTwo.setInvertedMotor(MotorType.kFrontRight, invertMidRightMotor);   	
+    	driveOne.setInvertedMotor(MotorType.kRearRight, invertRearRightMotor);
     }
     
     private void run(){
-    	drive.tankDrive(leftSpeed, rightSpeed);
+    	driveOne.tankDrive(leftSpeed, rightSpeed);
+    	driveTwo.tankDrive(leftSpeed, rightSpeed);
     }
     
     public double getFrontLeftMotorCurrent(){
     	return Robot.PDP.getCurrent(RobotMap.frontLeftMotorPDP);
+    }
+    
+    public double getMidLeftMotorCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.midLeftMotorPDP);
     }
     
     public double getRearLeftMotorCurrent(){
@@ -62,8 +69,13 @@ public class Chasis extends Subsystem {
     	return Robot.PDP.getCurrent(RobotMap.frontRightMotorPDP);
     }
     
+    public double getMidRightMotorCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.midRightMotorPDP);
+    }
+    
     public double getRearRightMotorCurrent(){
     	return Robot.PDP.getCurrent(RobotMap.rearRightMotorPDP);
     }
+    
 }
 

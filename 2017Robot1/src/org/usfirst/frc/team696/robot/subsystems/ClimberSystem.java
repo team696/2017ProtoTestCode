@@ -11,13 +11,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class ClimberSystem extends Subsystem {
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	
 	Victor climberMotorOne = new Victor(RobotMap.climberMotorOne);
 	Victor climberMotorTwo = new Victor(RobotMap.climberMotorTwo);
-	
 	double speed = 0;
 	
 	public void climberSystem(){
@@ -25,8 +21,7 @@ public class ClimberSystem extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+
     }
     
     public void setSpeed(double speed){
@@ -41,7 +36,7 @@ public class ClimberSystem extends Subsystem {
     
     private void run(){
     	climberMotorOne.set(speed);
-    	climberMotorTwo.set(-speed);
+    	climberMotorTwo.set(speed);
     }
     
     public double getMotorOneCurrent(){
@@ -51,5 +46,6 @@ public class ClimberSystem extends Subsystem {
     public double getMotorTwoCurrent(){
     	return Robot.PDP.getCurrent(RobotMap.climberMotorTwoPDP);
     }
+    
 }
 
