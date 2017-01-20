@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ShooterConveyorSystem extends Subsystem {
 	
-	Victor shooterConveyor = new Victor(RobotMap.shooterConveyorMotor);
+	Victor shooterConveyorMotor = new Victor(RobotMap.shooterConveyorMotor);
 	
 	double speed = 0;
 	
@@ -24,8 +24,12 @@ public class ShooterConveyorSystem extends Subsystem {
     	run();
     }
     
+    public void setInverted(boolean invertMotor){
+    	shooterConveyorMotor.setInverted(invertMotor);
+    }
+    
     private void run(){
-    	shooterConveyor.set(speed);
+    	shooterConveyorMotor.set(speed);
     }
     
     public double getSpeed(){

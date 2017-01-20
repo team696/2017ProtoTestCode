@@ -8,7 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+import org.usfirst.frc.team696.robot.subsystems.Chasis;
+import org.usfirst.frc.team696.robot.subsystems.ClimberSystem;
+import org.usfirst.frc.team696.robot.subsystems.IntakeSystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterConveyorSystem;
+import org.usfirst.frc.team696.robot.subsystems.ShooterSystem;
 
 import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
@@ -42,7 +46,11 @@ public class Robot extends IterativeRobot {
     /*
      * Setup Subsystems
      */
+    Chasis chasis = new Chasis();
+    ClimberSystem climberSystem = new ClimberSystem();
+    IntakeSystem intakeSystem = new IntakeSystem();
     ShooterConveyorSystem shooterConveyorSystem = new ShooterConveyorSystem();
+    ShooterSystem shooterSystem = new ShooterSystem();
     
     /**
      * This function is run when the robot is first started up and should be

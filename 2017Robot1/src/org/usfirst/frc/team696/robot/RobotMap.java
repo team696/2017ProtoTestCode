@@ -8,6 +8,22 @@ package org.usfirst.frc.team696.robot;
 public class RobotMap {
 
 	/*
+	 * Drive Train Ports
+	 */
+	public static int frontLeftMotor = 0;
+	public static int rearLeftMotor = 0;
+	public static int frontRightMotor = 0;
+	public static int rearRightMotor = 0;
+	public static int frontLeftMotorPDP = 0;
+	public static int rearLeftMotorPDP = 0;
+	public static int frontRightMotorPDP = 0;
+	public static int rearRightMotorPDP = 0;
+	public static int leftDriveEncoderA = 0;
+	public static int leftDriveEncoderB = 0;
+	public static int rightDriveEncoderA = 0;
+	public static int rightDriveEncoderB = 0;
+	
+	/*
 	 * Intake Ports Needed
 	 */
 	public static int intakeMotorOne = 2;

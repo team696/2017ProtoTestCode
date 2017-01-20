@@ -1,9 +1,11 @@
 package org.usfirst.frc.team696.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Talon;
+import org.usfirst.frc.team696.robot.Robot;
+import org.usfirst.frc.team696.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc.team696.robot.*;
 
 /**
  *
@@ -12,16 +14,15 @@ public class ShooterSystem extends Subsystem {
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-	
-	public static Talon shooterMotorOne = new Talon(RobotMap.shooterMotorOne);
-	public static Talon shooterMotorTwo = new Talon(RobotMap.shooterMotorTwo);
-	
+
+	CANTalon shooterMotorOne = new CANTalon(RobotMap.shooterMotorOne);
+	Victor shooterMotorTwo = new Victor(RobotMap.shooterMotorTwo);
 	double speed = 0;
 	
-	public void shooterSystem(){
+	public ShooterSystem(){
 		
 	}
-
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
@@ -32,10 +33,23 @@ public class ShooterSystem extends Subsystem {
     	run();
     }
     
-    public void run(){
-    	shooterMotorOne.set(speed);
-    	shooterMotorTwo.set(-speed);
-    	
+    public void setinverted(boolean invertMotorOne, boolean invertMotorTwo){
+    	shooterMotorOne.setInverted(invertMotorOne);
+    	shooterMotorTwo.setInverted(invertMotorTwo);
     }
+    
+    private void run(){
+    	shooterMotorOne.set(speed);
+    	shooterMotorTwo.set(speed);
+    }
+    
+    public double getMotorOneCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.shooterMotorOnePDP);
+    }
+    
+    public double getMotorTwoCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.shooterMotorTwoPDP);
+    }
+    
 }
 
