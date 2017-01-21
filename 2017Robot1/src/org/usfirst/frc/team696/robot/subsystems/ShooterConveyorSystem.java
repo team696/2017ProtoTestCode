@@ -19,19 +19,31 @@ public class ShooterConveyorSystem extends Subsystem {
 
     }
     
+    /*
+     * set the desired speed(-1 to 1)
+     */
     public void setSpeed(double speed){
     	this.speed = speed;
     	run();
     }
     
+    /*
+     * set the inversion of the motor
+     */
     public void setInverted(boolean invertMotor){
     	shooterConveyorMotor.setInverted(invertMotor);
     }
     
+    /*
+     * applies the desired speed
+     */
     private void run(){
     	shooterConveyorMotor.set(speed);
     }
     
+    /*
+     * get the current of the motor
+     */
     public double getCurrent(){
     	return Robot.PDP.getCurrent(RobotMap.shooterConveyorMotorPDP);
     }

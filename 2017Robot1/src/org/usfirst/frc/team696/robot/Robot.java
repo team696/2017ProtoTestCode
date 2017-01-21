@@ -46,6 +46,9 @@ public class Robot extends IterativeRobot {
     ShooterSystem shooterSystem = new ShooterSystem();
     
     public void robotInit() {
+    	/*
+    	 * Initiate setup
+    	 */
 		oi = new OI();
         chooser = new SendableChooser();
         SmartDashboard.putData("Auto mode", chooser);

@@ -28,12 +28,18 @@ public class Chasis extends Subsystem {
     	
     }
     
+    /*
+     * set the desired speeds(-1 to 1)
+     */
     public void setSpeeds(double leftSpeed, double rightSpeed){
     	this.leftSpeed = leftSpeed;
     	this.rightSpeed = rightSpeed;
     	run();
     }
     
+    /*
+     * set the inversions of all the motors
+     */
     public void setInverted(boolean invertFrontLeftMotor, 
     						boolean invertMidLeftMotor,
     						boolean invertRearLeftMotor, 
@@ -48,11 +54,17 @@ public class Chasis extends Subsystem {
     	driveOne.setInvertedMotor(MotorType.kRearRight, invertRearRightMotor);
     }
     
+    /*
+     * applies the desired speed
+     */
     private void run(){
     	driveOne.tankDrive(leftSpeed, rightSpeed);
     	driveTwo.tankDrive(leftSpeed, rightSpeed);
     }
     
+    /*
+     * get the current from the motors
+     */
     public double getFrontLeftMotorCurrent(){
     	return Robot.PDP.getCurrent(RobotMap.frontLeftMotorPDP);
     }

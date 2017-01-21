@@ -8,11 +8,17 @@ import edu.wpi.first.wpilibj.buttons.Button;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	/*
+	 * Joystick Setup and Initiation
+	 */
     public Joystick arduino = new Joystick(0);
     public Joystick wheel = new Joystick(1);
     
+    /*
+     * Button setup and initiation
+     */
+    
     public OI(){
-    	
     }
 }
 
