@@ -14,7 +14,7 @@ public class ShooterSystem extends Subsystem {
     // here. Call these from Commands.
 	
 	public static Talon shooterMotorOne = new Talon(RobotMap.shooterMotorOne);
-	public static Talon shooterMotorTwo = new Talon(RobotMap.shooterMotorTwo);
+	public static Victor shooterMotorTwo = new Victor(RobotMap.shooterMotorTwo);
 	
 	double speed = 0;
 	
@@ -34,7 +34,7 @@ public class ShooterSystem extends Subsystem {
     
     public void run(){
     	shooterMotorOne.set(speed);
-    	shooterMotorTwo.set(-speed);
+    	shooterMotorTwo.set(speed);
     	
     }
 }

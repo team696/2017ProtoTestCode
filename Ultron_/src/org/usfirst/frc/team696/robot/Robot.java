@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team696.robot;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.AnalogOutput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
@@ -21,11 +23,16 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
-    Ultrasonic ultra = new Ultrasonic(5, 6); 
-    RobotDrive drive = new RobotDrive(0,1,8,9);
+    AnalogInput ultra = new AnalogInput(1);
     double range; 
-	double LeftDrive = 0; 
-	double RightDrive = 0; 
+    double LeftDrive = 0; 
+    double RightDrive = 0;
+    double speed = 100;
+    double vcc = 5;
+    double vm = ultra.getVoltage();
+    double vi = vcc/512;
+    double ri = vm/vi;
+    
 
 	
     /**
@@ -38,7 +45,9 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
-        ultra.setAutomaticMode(true); 
+        
+        
+        
         
     }
     
@@ -77,17 +86,25 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	// robot will slow down as it gets closer to an object 
-        range = ultra.getRangeInches(); 
-         ultra.getDistanceUnits(); 
+        range = ri;
+//         ultra.getDistanceUnits(); 
          
-         if(ultra.getRangeInches() >= 10); 
-        {
-                    drive.setLeftRightMotorOutputs(0, 0);
-        }
-              
-        System.out.println("range:" + "getRangeInches"); 
+         if(range <= 30){
+        	 speed = speed - 1;
+        	 Timer.delay(0.4);
+         }
+         
+//         if(speed <= 10){
+//        	 speed = 10;
+//         }
+//         
+           
+         vm = ultra.getVoltage();
+         vi = vcc/512;
+         ri = vm/vi;
+        System.out.println("Range: " + range + "      Speed: " + speed); 
         
-        drive.tankDrive(LeftDrive, RightDrive);
+   
     }
     
     /**
