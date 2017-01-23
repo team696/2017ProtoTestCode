@@ -8,32 +8,45 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class ShooterConveyorSystem extends Subsystem {
 	
-	Victor shooterConveyor = new Victor(RobotMap.shooterConveyorMotor);
-	
+	Victor shooterConveyorMotor = new Victor(RobotMap.shooterConveyorMotor);
 	double speed = 0;
 	
-	public void shooterConveyor(){}
+	public void shooterConveyor(){
+		
+	}
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+
     }
     
+    /*
+     * set the desired speed(-1 to 1)
+     */
     public void setSpeed(double speed){
     	this.speed = speed;
     	run();
     }
     
+    /*
+     * set the inversion of the motor
+     */
+    public void setInverted(boolean invertMotor){
+    	shooterConveyorMotor.setInverted(invertMotor);
+    }
+    
+    /*
+     * applies the desired speed
+     */
     private void run(){
-    	shooterConveyor.set(speed);
+    	shooterConveyorMotor.set(speed);
     }
     
-    public double getSpeed(){
-    	return this.speed;
-    }
-    
+    /*
+     * get the current of the motor
+     */
     public double getCurrent(){
     	return Robot.PDP.getCurrent(RobotMap.shooterConveyorMotorPDP);
     }
+    
 }
 

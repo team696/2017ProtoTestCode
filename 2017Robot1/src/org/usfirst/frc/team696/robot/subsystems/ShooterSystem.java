@@ -1,41 +1,80 @@
 package org.usfirst.frc.team696.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Talon;
+import org.usfirst.frc.team696.robot.Robot;
+import org.usfirst.frc.team696.robot.RobotMap;
+
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
+import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import org.usfirst.frc.team696.robot.*;
 
 /**
  *
  */
 public class ShooterSystem extends Subsystem {
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	
-	public static Talon shooterMotorOne = new Talon(RobotMap.shooterMotorOne);
-	public static Victor shooterMotorTwo = new Victor(RobotMap.shooterMotorTwo);
-	
-	double speed = 0;
-	
-	public void shooterSystem(){
-		
-	}
 
+	CANTalon shooterMotorOne = new CANTalon(RobotMap.shooterMotorOne);
+	CANTalon shooterMotorTwo = new CANTalon(RobotMap.shooterMotorTwo);
+	double speed = 0;
+	double targetRPM = 0;
+	
+	public ShooterSystem(){
+		/*
+		 * setting up Talon Motor One: Master
+		 */
+		shooterMotorOne.changeControlMode(TalonControlMode.Speed);
+    	shooterMotorOne.set(0);
+    	shooterMotorOne.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+    	shooterMotorOne.enableBrakeMode(false);
+    	shooterMotorOne.enable();
+    	
+    	/*
+    	 * setting up Talon Motor Two: Slave
+    	 */
+    	shooterMotorTwo.changeControlMode(CANTalon.TalonControlMode.Follower);
+    	shooterMotorTwo.set(shooterMotorOne.getDeviceID());
+    	shooterMotorTwo.enableBrakeMode(false);
+    	shooterMotorTwo.enable();
+	}
+	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	
     }
     
-    public void setSpeed(double speed){
-    	this.speed = speed;
+    /*
+     * set target RPM for flywheel
+     */
+    public void setTargetRPM(double RPM){
+    	targetRPM = RPM;
     	run();
     }
     
-    public void run(){
-    	shooterMotorOne.set(speed);
-    	shooterMotorTwo.set(speed);
-    	
+    /*
+     * set the inversion of the outputs of all the motors
+     */
+    public void setInverted(boolean invertMotorOne, boolean invertMotorTwo){
+    	shooterMotorOne.reverseOutput(invertMotorOne);
+    	shooterMotorTwo.reverseOutput(invertMotorTwo);
     }
+    
+    /*
+     * set target RPM for master Talon
+     */
+    private void run(){
+    	shooterMotorOne.setSetpoint(targetRPM);
+    }
+    
+    /*
+     * get the currents of all the motors
+     */
+    public double getMotorOneCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.shooterMotorOnePDP);
+    }
+    
+    public double getMotorTwoCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.shooterMotorTwoPDP);
+    }
+    
 }
 

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team696.robot.subsystems;
 
+import org.usfirst.frc.team696.robot.Robot;
 import org.usfirst.frc.team696.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Talon;
@@ -10,13 +11,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class ClimberSystem extends Subsystem {
-    
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	
-	Talon climber1 = new Talon(RobotMap.climberMotorOne);
-	Talon climber2 = new Talon(RobotMap.climberMotorTwo);
-	
+	Victor climberMotorOne = new Victor(RobotMap.climberMotorOne);
+	Victor climberMotorTwo = new Victor(RobotMap.climberMotorTwo);
 	double speed = 0;
 	
 	public void climberSystem(){
@@ -24,18 +21,43 @@ public class ClimberSystem extends Subsystem {
 	}
 
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+
     }
     
+    /*
+     * set the desired speed(-1 to 1)
+     */
     public void setSpeed(double speed){
     	this.speed = speed;
     	run();
     }
     
-    public void run(){
-    	climber1.set(speed);
-    	climber2.set(-speed);
+    /*
+     * set the inversion of all the motors
+     */
+    public void setInverted(boolean invertMotorOne, boolean invertMotorTwo){
+    	climberMotorOne.setInverted(invertMotorOne);
+    	climberMotorTwo.setInverted(invertMotorTwo);
     }
+    
+    /*
+     * applies the desired speed
+     */
+    private void run(){
+    	climberMotorOne.set(speed);
+    	climberMotorTwo.set(speed);
+    }
+    
+    /*
+     * get the current from the motors
+     */
+    public double getMotorOneCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.climberMotorOnePDP);
+    }
+    
+    public double getMotorTwoCurrent(){
+    	return Robot.PDP.getCurrent(RobotMap.climberMotorTwoPDP);
+    }
+    
 }
 
