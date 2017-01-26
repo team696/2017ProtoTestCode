@@ -34,10 +34,12 @@ public class Robot extends IterativeRobot {
     double p;
     double i;
     double d;
+    double f;
     
     Encoder enc = new Encoder(0,1);
     Victor vic = new Victor(1);
-    PIDController PID = new PIDController(p, i, d, 0.7, enc, vic);
+    Victor vic2 = new Victor(2);
+    PIDController PID = new PIDController(p, i, d, f, enc, vic);
     
     
 
@@ -58,6 +60,7 @@ public class Robot extends IterativeRobot {
         p = 0;
         i = 0;
         d = 0;
+        f = 0;
         
         for(int i = 0; i <= 10; i++)oldButton[i] = false;
         
@@ -103,6 +106,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	if(xbox.getRawButton(10) == true)vic2.set(1);
+    	
     	if(xbox.getRawButton(7) && !oldButton[7])PID.enable();
     	if(xbox.getRawButton(8) && !oldButton[8])PID.disable();
     	
@@ -124,6 +129,9 @@ public class Robot extends IterativeRobot {
         p = SmartDashboard.getNumber("P");
         i = SmartDashboard.getNumber("I");
         d = SmartDashboard.getNumber("D");
+        f = SmartDashboard.getNumber("D");
+        
+        PID.setPID(p, i, d, f);
     }
     
     /**
