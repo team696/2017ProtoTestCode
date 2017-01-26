@@ -2,6 +2,7 @@
 package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,7 +21,11 @@ public class Robot extends IterativeRobot {
     String autoSelected;
     SendableChooser chooser;
     
-    Servo ser = new Servo(1); 
+    Joystick joy = new Joystick(1);
+    Servo ser = new Servo(1);
+    double speed = 0;
+    int target = 0;
+    boolean[] oldButton = new boolean[11];
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -31,6 +36,8 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
+        
+        for(int i = 0; i <= 10; i++)oldButton[i] = false;
     }
     
 	/**
@@ -68,8 +75,15 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	
-    	ser.set(0.25);
-    	ser.setAngle(25);
+    	if(!oldButton[1] && joy.getRawButton(1))target++;
+    	if(!oldButton[2] && joy.getRawButton(2))target--;
+    	if(!oldButton[3] && joy.getRawButton(3)){
+    		ser.setAngle(target);
+    	}else{
+    		ser.setAngle(0);
+    	}
+    	for(int i = 0; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
+    	System.out.println("Servo Angle: " + ser.getAngle());
         
     }
     
