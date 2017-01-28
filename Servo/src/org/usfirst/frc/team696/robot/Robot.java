@@ -1,18 +1,12 @@
 
 package org.usfirst.frc.team696.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,49 +21,23 @@ public class Robot extends IterativeRobot {
     String autoSelected;
     SendableChooser chooser;
     
-    Joystick xbox = new Joystick(0);
+    Joystick joy = new Joystick(1);
+    Servo ser = new Servo(1);
+    double speed = 0;
+    int target = 0;
     boolean[] oldButton = new boolean[11];
-    
-    double targetRPM;
-    double p;
-    double i;
-    double d;
-    double f;
-    
-    Encoder enc = new Encoder(0,1);
-    Victor vic = new Victor(1);
-    Victor vic2 = new Victor(2);
-    PIDController PID = new PIDController(p, i, d, f, enc, vic);
-    
-    
-
+	
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-    	enc.setDistancePerPulse(1/64);
-    	enc.setPIDSourceType(PIDSourceType.kRate);
-    	
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
-        targetRPM = 0;
-        p = 0;
-        i = 0;
-        d = 0;
-        f = 0;
-        
         for(int i = 0; i <= 10; i++)oldButton[i] = false;
-        
-        vic.setInverted(false);
-        PID.enable();
-        SmartDashboard.putNumber("Target RPM", targetRPM);
-        SmartDashboard.putNumber("P", p);
-        SmartDashboard.putNumber("I", i);
-        SmartDashboard.putNumber("D", d);
     }
     
 	/**
@@ -106,32 +74,17 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	if(xbox.getRawButton(10) == true)vic2.set(1);
     	
-    	if(xbox.getRawButton(7) && !oldButton[7])PID.enable();
-    	if(xbox.getRawButton(8) && !oldButton[8])PID.disable();
-    	
-    	PID.setAbsoluteTolerance(50);
-    	
-    	if(xbox.getRawButton(1) && !oldButton[1])targetRPM-=100;
-    	if(xbox.getRawButton(2) && !oldButton[2])targetRPM+=100;
-    	if(xbox.getRawButton(6) && !oldButton[6])targetRPM = 0;
-    	PID.setSetpoint(targetRPM/60);
-    	
-        PID.setOutputRange(-1, 1);
+    	if(!oldButton[1] && joy.getRawButton(1))target++;
+    	if(!oldButton[2] && joy.getRawButton(2))target--;
+    	if(!oldButton[3] && joy.getRawButton(3)){
+    		ser.setAngle(target);
+    	}else{
+    		ser.setAngle(0);
+    	}
+    	for(int i = 0; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
+    	System.out.println("Servo Angle: " + ser.getAngle());
         
-        System.out.println("target: " + targetRPM + "   current: " + enc.getRate() + p + i + d);
-        
-        for(int i = 1; i<=10; i++)oldButton[i] = xbox.getRawButton(i);
-        
-        targetRPM = SmartDashboard.getNumber("Target RPM");
-        SmartDashboard.putNumber("Current RPM", enc.getRate());
-        p = SmartDashboard.getNumber("P");
-        i = SmartDashboard.getNumber("I");
-        d = SmartDashboard.getNumber("D");
-        f = SmartDashboard.getNumber("D");
-        
-        PID.setPID(p, i, d, f);
     }
     
     /**
