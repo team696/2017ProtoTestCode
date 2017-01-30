@@ -12,7 +12,6 @@ import org.usfirst.frc.team696.robot.subsystems.Chasis;
 import org.usfirst.frc.team696.robot.subsystems.ClimberSystem;
 import org.usfirst.frc.team696.robot.subsystems.IntakeSystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterConveyorSystem;
-import org.usfirst.frc.team696.robot.subsystems.ShooterSystem;
 
 import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
@@ -43,7 +42,6 @@ public class Robot extends IterativeRobot {
     ClimberSystem climberSystem = new ClimberSystem();
     IntakeSystem intakeSystem = new IntakeSystem();
     ShooterConveyorSystem shooterConveyorSystem = new ShooterConveyorSystem();
-    ShooterSystem shooterSystem = new ShooterSystem();
     
     public void robotInit() {
     	/*
