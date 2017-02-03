@@ -36,6 +36,7 @@ public class Robot extends IterativeRobot {
     
     Joystick joy = new Joystick(0);
     AnalogInput ultra = new AnalogInput(1);
+    AnalogInput ultra2 = new AnalogInput(0);
     Solenoid shift = new Solenoid(4);
     double range; 
     double LeftDrive = 0; 
@@ -59,8 +60,10 @@ public class Robot extends IterativeRobot {
     double wheel = 0; 
     double vcc = 5;
     double vm = ultra.getVoltage();
+    double vm2 = ultra2.getVoltage();
     double vi = vcc/512;
     double ri = vm/vi;
+    double range2 = vm2/vi;
     RobotDrive drive = new RobotDrive(0,1,6,7); 
     
     
@@ -162,7 +165,8 @@ public class Robot extends IterativeRobot {
         vm = ultra.getVoltage();
         vi = vcc/512;
         ri = vm/vi;
-//      ultra.getDistanceUnits(); 
+        vm2 = ultra2.getVoltage();
+        range2 = vm2/vi;
       
       if(range <= 10){
      	 LeftDrive = 0;
@@ -171,8 +175,6 @@ public class Robot extends IterativeRobot {
      	 
       }
       
-      if(joy.getRawButton(1))shift.set(true);
-      if(joy.getRawButton(2))shift.set(false);
       
 //      if(speed <= 10){
 //     	 speed = 10;
@@ -180,7 +182,7 @@ public class Robot extends IterativeRobot {
 //      
         
       
-     System.out.println("Range: " + range + "      Current Direction: " + navX.getYaw()); 
+     System.out.println("Range 1: " + range + "      Range 2: " + range2); 
      drive.tankDrive(LeftDrive, RightDrive);
         
     }

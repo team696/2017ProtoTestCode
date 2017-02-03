@@ -5,12 +5,12 @@ public class RobotMap {
 	/*
 	 * Chasis Ports
 	 */
-	public static int frontLeftMotor = 0;
-	public static int midLeftMotor = 0;
-	public static int rearLeftMotor = 0;
-	public static int frontRightMotor = 0;
-	public static int midRightMotor = 0;
-	public static int rearRightMotor = 0;
+	public static int frontLeftMotor = 9;
+	public static int midLeftMotor = 8;
+	public static int rearLeftMotor = 7;
+	public static int frontRightMotor = 2;
+	public static int midRightMotor = 3;
+	public static int rearRightMotor = 4;
 	public static int frontLeftMotorPDP = 0;
 	public static int midLeftMotorPDP = 0;
 	public static int rearLeftMotorPDP = 0;
@@ -33,6 +33,7 @@ public class RobotMap {
 	/*
 	 * Intake Ports Needed
 	 */
+	
 	public static int intakeMotorOne = 2;
 	public static int intakeMotorTwo = 3;
 	public static int intakeMotorOnePDP = 0;

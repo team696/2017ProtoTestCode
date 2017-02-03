@@ -121,8 +121,8 @@ public class Robot extends IterativeRobot {
     	else if(!oldButton[2] && joy.getRawButton(2))speed-=0.1;
     	else if(!oldButton[6] && joy.getRawButton(6))speed = 0;
     	
-    	if(!oldButton[3] && joy.getRawButton(3))speed+=0.8;
-    	else if(!oldButton[4] && joy.getRawButton(4))speed-=0.8;
+    	if(!oldButton[3] && joy.getRawButton(3))speed-=0.8;
+    	else if(!oldButton[4] && joy.getRawButton(4))speed+=0.8;
     	
     	for(int i = 1; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
     	
