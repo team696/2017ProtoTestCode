@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
         
         talon.reverseSensor(true);
         talon.reverseOutput(true);
-         talon.enable();
+        talon.enable();
         talon.changeControlMode(TalonControlMode.Speed);
         talon.set(0);
         

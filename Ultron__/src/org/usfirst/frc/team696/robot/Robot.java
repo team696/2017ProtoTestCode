@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team696.robot;
 
+import java.util.Timer;
+
 import org.usfirst.frc.team696.PIDControl;
 
 import com.kauailabs.nav6.frc.IMU;
@@ -114,37 +116,54 @@ public class Robot extends IterativeRobot {
     		vi = vcc/512; 
     		ri = vm/vi; 
     		range = ri; 
+//    		
+//        	directionError = currentDirection - desiredDirection;
+//        	
+//        	if(directionError > 180)directionError = directionError - 360;
+//        	if(directionError < -180)directionError = directionError + 360;
+//        
+//        	
+//        	directionPID.setError(directionError);
+//        	
+//        	
+//        	System.out.println("Range: " + range + "         " + "Current Direction: " + currentDirection + "           Desired Direction: " + desiredDirection + "                 Error: " + directionError); 
+//        	
+//        	
+//        	
+//        	if (range >= 20) {
+//    			drive.tankDrive(-left, -right);
+//    			driveB.tankDrive(-left, -right);
+//    			
+//        	} 
+//    		
+//        	if (range > 10 && range < 20) {
+//    			drive.tankDrive(-0.35, -0.35);
+//    			driveB.tankDrive(-0.35, -0.35);
+//    			edu.wpi.first.wpilibj.Timer.delay(1);
+//
+//    			
+//    		if(range <= 10){
+//    			drive.tankDrive(0, 0);
+//    			driveB.tankDrive(0, 0);
+//    			}
+//    		}
     		
-        	directionError = currentDirection - desiredDirection;
-        	
-        	if(directionError > 180)directionError = directionError - 360;
-        	if(directionError < -180)directionError = directionError + 360;
-        
-        	
-        	directionPID.setError(directionError);
-        	
-        	
-        	System.out.println("Range: " + range + "         " + "Current Direction: " + currentDirection + "           Desired Direction: " + desiredDirection + "                 Error: " + directionError); 
-        	
-        	
-        	
-        	if (range >= 20) {
-    			drive.tankDrive(left, right);
-    			driveB.tankDrive(left, right);
-    			
-        	} 
-    		
-        	if (range > 10 && range < 20) {
-    			drive.tankDrive(0.35, 0.35);
-    			driveB.tankDrive(0.35, 0.35);
-
-    			
-    		if(range <= 10){
+    		drive.tankDrive(-left, -right);
+    		driveB.tankDrive(-left, -right);
+    		if(range <= 20){
+    			drive.tankDrive(-0.35, -0.35);
+    			driveB.tankDrive(-0.35, -0.35);
+    			edu.wpi.first.wpilibj.Timer.delay(2);
     			drive.tankDrive(0, 0);
     			driveB.tankDrive(0, 0);
-    			}
+    			edu.wpi.first.wpilibj.Timer.delay(1);
+    			drive.tankDrive(0.5, 0.5);
+    			drive.tankDrive(0.5, 0.5);
+    			edu.wpi.first.wpilibj.Timer.delay(2);
+    			drive.tankDrive(0, 0);
+    			driveB.tankDrive(0, 0);
+    		
     		}
-       	System.out.println("HELLO");
             break; }
     }
 
