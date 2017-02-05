@@ -1,13 +1,11 @@
-
 package org.usfirst.frc.team696.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import com.ctre.CANTalon;
+import com.ctre.CANTalon.FeedbackDevice;
+import com.ctre.CANTalon.TalonControlMode;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,12 +25,12 @@ public class Robot extends IterativeRobot {
     
     Joystick joy = new Joystick(0);
     Victor vic = new Victor(4);
+    CANTalon talon = new CANTalon(0);
     
     double speed = 0;
     boolean[] oldButton = new boolean[11];
     
     
-    CANTalon talon = new CANTalon(1);
     
     double p; 
     double i;
@@ -142,3 +140,4 @@ public class Robot extends IterativeRobot {
     }
     
 }
+
