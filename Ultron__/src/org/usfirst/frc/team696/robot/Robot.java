@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team696.robot;
 
+import org.usfirst.frc.team696.PIDControl;
+
 import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
 
@@ -8,14 +10,8 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-
-import java.time.temporal.IsoFields;
-
-import org.usfirst.frc.team696.PIDControl; 
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -53,8 +49,8 @@ public class Robot extends IterativeRobot {
 	PIDControl directionPID = new PIDControl(KP, KI, KD, alpha);
 	
     boolean isFinished = false;
-	double left = -0.5;
-	double right = -0.5;
+	double left = 0.5;
+	double right = 0.5;
     double speed = 10;
     double speed1 = 0; 
     double wheel = 0; 
@@ -63,8 +59,11 @@ public class Robot extends IterativeRobot {
     double vm2 = ultra2.getVoltage();
     double vi = vcc/512;
     double ri = vm/vi;
+
     double range2 = vm2/vi;
-    RobotDrive drive = new RobotDrive(0,1,6,7); 
+    RobotDrive drive = new RobotDrive(3,2,7,8);
+    RobotDrive driveB = new RobotDrive(4,9);
+
     
     
     /**
@@ -134,21 +133,23 @@ public class Robot extends IterativeRobot {
         	
         	
         	
-        	if (range >= 10) {
-        		shift.set(true);
-    			drive.tankDrive(left, right); } 
-    		
-        	if (range <= 20) {
-    			isFinished = true;
-//    			drive.tankDrive(1, 1);
-    			drive.tankDrive(0, 0);
-    			isFinished = true;
+        	if (range >= 20) {
+    			drive.tankDrive(left, right);
+    			driveB.tankDrive(left, right);
     			
-    		if(isFinished = true){
-    				break;
+        	} 
+    		
+        	if (range > 10 && range < 20) {
+    			drive.tankDrive(0.35, 0.35);
+    			driveB.tankDrive(0.35, 0.35);
+
+    			
+    		if(range <= 10){
+    			drive.tankDrive(0, 0);
+    			driveB.tankDrive(0, 0);
     			}
     		}
-       	
+       	System.out.println("HELLO");
             break; }
     }
 
@@ -158,6 +159,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	speed1 = joy.getRawAxis(1); 
     	wheel = joy.getRawAxis(4); 
+    	wheel = 0;
     	LeftDrive = (speed1 - wheel); 
     	RightDrive = (wheel + speed1); 
     	
@@ -168,22 +170,32 @@ public class Robot extends IterativeRobot {
         vm2 = ultra2.getVoltage();
         range2 = vm2/vi;
       
-      if(range <= 10){
-     	 LeftDrive = 0;
-     	 RightDrive = 0;
-     	// Timer.delay(0.4);
-     	 
-      }
+//      if(range <= 10){
+//     	 LeftDrive = 0;
+//     	 RightDrive = 0;
+//     	// Timer.delay(0.4);
+//     	 
+//      }
       
+
       
 //      if(speed <= 10){
 //     	 speed = 10;
 //      }
+      System.out.println("Range: " + range);
 //      
         
+
       
      System.out.println("Range 1: " + range + "      Range 2: " + range2); 
+
+     
+//     LeftDrive = 0.2;
+//     RightDrive = 0.2;
+     
+
      drive.tankDrive(LeftDrive, RightDrive);
+     driveB.tankDrive(LeftDrive, RightDrive);
         
     }
     

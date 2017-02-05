@@ -1,17 +1,11 @@
 
 package org.usfirst.frc.team696.robot;
 
-import edu.wpi.first.wpilibj.CANTalon;
-
-
-
-
-import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
-import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.can.CANExceptionFactory;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,22 +21,17 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
+    Joystick rock = new Joystick(0); 
     
-    Joystick joy = new Joystick(0);
-    Victor vic = new Victor(4);
-    CANTalon talon = new CANTalon(0);
+    Encoder Left = new Encoder(3, 4);
+    Encoder Right = new Encoder(5, 6); 
     
-    double speed = 0;
-    boolean[] oldButton = new boolean[11];
-    
-    
-    double p; 
-    double i;
-    double d; 
-    double f;
-    
-    	
-    
+    double speed = 0; 
+    double wheel = 0; 
+    double LeftDrive = 0;
+    double RightDrive = 0; 
+	RobotDrive drive = new RobotDrive(9, 8, 2, 3);
+	RobotDrive drive2 = new RobotDrive(7, 4); 
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -53,22 +42,6 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        SmartDashboard.putNumber("targetRPM", 0);
-        
-        talon.reverseSensor(true);
-        talon.reverseOutput(true);
-        talon.enable();
-        talon.changeControlMode(TalonControlMode.Speed);
-        talon.set(0);
-        
-    	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-        
-        talon.reset();
-        for(int i = 0; i <= 10; i++)oldButton[i] = false;
-        
-        vic.setInverted(true);
-        
-        SmartDashboard.putNumber("f", 0);
     }
     
 	/**
@@ -87,8 +60,7 @@ public class Robot extends IterativeRobot {
     }
 
     /**
-     * This function is called periodically dur
-     * ing autonomous
+     * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
     	switch(autoSelected) {
@@ -105,35 +77,14 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
-    
     public void teleopPeriodic() {
+    	speed = rock.getRawAxis(1); 
+    	wheel = rock.getRawAxis(4); 
+    	LeftDrive = (speed - wheel);
+    	RightDrive = (speed + wheel);
     	
-    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM"));
-    	talon.setAllowableClosedLoopErr(10);
-//    	talon.ClearIaccum(); 
-    	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p"));
-    	talon.setI(SmartDashboard.getNumber("i"));
-    	talon.setD(SmartDashboard.getNumber("d"));
-    	talon.setF(SmartDashboard.getNumber("f")); 
-    	SmartDashboard.putNumber("output voltage", talon.getOutputVoltage());
-    	SmartDashboard.putNumber("output current", talon.getOutputCurrent());
-    	
-    	if(!oldButton[1] && joy.getRawButton(1))speed+=0.1;
-    	else if(!oldButton[2] && joy.getRawButton(2))speed-=0.1;
-    	else if(!oldButton[6] && joy.getRawButton(6))speed = 0;
-    	
-    	if(!oldButton[3] && joy.getRawButton(3))speed-=0.8;
-    	else if(!oldButton[4] && joy.getRawButton(4))speed+=0.8;
-    	
-    	for(int i = 1; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
-    	
-    	
-    	
-    	System.out.println("speed: " + speed);
-    	talon.enableControl();
-    	vic.set(speed);
-    	
+    	drive.tankDrive(LeftDrive, RightDrive);
+        drive2.tankDrive(LeftDrive, RightDrive);
     }
     
     /**
