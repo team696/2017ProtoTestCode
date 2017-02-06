@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	PIDTankDrive driveTrain = new PIDTankDrive(9, 8, 7, 2, 3, 4, 1);
 	PIDController driveStraight;
 	
-	double directionTarget = 0,
+	double directionSetPoint = 0,
 			turn = 0,
 			stick = 0;
 	
@@ -55,7 +55,9 @@ public class Robot extends IterativeRobot {
 		
 		navXSource = new NavXSource(navX);
 		
-		driveStraight = new PIDController(0.1, 0, 0, navXSource, driveTrain, 0.002);
+		driveStraight = new PIDController(0.1, 0, 0, navXSource, driveTrain, 0.2);
+		SmartDashboard.putNumber("directionSetPoint", 0);
+		driveStraight.enable();
 	}
 
 	@Override
@@ -84,24 +86,40 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopInit(){
-		driveStraight.setSetpoint(0);
+		driveStraight.setSetpoint(navX.getYaw());
+		navXSource.setSetPoint(navX.getYaw());
+		directionSetPoint = navX.getYaw();
 		driveStraight.enable();
+		navX.zeroYaw();
 	}
 	
 	@Override
 	public void teleopPeriodic() {
 		if(Math.abs(stick) > 0.05)stick = 0;
 		if(Math.abs(turn) > 0.05)turn = 0;
-		directionTarget+=turn;
-		driveStraight.setSetpoint(directionTarget);
-		driveTrain.arcadeDrive(stick, turn);
+		directionSetPoint+=turn;
+		
+		directionSetPoint = SmartDashboard.getNumber("directionSetPoint");
+		
+		if(directionSetPoint > 179)directionSetPoint = -180;
+		if(directionSetPoint < -179)directionSetPoint = 180;
+		navXSource.setSetPoint(directionSetPoint);
+		driveStraight.setSetpoint(directionSetPoint);
+		driveTrain.setStick(stick);
+		driveStraight.enable();
+		
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
+	@Override
+	public void testInit() {
+		// TODO Auto-generated method stub
+		navX.zeroYaw();
+	}
+	
 	@Override
 	public void testPeriodic() {
+		navXSource.setSetPoint(179);
+		System.out.println(navX.getYaw() + "   " + navX.getYaw() + "   " + navXSource.pidGet() + "   ");
 	}
 }
 
