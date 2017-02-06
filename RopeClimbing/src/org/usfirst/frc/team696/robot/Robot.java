@@ -3,6 +3,7 @@ package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -22,8 +23,10 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     
     Victor victorOne;
-    Victor victorTwo;
+//    Victor victorTwo;
     Joystick xbox;
+    
+    RobotDrive drive = new RobotDrive(0,1,9,8);
     
     double speed,
     		goodSpeed;
@@ -42,15 +45,15 @@ public class Robot extends IterativeRobot {
         speed = 0;
         goodSpeed = speed;
         
-        victorOne = new Victor(5);
-        victorTwo = new Victor(6);
-        xbox = new Joystick(2);
+        victorOne = new Victor(4);
+//        victorTwo = new Victor(6);
+        xbox = new Joystick(0);
         oldButton = new boolean[11];
         
         for(int i = 1; i <= 10; i++)oldButton[i] = false;
         
         victorOne.setInverted(false);
-        victorTwo.setInverted(false);
+//        victorTwo.setInverted(false);
     }
     
 	/**
@@ -97,9 +100,10 @@ public class Robot extends IterativeRobot {
     	if(xbox.getRawAxis(3) > 0.7)speed = goodSpeed;
         
         victorOne.set(speed);
-        victorTwo.set(speed);
+//        victorTwo.set(speed);
         
     	for(int i = 1; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
+    	drive.tankDrive(xbox.getRawAxis(1), xbox.getRawAxis(5));
     	
     	System.out.println(speed);
     }

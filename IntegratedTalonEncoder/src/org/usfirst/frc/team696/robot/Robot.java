@@ -1,5 +1,5 @@
-
 package org.usfirst.frc.team696.robot;
+
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SampleRobot;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.can.CANExceptionFactory;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,8 +35,6 @@ public class Robot extends IterativeRobot {
     double speed = 0;
     boolean[] oldButton = new boolean[11];
     
-    
-    
     double p; 
     double i;
     double d; 
@@ -57,7 +56,7 @@ public class Robot extends IterativeRobot {
         
         talon.reverseSensor(true);
         talon.reverseOutput(true);
-         talon.enable();
+        talon.enable();
         talon.changeControlMode(TalonControlMode.Speed);
         talon.set(0);
         
@@ -123,8 +122,8 @@ public class Robot extends IterativeRobot {
     	else if(!oldButton[2] && joy.getRawButton(2))speed-=0.1;
     	else if(!oldButton[6] && joy.getRawButton(6))speed = 0;
     	
-    	if(!oldButton[3] && joy.getRawButton(3))speed+=0.8;
-    	else if(!oldButton[4] && joy.getRawButton(4))speed-=0.8;
+    	if(!oldButton[3] && joy.getRawButton(3))speed-=0.8;
+    	else if(!oldButton[4] && joy.getRawButton(4))speed+=0.8;
     	
     	for(int i = 1; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
     	
@@ -144,3 +143,4 @@ public class Robot extends IterativeRobot {
     }
     
 }
+

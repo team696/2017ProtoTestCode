@@ -1,16 +1,10 @@
 
 package org.usfirst.frc.team696.robot;
 
-import org.usfirst.frc.team696.PIDControl;
-
-import com.kauailabs.nav6.frc.IMU;
-import com.kauailabs.nav6.frc.IMUAdvanced;
-
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,11 +21,10 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
-    public static IMU navX;
-    SerialPort port;
     
     Joystick joy = new Joystick(0);
     AnalogInput ultra = new AnalogInput(1);
+    AnalogInput ultra2 = new AnalogInput(0);
     Solenoid shift = new Solenoid(4);
     double range; 
     double LeftDrive = 0; 
@@ -45,7 +38,6 @@ public class Robot extends IterativeRobot {
     double KI = 0.0002; 
     double KD = 0.0003; 
     double alpha = 0.95; 
-	PIDControl directionPID = new PIDControl(KP, KI, KD, alpha);
 	
     boolean isFinished = false;
 	double left = 0.5;
@@ -55,8 +47,12 @@ public class Robot extends IterativeRobot {
     double wheel = 0; 
     double vcc = 5;
     double vm = ultra.getVoltage();
+    double vm2 = ultra2.getVoltage();
     double vi = vcc/512;
     double ri = vm/vi;
+
+
+    double range2 = vm2/vi;
     RobotDrive drive = new RobotDrive(3,2,7,8);
     RobotDrive driveB = new RobotDrive(4,9);
     
@@ -70,11 +66,6 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
-        try {
-			byte UpdateRateHz = 50;
-			port = new SerialPort(57600, SerialPort.Port.kMXP);
-			navX = new IMUAdvanced(port, UpdateRateHz);
-		} catch(Exception ex){System.out.println("NavX not working");};
 		
 		
     }
@@ -93,7 +84,6 @@ public class Robot extends IterativeRobot {
 //		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
 		
-		desiredDirection = navX.getYaw();
 		
 
     } 
@@ -114,14 +104,43 @@ public class Robot extends IterativeRobot {
     		vi = vcc/512; 
     		ri = vm/vi; 
     		range = ri; 
+//    		
+//        	directionError = currentDirection - desiredDirection;
+//        	
+//        	if(directionError > 180)directionError = directionError - 360;
+//        	if(directionError < -180)directionError = directionError + 360;
+//        
+//        	
+//        	directionPID.setError(directionError);
+//        	
+//        	
+//        	System.out.println("Range: " + range + "         " + "Current Direction: " + currentDirection + "           Desired Direction: " + desiredDirection + "                 Error: " + directionError); 
+//        	
+//        	
+//        	
+//        	if (range >= 20) {
+//    			drive.tankDrive(-left, -right);
+//    			driveB.tankDrive(-left, -right);
+//    			
+//        	} 
+//    		
+//        	if (range > 10 && range < 20) {
+//    			drive.tankDrive(-0.35, -0.35);
+//    			driveB.tankDrive(-0.35, -0.35);
+//    			edu.wpi.first.wpilibj.Timer.delay(1);
+//
+//    			
+//    		if(range <= 10){
+//    			drive.tankDrive(0, 0);
+//    			driveB.tankDrive(0, 0);
+//    			}
+//    		}
     		
         	directionError = currentDirection - desiredDirection;
         	
         	if(directionError > 180)directionError = directionError - 360;
         	if(directionError < -180)directionError = directionError + 360;
         
-        	
-        	directionPID.setError(directionError);
         	
         	
         	System.out.println("Range: " + range + "         " + "Current Direction: " + currentDirection + "           Desired Direction: " + desiredDirection + "                 Error: " + directionError); 
@@ -143,9 +162,26 @@ public class Robot extends IterativeRobot {
     			drive.tankDrive(0, 0);
     			driveB.tankDrive(0, 0);
     			}
+
+    		drive.tankDrive(-left, -right);
+    		driveB.tankDrive(-left, -right);
+    		if(range <= 20){
+    			drive.tankDrive(-0.35, -0.35);
+    			driveB.tankDrive(-0.35, -0.35);
+    			edu.wpi.first.wpilibj.Timer.delay(2);
+    			drive.tankDrive(0, 0);
+    			driveB.tankDrive(0, 0);
+    			edu.wpi.first.wpilibj.Timer.delay(1);
+    			drive.tankDrive(0.5, 0.5);
+    			drive.tankDrive(0.5, 0.5);
+    			edu.wpi.first.wpilibj.Timer.delay(2);
+    			drive.tankDrive(0, 0);
+    			driveB.tankDrive(0, 0);
+    		
+            break; 
     		}
-       	System.out.println("HELLO");
-            break; }
+        	}
+        	}
     }
 
     /**
@@ -162,29 +198,18 @@ public class Robot extends IterativeRobot {
         vm = ultra.getVoltage();
         vi = vcc/512;
         ri = vm/vi;
-//      ultra.getDistanceUnits(); 
+        vm2 = ultra2.getVoltage();
+        range2 = vm2/vi;
       
-//      if(range <= 10){
-//     	 LeftDrive = 0;
-//     	 RightDrive = 0;
-//     	// Timer.delay(0.4);
-//     	 
-//      }
+
       
-//      if(joy.getRawButton(1))shift.set(true);
-//      if(joy.getRawButton(2))shift.set(false);
-      
-//      if(speed <= 10){
-//     	 speed = 10;
-//      }
-      System.out.println("Range: " + range);
-//      
-        
-     System.out.println("Range: " + range + "      Current Direction: " + navX.getYaw()); 
+     System.out.println("Range 1: " + range + "      Range 2: " + range2); 
+
      
 //     LeftDrive = 0.2;
 //     RightDrive = 0.2;
      
+
      drive.tankDrive(LeftDrive, RightDrive);
      driveB.tankDrive(LeftDrive, RightDrive);
         
