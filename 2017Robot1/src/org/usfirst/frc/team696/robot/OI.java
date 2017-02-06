@@ -1,7 +1,9 @@
 package org.usfirst.frc.team696.robot;
 
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -14,11 +16,19 @@ public class OI {
     public Joystick arduino = new Joystick(0);
     public Joystick wheel = new Joystick(1);
     
+    
     /*
      * Button setup and initiation
      */
     
+    
+    Button shootButton = new JoystickButton(arduino, 7);
+   //  shootButton.whenPressed(new Shoot());
+    
+    
     public OI(){
+    
+    	
     }
 }
 
