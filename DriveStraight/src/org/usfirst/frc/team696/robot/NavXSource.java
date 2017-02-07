@@ -11,7 +11,7 @@ public class NavXSource implements PIDSource {
 			currentAngle = 0,
 			error = 0;
 	
-	public static IMU navX;
+	public IMU navX;
 	
 	public NavXSource(IMU navX) {
 		// TODO Auto-generated constructor stub
