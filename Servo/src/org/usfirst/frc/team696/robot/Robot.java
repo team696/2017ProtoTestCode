@@ -3,6 +3,7 @@ package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,9 +21,11 @@ public class Robot extends IterativeRobot {
     final String customAuto = "My Auto";
     String autoSelected;
     SendableChooser chooser;
+    public static IMU navX;
+	SerialPort port;
     
     Joystick joy = new Joystick(1);
-    Servo ser = new Servo(1);
+    Servo ser = new Servo(10);
     double speed = 0;
     int target = 0;
     boolean[] oldButton = new boolean[11];
@@ -36,6 +39,11 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
+        try {
+			byte UpdateRateHz = 50;
+			port = new SerialPort(57600, SerialPort.Port.kMXP);
+			navX = new IMUAdvanced(port, UpdateRateHz);
+		} catch(Exception ex){System.out.println("NavX not working");};
         
         for(int i = 0; i <= 10; i++)oldButton[i] = false;
     }
