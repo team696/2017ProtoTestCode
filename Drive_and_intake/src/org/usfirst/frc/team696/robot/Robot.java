@@ -84,8 +84,8 @@ public class Robot extends IterativeRobot {
 		speed = -xbox.getRawAxis(1);
 		turn = xbox.getRawAxis(4);
 		
-		leftValue = speed + turn;
-		rightValue = speed - turn;
+		leftValue = (speed + turn);
+		rightValue = (speed - turn);
 		
 		if(!oldButton[6] && xbox.getRawButton(6))runIntake = !runIntake;
 		

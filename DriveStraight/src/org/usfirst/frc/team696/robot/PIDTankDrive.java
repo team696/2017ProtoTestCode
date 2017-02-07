@@ -26,9 +26,9 @@ public class PIDTankDrive extends DriveCmd implements PIDOutput  {
 		this.alpha = alpha;
 	}
 	
-	public void arcadeDrive(double stick, double turn){
-		leftValue = stick + turn;
-		rightValue = stick - turn;
+	public void setStick(double stick){
+		leftValue = stick;
+		rightValue = stick;
 	}
 
 	@Override
@@ -52,6 +52,7 @@ public class PIDTankDrive extends DriveCmd implements PIDOutput  {
 		}
 		
 		this.tankDrive(leftValue, rightValue);
+		System.out.println("Reaching PIDWrite");
 	}
 
 }

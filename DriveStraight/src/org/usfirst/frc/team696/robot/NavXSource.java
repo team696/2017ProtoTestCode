@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 
 public class NavXSource implements PIDSource {
 
-	double targetAngle = 0,
+	double setPoint = 0,
 			currentAngle = 0,
 			error = 0;
 	
@@ -23,23 +23,24 @@ public class NavXSource implements PIDSource {
 		// TODO Auto-generated method stub
 	}
 	
-	public void setTargetAngle(double targetAngle) {
-		this.targetAngle = targetAngle;
+	public void setSetPoint(double setPoint) {
+		this.setPoint = setPoint;
 	}
 
 	@Override
 	public PIDSourceType getPIDSourceType() {
 		// TODO Auto-generated method stub
-		return null;
+		return PIDSourceType.kDisplacement;
 	}
 
 	@Override
 	public double pidGet() {
 		// TODO Auto-generated method stub
 		currentAngle = navX.getYaw();
-		error = currentAngle - targetAngle;
-		if(error > 180)currentAngle = currentAngle - 360;
-		if(error < -180)currentAngle = currentAngle + 360;
+		error = setPoint - currentAngle;
+		if(error > 180)currentAngle = currentAngle + 360;
+		if(error < -180)currentAngle = currentAngle - 360;
+		System.out.println("pidGet");
 		return currentAngle;
 	}
 
