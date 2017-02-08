@@ -76,7 +76,7 @@ public class Robot extends IterativeRobot {
             break;
     	case defaultAuto:
     	default:
-    	//Put default auto code here
+    	
             break;
     	}
     }

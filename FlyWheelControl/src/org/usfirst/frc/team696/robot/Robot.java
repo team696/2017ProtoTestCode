@@ -108,6 +108,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	if(xbox.getRawButton(10) == true)vic2.set(1);
     	
+    	
     	if(xbox.getRawButton(7) && !oldButton[7])PID.enable();
     	if(xbox.getRawButton(8) && !oldButton[8])PID.disable();
     	
