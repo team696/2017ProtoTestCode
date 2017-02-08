@@ -93,6 +93,7 @@ public class Robot extends IterativeRobot {
 		navX.zeroYaw();
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void teleopPeriodic() {
 		if(Math.abs(stick) > 0.05)stick = 0;
@@ -107,6 +108,8 @@ public class Robot extends IterativeRobot {
 		driveStraight.setSetpoint(directionSetPoint);
 		driveTrain.setStick(stick);
 		driveStraight.enable();
+		
+		System.out.println(navX.getYaw() + "               " + directionSetPoint);
 		
 	}
 
