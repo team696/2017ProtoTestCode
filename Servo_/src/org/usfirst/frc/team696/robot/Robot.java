@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 	Joystick joy = new Joystick(1);
     Servo ser = new Servo(10);
     double speed = 0;
-    int target = 0;
+    double target = 0;
     boolean[] oldButton = new boolean[11];
 
 	/**
@@ -89,16 +89,20 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
+	double goodTarget = 1;
+	
 	@Override
 	public void teleopPeriodic() {
 		
-		if(!oldButton[1] && joy.getRawButton(1))target = 100;
-    	if(!oldButton[2] && joy.getRawButton(2))target = 50;
+		if(!oldButton[1] && joy.getRawButton(1))target = 1;
+    	if(!oldButton[2] && joy.getRawButton(2))target = 180;
+    	if(!oldButton[5] && joy.getRawButton(5))goodTarget = target;
+    	if(joy.getRawAxis(3) > 0.5)target = goodTarget;
     	
     	ser.setAngle(target);
     	
     	for(int i = 1; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
-    	System.out.println("Servo Angle: " + ser.getAngle());
+    	System.out.println("Servo Angle: " + ser.getAngle() + "   TargetAngle: " + target);
         
     }
 	
