@@ -2,10 +2,10 @@ package Utilities;
 
 import edu.wpi.first.wpilibj.RobotDrive;
 
-public class DriveCmd {
+public class SixMotorDrive {
 	RobotDrive driveA;
 	RobotDrive driveB;
-	public DriveCmd(int frontLeftMotor, 
+	public SixMotorDrive(int frontLeftMotor, 
 					int midLeftMotor,
 					int rearLeftMotor,
 					int frontRightMotor,
