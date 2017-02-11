@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team696.robot;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
@@ -44,6 +45,12 @@ public class Robot extends IterativeRobot {
 										RobotMap.rearRightMotor);
 	public static IntakeSubsystem intakeSubsystem
 			= new IntakeSubsystem(RobotMap.intakeMotor);
+	
+	public static Encoder leftDriveEncoder 
+			= new Encoder(RobotMap.leftDriveEncoderA, RobotMap.leftDriveEncoderB);
+	public static Encoder rightDriveEncoder
+			= new Encoder(RobotMap.rightDriveEncoderA, RobotMap.rightDriveEncoderB);
+	double distancePerPulseInches = (2*Math.PI*2)/200;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -61,6 +68,9 @@ public class Robot extends IterativeRobot {
 			port = new SerialPort(57600, SerialPort.Port.kMXP);
 			navX = new IMUAdvanced(port, UpdateRateHz);
 		} catch(Exception ex){System.out.println("NavX not working");};
+		
+		leftDriveEncoder.setDistancePerPulse(distancePerPulseInches);
+		rightDriveEncoder.setDistancePerPulse(distancePerPulseInches);
 	}
 
 	/**
