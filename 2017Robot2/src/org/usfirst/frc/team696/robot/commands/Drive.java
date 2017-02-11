@@ -24,7 +24,8 @@ public class Drive extends Command {
 	double targetDistance,
 			currentDistance,
 			targetDirection,
-			currentDirection;
+			currentDirection,
+			tempMaxValue;
 	double distanceError = 0,
 			directionError = 0;
 	double speed = 0,
@@ -88,9 +89,25 @@ public class Drive extends Command {
     	directionPIDController.setError(directionError);
     	
     	leftValue = distancePIDController.getValue() + directionPIDController.getValue();
-    	rightValue = distancePIDController.getValue() + directionPIDController.getValue();
+    	rightValue = distancePIDController.getValue() - directionPIDController.getValue();
+    	
+    	if(Math.abs(leftValue) > 1 && 
+				Math.abs(leftValue) > Math.abs(rightValue)){
+			tempMaxValue = Math.abs(leftValue);
+			leftValue = leftValue / tempMaxValue;
+			rightValue = rightValue / tempMaxValue;
+		}
+		
+		if(Math.abs(rightValue) > 1 &&
+				Math.abs(rightValue) > Math.abs(leftValue)){
+			tempMaxValue = Math.abs(rightValue);
+			rightValue = leftValue / tempMaxValue;
+			leftValue = rightValue / tempMaxValue;
+		}
     	
     	if(Math.abs(distanceError) < 3 && Math.abs(directionError) < 5)isFinished = true;
+    	
+    	Robot.driveTrainSubsystem.setValues(leftValue, rightValue);
     }
 
     // Make this return true when this Command no longer needs to run execute()
