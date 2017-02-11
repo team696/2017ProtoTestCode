@@ -40,27 +40,6 @@ public class BasicArcadeDrive extends Command {
     	leftValue = speed + turn;
     	rightValue = speed - turn;
     	
-//    	directionError = Robot.navX.getYaw() - oldYaw;
-//    	if(turn == 0){
-//    		leftValue = leftValue - (directionError * alpha);
-//    		rightValue = rightValue + (directionError * alpha);
-//    		
-//    		if(Math.abs(leftValue) > 1 && 
-//    				Math.abs(leftValue) > Math.abs(rightValue)){
-//    			tempMaxValue = Math.abs(leftValue);
-//    			leftValue = leftValue / tempMaxValue;
-//    			rightValue = rightValue / tempMaxValue;
-//    		}
-//    		
-//    		if(Math.abs(rightValue) > 1 &&
-//    				Math.abs(rightValue) > Math.abs(leftValue)){
-//    			tempMaxValue = Math.abs(rightValue);
-//    			rightValue = leftValue / tempMaxValue;
-//    			leftValue = rightValue / tempMaxValue;
-//    		}
-//    	}
-//    	oldYaw = Robot.navX.getYaw();
-    	
     	Robot.driveTrainSubsystem.setValues(leftValue, rightValue);
     }
 
