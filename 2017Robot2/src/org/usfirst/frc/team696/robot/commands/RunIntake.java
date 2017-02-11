@@ -1,15 +1,23 @@
 package org.usfirst.frc.team696.robot.commands;
 
+import org.usfirst.frc.team696.robot.Robot;
+import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ToggleIntake extends Command {
+public class RunIntake extends Command {
 
-    public ToggleIntake() {
+	double speed = 0;
+	boolean isRunning = false;
+	
+    public RunIntake(double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.intakeSubsystem);
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
@@ -18,11 +26,12 @@ public class ToggleIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	Robot.intakeSubsystem.setSpeedValue(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

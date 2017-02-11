@@ -20,8 +20,8 @@ public class IntakeSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public IntakeSubsystem(){
-    	intakeMotor = new VictorSP(RobotMap.intakeMotor);
+    public IntakeSubsystem(int intakeMotor){
+    	this.intakeMotor = new VictorSP(intakeMotor);
     	speedValue = 0;
     }
     
