@@ -96,12 +96,18 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		if(!oldButton[1] && joy.getRawButton(1))target -=45;
-    	if(!oldButton[2] && joy.getRawButton(2))target +=45;
-    	if(target < 1)target = 1;
-    	if(target > 180)target = 180;
-    	if(joy.getRawButton(5))speed = 0.8;
-    	else speed = 0;
+//		if(!oldButton[1] && joy.getRawButton(1))target =1;
+//    	if(!oldButton[2] && joy.getRawButton(2))target =180;
+//    	if(target < 1)target = 1;
+//    	if(target > 180)target = 180;
+//    	if(joy.getRawButton(5))speed = 0.8;
+//    	else speed = 0;
+		
+		if(!oldButton[1] && joy.getRawButton(1))target = target+10;
+		if(!oldButton[2] && joy.getRawButton(2))target = target-10;
+		if(target >= 181)target = 1;
+		if(target < 1)target = 50;
+		
     	
     	ser.setAngle(target);
     	intake.set(speed);
