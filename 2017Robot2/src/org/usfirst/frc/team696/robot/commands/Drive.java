@@ -14,10 +14,10 @@ public class Drive extends Command {
 			kIDistance = 0,
 			kDDistance = 0,
 			alphaDistance = 1;
-	double kPDirection = 0,
-			kIDirection = 0,
+	double kPDirection = 0.00708,
+			kIDirection = 0.0,
 			kDDirection = 0,
-			alphaDirection = 1;
+			alphaDirection = 0;
 	double distance,
 			direction,
 			maxSpeed;
@@ -34,8 +34,8 @@ public class Drive extends Command {
 	boolean firstRun = true,
 			isFinished = false;
 	
-	PIDControl directionPIDController = new PIDControl(kPDistance, kIDistance, kDDistance, alphaDistance),
-				distancePIDController = new PIDControl(kPDirection, kIDirection, kDDirection, alphaDirection);
+	PIDControl distancePIDController = new PIDControl(kPDistance, kIDistance, kDDistance, alphaDistance),
+				directionPIDController = new PIDControl(kPDirection, kIDirection, kDDirection, alphaDirection);
 	
     public Drive() {
     	requires(Robot.driveTrainSubsystem);
@@ -56,6 +56,7 @@ public class Drive extends Command {
     	this.distance = distance;
     	this.direction = direction;
     	this.maxSpeed = 1;
+    	System.out.println("in drive");
     }
     
     public Drive(double distance, double direction, double maxSpeed){
@@ -88,8 +89,8 @@ public class Drive extends Command {
     	distancePIDController.setError(distanceError);
     	directionPIDController.setError(directionError);
     	
-    	leftValue = distancePIDController.getValue() + directionPIDController.getValue();
-    	rightValue = distancePIDController.getValue() - directionPIDController.getValue();
+    	leftValue =/* distancePIDController.getValue() + */directionPIDController.getValue();
+    	rightValue =/* distancePIDController.getValue() */ - directionPIDController.getValue();
     	
     	if(Math.abs(leftValue) > 1 && 
 				Math.abs(leftValue) > Math.abs(rightValue)){
@@ -105,8 +106,9 @@ public class Drive extends Command {
 			leftValue = rightValue / tempMaxValue;
 		}
     	
-    	if(Math.abs(distanceError) < 3 && Math.abs(directionError) < 5)isFinished = true;
-    	
+//    	if(/*Math.abs(distanceError) < 3 &&*/ Math.abs(directionError) < 5)isFinished = true;
+		
+    	System.out.println("left: " + leftValue + "    right: " + rightValue + "   error: " + directionError + "    current: " + currentDirection);
     	Robot.driveTrainSubsystem.setValues(leftValue, rightValue);
     }
 
