@@ -14,7 +14,6 @@ public class BasicArcadeDrive extends Command {
 	double turn = 0;
 	double leftValue = 0;
 	double rightValue = 0;
-	double oldYaw = 0;
 	double directionError = 0;
 	double alpha = 0.001;
 	double tempMaxValue = 0;
@@ -23,7 +22,6 @@ public class BasicArcadeDrive extends Command {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.driveTrainSubsystem);
-    	oldYaw = Robot.navX.getYaw();
     }
 
     // Called just before this Command runs the first time
