@@ -14,7 +14,7 @@ public class Drive extends Command {
 			kIDistance = 0,
 			kDDistance = 0,
 			alphaDistance = 0;
-	double kPDirection = 0.0095,
+	double kPDirection = 0.012,
 			kIDirection = 0.0,
 			kDDirection = 0,
 			alphaDirection = 0;
@@ -70,7 +70,6 @@ public class Drive extends Command {
     protected void initialize() {
     	Robot.leftDriveEncoder.reset();
     	Robot.rightDriveEncoder.reset();
-    	System.out.println("initailize");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -78,10 +77,6 @@ public class Drive extends Command {
     	currentDistance = (Robot.leftDriveEncoder.getDistance() + Robot.rightDriveEncoder.getDistance())/2;
     	currentDirection = Robot.navX.getYaw();
     	if(firstRun){
-    		Robot.leftDriveEncoder.reset();
-    		Robot.rightDriveEncoder.reset();
-        	currentDistance = (Robot.leftDriveEncoder.getDistance() + Robot.rightDriveEncoder.getDistance())/2;
-
     		targetDistance = currentDistance + distance;
     		targetDirection = currentDirection + direction;
     		firstRun = false;
@@ -99,23 +94,23 @@ public class Drive extends Command {
     	leftValue = distancePIDController.getValue() + directionPIDController.getValue();
     	rightValue = distancePIDController.getValue() - directionPIDController.getValue();
     	
-    	if(Math.abs(leftValue) > 1 && 
-				Math.abs(leftValue) > Math.abs(rightValue)){
-			tempMaxValue = Math.abs(leftValue);
-			leftValue = leftValue / tempMaxValue;
-			rightValue = rightValue / tempMaxValue;
-		}
-		
-		if(Math.abs(rightValue) > 1 &&
-				Math.abs(rightValue) > Math.abs(leftValue)){
-			tempMaxValue = Math.abs(rightValue);
-			rightValue = leftValue / tempMaxValue;
-			leftValue = rightValue / tempMaxValue;
-		}
+//    	if(Math.abs(leftValue) > 1 && 
+//				Math.abs(leftValue) > Math.abs(rightValue)){
+//			tempMaxValue = Math.abs(leftValue);
+//			leftValue = leftValue / tempMaxValue;
+//			rightValue = rightValue / tempMaxValue;
+//		}
+//		
+//		if(Math.abs(rightValue) > 1 &&
+//				Math.abs(rightValue) > Math.abs(leftValue)){
+//			tempMaxValue = Math.abs(rightValue);
+//			rightValue = leftValue / tempMaxValue;
+//			leftValue = rightValue / tempMaxValue;
+//		}
     	
     	if(Math.abs(distanceError) < 6 && Math.abs(directionError) < 5)isFinished = true;
 		
-    	System.out.println("left: " + leftValue + "    right: " + rightValue + "   error: " + distanceError + "    current: " + currentDistance);
+    	System.out.println("left: " + leftValue + "    right: " + rightValue + "   error: " + directionError + "    current: " + currentDirection);
     	Robot.driveTrainSubsystem.setValues(leftValue, rightValue);
     }
 

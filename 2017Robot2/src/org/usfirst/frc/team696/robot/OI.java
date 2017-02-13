@@ -19,6 +19,6 @@ public class OI {
 	JoystickButton runIntake = new JoystickButton(gamePad, 5);
 	
 	public OI(){
-		runIntake.whenPressed(new ToggleIntake());
+		runIntake.whenActive(new ToggleIntake());
 	}
 }

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class DriveTest extends CommandGroup {
 
     public DriveTest() {
-//        addSequential(new Drive(Util.toInches(8, 0)));
+//        addSequential(new Drive(0, 90));
         addSequential(new Drive(Util.toInches(8, 0), 0, 0.5));
         addSequential(new Drive(0, 90));
         addSequential(new Drive(Util.toInches(4, 0)));
