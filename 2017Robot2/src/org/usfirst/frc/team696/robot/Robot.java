@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
 			= new Encoder(RobotMap.leftDriveEncoderA, RobotMap.leftDriveEncoderB);
 	public static Encoder rightDriveEncoder
 			= new Encoder(RobotMap.rightDriveEncoderA, RobotMap.rightDriveEncoderB);
-	double distancePerPulseInches = (2*Math.PI*2)/200;
+	double distancePerPulseInches = (4*Math.PI)/200;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -73,6 +73,8 @@ public class Robot extends IterativeRobot {
 		
 		leftDriveEncoder.setDistancePerPulse(distancePerPulseInches);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulseInches);
+		
+		leftDriveEncoder.setReverseDirection(true);
 	}
 
 	/**
@@ -103,19 +105,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		leftDriveEncoder.reset();
+		rightDriveEncoder.reset();
+		
 		autonomousCommand = (Command) chooser.getSelected();
-//		String autoSelected = SmartDashboard.getString("Auto Selector", "Default"); 
-//		switch(autoSelected) { 
-//			case "My Auto": 
-//				autonomousCommand = new DoNothing(); 
-//				break; 
-//			case "Default Auto": 
-//			default:
-//				autonomousCommand = new ExampleCommand(); 
-//				break; 
-//		}
-		 
-		System.out.println(autonomousCommand.getName());
 		if (autonomousCommand != null) autonomousCommand.start();
 	}
 
