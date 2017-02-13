@@ -10,11 +10,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Drive extends Command {
 
-	double kPDistance = 0,
+	double kPDistance = 0.03,
 			kIDistance = 0,
 			kDDistance = 0,
-			alphaDistance = 1;
-	double kPDirection = 0.00708,
+			alphaDistance = 0;
+	double kPDirection = 0.0095,
 			kIDirection = 0.0,
 			kDDirection = 0,
 			alphaDirection = 0;
@@ -68,6 +68,9 @@ public class Drive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.leftDriveEncoder.reset();
+    	Robot.rightDriveEncoder.reset();
+    	System.out.println("initailize");
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -75,6 +78,10 @@ public class Drive extends Command {
     	currentDistance = (Robot.leftDriveEncoder.getDistance() + Robot.rightDriveEncoder.getDistance())/2;
     	currentDirection = Robot.navX.getYaw();
     	if(firstRun){
+    		Robot.leftDriveEncoder.reset();
+    		Robot.rightDriveEncoder.reset();
+        	currentDistance = (Robot.leftDriveEncoder.getDistance() + Robot.rightDriveEncoder.getDistance())/2;
+
     		targetDistance = currentDistance + distance;
     		targetDirection = currentDirection + direction;
     		firstRun = false;
@@ -89,8 +96,8 @@ public class Drive extends Command {
     	distancePIDController.setError(distanceError);
     	directionPIDController.setError(directionError);
     	
-    	leftValue =/* distancePIDController.getValue() + */directionPIDController.getValue();
-    	rightValue =/* distancePIDController.getValue() */ - directionPIDController.getValue();
+    	leftValue = distancePIDController.getValue() + directionPIDController.getValue();
+    	rightValue = distancePIDController.getValue() - directionPIDController.getValue();
     	
     	if(Math.abs(leftValue) > 1 && 
 				Math.abs(leftValue) > Math.abs(rightValue)){
@@ -106,9 +113,9 @@ public class Drive extends Command {
 			leftValue = rightValue / tempMaxValue;
 		}
     	
-//    	if(/*Math.abs(distanceError) < 3 &&*/ Math.abs(directionError) < 5)isFinished = true;
+    	if(Math.abs(distanceError) < 6 && Math.abs(directionError) < 5)isFinished = true;
 		
-    	System.out.println("left: " + leftValue + "    right: " + rightValue + "   error: " + directionError + "    current: " + currentDirection);
+    	System.out.println("left: " + leftValue + "    right: " + rightValue + "   error: " + distanceError + "    current: " + currentDistance);
     	Robot.driveTrainSubsystem.setValues(leftValue, rightValue);
     }
 
