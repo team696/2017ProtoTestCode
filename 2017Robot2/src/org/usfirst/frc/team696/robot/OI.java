@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
-import org.usfirst.frc.team696.robot.commands.RunIntake;
+import org.usfirst.frc.team696.robot.commands.ToggleIntake;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -19,7 +19,6 @@ public class OI {
 	JoystickButton runIntake = new JoystickButton(gamePad, 5);
 	
 	public OI(){
-		runIntake.whileHeld(new RunIntake(0.8));
-		runIntake.whenReleased(new RunIntake(0));
+		runIntake.whenPressed(new ToggleIntake());
 	}
 }

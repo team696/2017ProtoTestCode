@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RunIntake extends Command {
+public class ToggleIntake extends Command {
 
-	double speed = 0;
-	boolean isRunning = false;
+	double speed = 0.8;
+	boolean run = false;
 	
-    public RunIntake(double speed) {
+    public ToggleIntake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.intakeSubsystem);
-    	this.speed = speed;
+    	run = !run;
     }
 
     // Called just before this Command runs the first time
@@ -26,12 +26,13 @@ public class RunIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intakeSubsystem.setSpeedValue(speed);
+    	if(run)Robot.intakeSubsystem.setSpeedValue(speed);
+    	else Robot.intakeSubsystem.setSpeedValue(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
