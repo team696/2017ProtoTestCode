@@ -92,7 +92,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         if(xbox.getRawButton(1) && !oldButton[1])speed-=0.05;
         if(xbox.getRawButton(2) && !oldButton[2])speed+=0.05;
-        if(xbox.getRawButton(3) && !oldButton[3])speed-=0.1;
+        if(xbox.getRawButton(3) && !oldButton[3])speed-=1;
         if(xbox.getRawButton(4) && !oldButton[4])speed+=0.1;
     	if(xbox.getRawButton(6) && !oldButton[6])speed = 0;
     	
@@ -103,7 +103,7 @@ public class Robot extends IterativeRobot {
 //        victorTwo.set(speed);
         
     	for(int i = 1; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
-    	drive.tankDrive(xbox.getRawAxis(1), xbox.getRawAxis(5));
+    	drive.tankDrive(xbox.getRawAxis(1), xbox.getRawAxis(4));
     	
     	System.out.println(speed);
     }
