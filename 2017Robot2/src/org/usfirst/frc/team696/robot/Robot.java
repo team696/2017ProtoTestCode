@@ -53,6 +53,13 @@ public class Robot extends IterativeRobot {
 	public static Encoder rightDriveEncoder
 			= new Encoder(RobotMap.rightDriveEncoderA, RobotMap.rightDriveEncoderB);
 	double distancePerPulseInches = (4*Math.PI)/200;
+	
+	public static double turnMultipler = 0.8,
+							kPDirection = 0.012,
+							kIDirection = 0,
+							kDDirection = 0,
+							alphaDirection = 0;
+	public static boolean driveStraight = true;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -128,6 +135,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		Scheduler.getInstance().add(new BasicArcadeDrive());
 	}
 
 	/**
@@ -135,7 +143,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		Scheduler.getInstance().add(new BasicArcadeDrive());
+		System.out.println(driveStraight);
 		Scheduler.getInstance().run();
 	}
 

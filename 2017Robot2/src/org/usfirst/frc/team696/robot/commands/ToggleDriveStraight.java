@@ -1,23 +1,17 @@
 package org.usfirst.frc.team696.robot.commands;
 
 import org.usfirst.frc.team696.robot.Robot;
-import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class RunIntake extends Command {
+public class ToggleDriveStraight extends Command {
 
-	double speed = 0;
-	boolean isRunning = false;
-	
-    public RunIntake(double speed) {
+    public ToggleDriveStraight() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.intakeSubsystem);
-    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
@@ -26,7 +20,7 @@ public class RunIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intakeSubsystem.setSpeedValue(speed);
+    	Robot.driveStraight = !Robot.driveStraight;
     }
 
     // Make this return true when this Command no longer needs to run execute()
