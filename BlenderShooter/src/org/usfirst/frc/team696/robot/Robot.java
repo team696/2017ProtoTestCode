@@ -2,7 +2,7 @@ package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,17 +19,17 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
-	RobotDrive driveA = new RobotDrive(9, 8, 2, 3);
-	RobotDrive driveB = new RobotDrive(7, 4);
-	Joystick xbox = new Joystick(0);
-	VictorSP intake = new VictorSP(0);
-	double leftValue = 0;
-	double rightValue = 0;
-	double turn = 0;
-	
-	double speed = 0;
-	boolean runIntake = false;
-	boolean[] oldButton = new boolean[11];
+	 Joystick afterGlow = new Joystick(0);
+	    VictorSP vic1 = new VictorSP(0); // belt
+	    VictorSP vic2 = new VictorSP(1); // speed 2 shooter
+	    VictorSP vic5 = new VictorSP(5); // output
+	    VictorSP vic4 = new VictorSP(6); // blender
+	   
+	    double speed1 = 0;
+	    double speed2 = 0; 
+	    double speed3 = 0; 
+	    double speed4 = 0; 
+	    boolean[] oldButton = new boolean[11];
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -40,7 +40,13 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
-	}
+		for(int i = 1; i <= 10; i++)oldButton[i] = false;
+		
+		vic1.setInverted(false);
+		vic2.setInverted(true);
+		vic5.setInverted(true); 
+	     vic4.setInverted(true);
+	
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -53,6 +59,10 @@ public class Robot extends IterativeRobot {
 	 * switch structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
+	 for(int i = 0; i <= 10; i++)oldButton[i] = false;
+       
+	}
+    
 	@Override
 	public void autonomousInit() {
 		autoSelected = chooser.getSelected();
@@ -82,22 +92,31 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		speed = -xbox.getRawAxis(1);
-		turn = xbox.getRawAxis(4);
+		if(!oldButton[1] && afterGlow.getRawButton(1))speed1+=0.8; 
+    	if(!oldButton[2] && afterGlow.getRawButton(2))speed2+=0.4; // shooter
+    	if(!oldButton[3] && afterGlow.getRawButton(3))speed3+=0.8;
+    	if(!oldButton[4] && afterGlow.getRawButton(4))speed4+=0.3;// blender
+    	if(!oldButton[6] && afterGlow.getRawButton(6)){
+    		speed1=0;
+    		speed2=0;
+    	   speed3=0;
+    	   speed4=0;
+    	}
+         	
+         	vic1.set(speed1);
+         	vic2.set(speed2);
+       	    vic5.set(speed3);
+        	vic4.set(speed4);
+         	
+    	for(int i = 1; i <= 10; i++)oldButton[i] = afterGlow.getRawButton(i);
+    	
+    	
+    	
+    	System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 );
+    	
+    	 }
 		
-		leftValue = (speed + turn);
-		rightValue = (speed - turn);
-		
-		if(!oldButton[6] && xbox.getRawButton(6))runIntake = !runIntake;
-		
-		if(runIntake)intake.set(0.8);
-		else intake.set(0);
-		
-		for(int i = 1; i < 11; i++)oldButton[i] = xbox.getRawButton(i);
-		
-		driveA.tankDrive(leftValue, rightValue);
-		driveB.tankDrive(leftValue, rightValue);
-	}
+	
 
 	/**
 	 * This function is called periodically during test mode
