@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
 //        victorTwo.set(speed);
         
     	for(int i = 1; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
-    	drive.tankDrive(xbox.getRawAxis(1), xbox.getRawAxis(4));
+    	drive.arcadeDrive(xbox.getRawAxis(1), xbox.getRawAxis(4));
     	
     	System.out.println(speed);
     }

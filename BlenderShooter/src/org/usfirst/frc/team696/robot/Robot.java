@@ -20,10 +20,10 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	 Joystick afterGlow = new Joystick(0);
-	    VictorSP vic1 = new VictorSP(2);
-	    VictorSP vic2 = new VictorSP(3);
-	    VictorSP vic3 = new VictorSP(7); 
-	    VictorSP vic4 = new VictorSP(6); 
+	    VictorSP vic1 = new VictorSP(0); // belt
+	    VictorSP vic2 = new VictorSP(1); // speed 2 shooter
+	    VictorSP vic5 = new VictorSP(5); // output
+	    VictorSP vic4 = new VictorSP(6); // blender
 	   
 	    double speed1 = 0;
 	    double speed2 = 0; 
@@ -42,8 +42,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", chooser);
 		for(int i = 1; i <= 10; i++)oldButton[i] = false;
 		
-		vic1.setInverted(true);
-		vic4.setInverted(true);
+		vic1.setInverted(false);
+		vic2.setInverted(true);
+		vic5.setInverted(true); 
+	     vic4.setInverted(true);
 	
 
 	/**
@@ -90,27 +92,27 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		if(!oldButton[1] && afterGlow.getRawButton(1))speed1+=0.05;
-    	if(!oldButton[2] && afterGlow.getRawButton(2))speed2+=0.05;
-    	if(!oldButton[3] && afterGlow.getRawButton(3))speed3+=0.05;
-    	if(!oldButton[4] && afterGlow.getRawButton(4))speed4+=0.05;
-    	if(!oldButton[5] && afterGlow.getRawButton(5)){
+		if(!oldButton[1] && afterGlow.getRawButton(1))speed1+=0.8; 
+    	if(!oldButton[2] && afterGlow.getRawButton(2))speed2+=0.4; // shooter
+    	if(!oldButton[3] && afterGlow.getRawButton(3))speed3+=0.8;
+    	if(!oldButton[4] && afterGlow.getRawButton(4))speed4+=0.3;// blender
+    	if(!oldButton[6] && afterGlow.getRawButton(6)){
     		speed1=0;
     		speed2=0;
-    		speed3=0;
-    		speed4=0;
+    	   speed3=0;
+    	   speed4=0;
     	}
          	
          	vic1.set(speed1);
          	vic2.set(speed2);
-         	vic3.set(speed3);
-         	vic4.set(speed4);
+       	    vic5.set(speed3);
+        	vic4.set(speed4);
          	
     	for(int i = 1; i <= 10; i++)oldButton[i] = afterGlow.getRawButton(i);
     	
     	
     	
-    	System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " +  speed3  +  "   speed4   " + speed4);
+    	System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 );
     	
     	 }
 		
