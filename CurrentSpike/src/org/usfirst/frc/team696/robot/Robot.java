@@ -3,7 +3,7 @@ package org.usfirst.frc.team696.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,19 +20,13 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
-	 Joystick afterGlow = new Joystick(0);
-	    VictorSP vic1 = new VictorSP(0); // belt
-	    VictorSP vic2 = new VictorSP(1); // speed 2 shooter
-	    VictorSP vic3 = new VictorSP(5); // blender
-	    VictorSP vic4 = new VictorSP(6); // output
-	   
-	    double speed1 = 0;
-	    double speed2 = 0; 
-	    double speed3 = 0; 
-	    double speed4 = 0; 
-	    boolean[] oldButton = new boolean[11];
-	    
-	    PowerDistributionPanel current = new PowerDistributionPanel();
+	
+	PowerDistributionPanel pdp = new PowerDistributionPanel();
+	double current;
+	VictorSP vic = new VictorSP(9);
+	boolean[] oldButton = new boolean[11];
+	Joystick joy = new Joystick(0);
+	double speed;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -44,12 +38,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		for(int i = 1; i <= 10; i++)oldButton[i] = false;
-		
-//		vic1.setInverted(false);
-//		vic2.setInverted(true);
-////		vic3.setInverted(true); 
-//	     vic4.setInverted(true);
-	
+	}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -62,10 +51,6 @@ public class Robot extends IterativeRobot {
 	 * switch structure below with additional strings. If using the
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
-	 for(int i = 0; i <= 10; i++)oldButton[i] = false;
-       
-	}
-    
 	@Override
 	public void autonomousInit() {
 		autoSelected = chooser.getSelected();
@@ -95,33 +80,29 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		if(!oldButton[1] && afterGlow.getRawButton(1))speed1+=0.1; 
-    	if(!oldButton[2] && afterGlow.getRawButton(2))speed2+=0.1;
-    	if(!oldButton[3] && afterGlow.getRawButton(3))speed3+=0.5;//blender
-    	if(!oldButton[4] && afterGlow.getRawButton(4))speed4+=0.1;//output
-    	if(!oldButton[6] && afterGlow.getRawButton(6)){
-    		speed1=0;
-    		speed2=0;
-    	   speed3=0;
-    	   speed4=0;
-    	}
-         	
-         	vic1.set(speed1);
-         	vic2.set(speed2);
-       	    vic3.set(speed3);
-        	vic4.set(speed4);
-        	
-        	
-         	
-    	for(int i = 1; i <= 10; i++)oldButton[i] = afterGlow.getRawButton(i);
-    	
-    	
-    	
-    	System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 + "    speed4: " + speed4 + "           current: " + current.getCurrent(7) );
-    	
-    	 }
 		
-	
+		
+		
+		if(!oldButton[1] && joy.getRawButton(1))speed+=0.1;
+		if(!oldButton[2] && joy.getRawButton(2))speed-=0.1;
+		if(joy.getRawButton(6))speed=0;
+		
+		current = pdp.getCurrent(1);
+		System.out.println(current + "                 " + speed);
+		
+		if(current>=4){
+			speed=-0.3;
+			Timer.delay(3);
+			speed=0.3;
+		}
+		
+		vic.set(speed);
+		
+		
+		
+		for(int i = 1; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
+		
+	}
 
 	/**
 	 * This function is called periodically during test mode
