@@ -26,6 +26,7 @@ public class Robot extends IterativeRobot {
 	double leftValue = 0;
 	double rightValue = 0;
 	double turn = 0;
+	
 	double speed = 0;
 	boolean runIntake = false;
 	boolean[] oldButton = new boolean[11];

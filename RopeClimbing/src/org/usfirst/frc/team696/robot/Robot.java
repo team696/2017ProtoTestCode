@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -31,6 +32,12 @@ public class Robot extends IterativeRobot {
     double speed,
     		goodSpeed;
     boolean[] oldButton;
+    
+    double leftDrive;
+    double rightDrive;
+    double stick;
+    double wheel;
+   
 	
     /**
      * This function is run when the robot is first started up and should be
@@ -90,12 +97,17 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	stick = xbox.getRawAxis(1);
+    	wheel = xbox.getRawAxis(4);
+    	leftDrive = stick + wheel;
+    	rightDrive = stick - wheel;
+    	
+    	
         if(xbox.getRawButton(1) && !oldButton[1])speed-=0.05;
         if(xbox.getRawButton(2) && !oldButton[2])speed+=0.05;
-        if(xbox.getRawButton(3) && !oldButton[3])speed-=0.1;
+        if(xbox.getRawButton(3) && !oldButton[3])speed-=1;
         if(xbox.getRawButton(4) && !oldButton[4])speed+=0.1;
     	if(xbox.getRawButton(6) && !oldButton[6])speed = 0;
-    	
     	if(xbox.getRawButton(5) && !oldButton[5])goodSpeed = speed;
     	if(xbox.getRawAxis(3) > 0.7)speed = goodSpeed;
         
@@ -103,7 +115,11 @@ public class Robot extends IterativeRobot {
 //        victorTwo.set(speed);
         
     	for(int i = 1; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
-    	drive.tankDrive(xbox.getRawAxis(1), xbox.getRawAxis(5));
+<<<<<<< HEAD
+    	drive.tankDrive(leftDrive, rightDrive);
+=======
+    	drive.arcadeDrive(xbox.getRawAxis(1), xbox.getRawAxis(4));
+>>>>>>> refs/remotes/origin/master
     	
     	System.out.println(speed);
     }

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,6 +28,7 @@ public class Robot extends IterativeRobot {
 	
 	Joystick joy = new Joystick(1);
     Servo ser = new Servo(10);
+    VictorSP intake = new VictorSP(0);
     double speed = 0;
     double target = 0;
     boolean[] oldButton = new boolean[11];
@@ -94,12 +96,21 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		
-		if(!oldButton[1] && joy.getRawButton(1))target = 1;
-    	if(!oldButton[2] && joy.getRawButton(2))target = 180;
-    	if(!oldButton[5] && joy.getRawButton(5))goodTarget = target;
-    	if(joy.getRawAxis(3) > 0.5)target = goodTarget;
+//		if(!oldButton[1] && joy.getRawButton(1))target =1;
+//    	if(!oldButton[2] && joy.getRawButton(2))target =180;
+//    	if(target < 1)target = 1;
+//    	if(target > 180)target = 180;
+//    	if(joy.getRawButton(5))speed = 0.8;
+//    	else speed = 0;
+		
+		if(!oldButton[1] && joy.getRawButton(1))target = target+10;
+		if(!oldButton[2] && joy.getRawButton(2))target = target-10;
+		if(target >= 181)target = 1;
+		if(target < 1)target = 50;
+		
     	
     	ser.setAngle(target);
+    	intake.set(speed);
     	
     	for(int i = 1; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
     	System.out.println("Servo Angle: " + ser.getAngle() + "   TargetAngle: " + target);

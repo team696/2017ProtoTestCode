@@ -1,15 +1,25 @@
 
 package org.usfirst.frc.team696.robot;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team696.robot.autonomous.DoNothing;
+import org.usfirst.frc.team696.robot.autonomous.DriveTest;
+import org.usfirst.frc.team696.robot.commands.BasicArcadeDrive;
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
+import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
+
+import com.kauailabs.nav6.frc.IMU;
+import com.kauailabs.nav6.frc.IMUAdvanced;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,9 +32,34 @@ public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
+	public static IMU navX;
+	SerialPort port;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
+	
+	public static DriveTrainSubsystem driveTrainSubsystem 
+			= new DriveTrainSubsystem(RobotMap.frontLeftMotor, 
+										RobotMap.midLeftMotor, 
+										RobotMap.rearLeftMotor, 
+										RobotMap.frontRightMotor, 
+										RobotMap.midRightMotor, 
+										RobotMap.rearRightMotor);
+	public static IntakeSubsystem intakeSubsystem
+			= new IntakeSubsystem(RobotMap.intakeMotor);
+	
+	public static Encoder leftDriveEncoder 
+			= new Encoder(RobotMap.leftDriveEncoderA, RobotMap.leftDriveEncoderB);
+	public static Encoder rightDriveEncoder
+			= new Encoder(RobotMap.rightDriveEncoderA, RobotMap.rightDriveEncoderB);
+	double distancePerPulseInches = (4*Math.PI)/200;
+	
+	public static double turnMultipler = 0.8,
+							kPDirection = 0.012,
+							kIDirection = 0,
+							kDDirection = 0,
+							alphaDirection = 0;
+	public static boolean driveStraight = true;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -33,9 +68,20 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		chooser.addDefault("Do Nothing", new DoNothing());
+		chooser.addObject("DriveTest", new DriveTest());
 		SmartDashboard.putData("Auto mode", chooser);
+		
+		try {
+			byte UpdateRateHz = 50;
+			port = new SerialPort(57600, SerialPort.Port.kMXP);
+			navX = new IMUAdvanced(port, UpdateRateHz);
+		} catch(Exception ex){System.out.println("NavX not working");};
+		
+		leftDriveEncoder.setDistancePerPulse(distancePerPulseInches);
+		rightDriveEncoder.setDistancePerPulse(distancePerPulseInches);
+		
+		leftDriveEncoder.setReverseDirection(true);
 	}
 
 	/**
@@ -66,18 +112,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
-
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
-			autonomousCommand.start();
+		leftDriveEncoder.reset();
+		rightDriveEncoder.reset();
+		
+		autonomousCommand = (Command) chooser.getSelected();
+		if (autonomousCommand != null) autonomousCommand.start();
 	}
 
 	/**
@@ -96,6 +135,7 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		Scheduler.getInstance().add(new BasicArcadeDrive());
 	}
 
 	/**
@@ -103,6 +143,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(driveStraight);
 		Scheduler.getInstance().run();
 	}
 
