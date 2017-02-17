@@ -22,7 +22,7 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 	 Joystick afterGlow = new Joystick(0);
 	    VictorSP vic1 = new VictorSP(0); // belt
-	    VictorSP vic2 = new VictorSP(1); // speed 2 shooter
+	    VictorSP vic2 = new VictorSP(1); // shooter
 	    VictorSP vic3 = new VictorSP(5); // blender
 	    VictorSP vic4 = new VictorSP(6); // output
 	   
@@ -95,15 +95,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		if(!oldButton[1] && afterGlow.getRawButton(1))speed1+=0.1; 
-    	if(!oldButton[2] && afterGlow.getRawButton(2))speed2+=0.1;
-    	if(!oldButton[3] && afterGlow.getRawButton(3))speed3+=0.5;//blender
-    	if(!oldButton[4] && afterGlow.getRawButton(4))speed4+=0.1;//output
+		if(!oldButton[1] && afterGlow.getRawButton(1))speed1+=0.1; //belt 
+    	if(!oldButton[2] && afterGlow.getRawButton(2))speed2+=0.1; // shooter
+    	if(!oldButton[3] && afterGlow.getRawButton(3))speed3+=0.5; //blender
+    	if(!oldButton[4] && afterGlow.getRawButton(4))speed4+=0.1; //output
     	if(!oldButton[6] && afterGlow.getRawButton(6)){
     		speed1=0;
     		speed2=0;
-    	   speed3=0;
-    	   speed4=0;
+    	    speed3=0;
+    	    speed4=0;
     	}
          	
          	vic1.set(speed1);
@@ -117,7 +117,7 @@ public class Robot extends IterativeRobot {
     	
     	
     	
-    	System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 + "    speed4: " + speed4 + "           current: " + current.getCurrent(7) );
+    	System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 + "    speed4: " + speed4 + "  current: " + current.getCurrent(7) );
     	
     	 }
 		
