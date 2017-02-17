@@ -90,6 +90,8 @@ public class Robot extends IterativeRobot {
 		current = pdp.getCurrent(1);
 		System.out.println(current + "                 " + speed);
 		
+		//Idea 1
+		
 		if(current>=4){
 			speed=-0.3;
 			Timer.delay(3);
@@ -97,6 +99,17 @@ public class Robot extends IterativeRobot {
 		}
 		
 		vic.set(speed);
+		
+		//Idea 2
+		
+		while(current>=4){ // 4 being test value
+			speed = -0.5;
+			Timer.delay(1);
+			
+			if(current > 2 && current < 3){
+				continue;
+			}
+		}
 		
 		
 		
