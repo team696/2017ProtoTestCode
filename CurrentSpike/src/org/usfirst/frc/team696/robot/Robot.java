@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer.Interface;
+import edu.wpi.first.wpilibj.Timer.StaticInterface;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,10 +25,13 @@ public class Robot extends IterativeRobot {
 	
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	double current;
-	VictorSP vic = new VictorSP(9);
+	VictorSP vic = new VictorSP(11);
 	boolean[] oldButton = new boolean[11];
+	boolean back = false;
 	Joystick joy = new Joystick(0);
 	double speed;
+	Timer timer = new Timer();
+	int mode = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -38,6 +43,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		for(int i = 1; i <= 10; i++)oldButton[i] = false;
+		
 	}
 
 	/**
@@ -78,41 +84,97 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
+	
+	double temp = 0;
+	double currentTest = 35;
 	@Override
 	public void teleopPeriodic() {
+		if(!oldButton[1] && joy.getRawButton(1))temp+=0.1;
+		if(!oldButton[2] && joy.getRawButton(2))temp-=0.1;
+		if(joy.getRawButton(6))temp=0;
 		
+		current = pdp.getCurrent(9);
 		
-		
-		if(!oldButton[1] && joy.getRawButton(1))speed+=0.1;
-		if(!oldButton[2] && joy.getRawButton(2))speed-=0.1;
-		if(joy.getRawButton(6))speed=0;
-		
-		current = pdp.getCurrent(1);
-		System.out.println(current + "                 " + speed);
 		
 		//Idea 1
 		
-		if(current>=4){
-			speed=-0.3;
-			Timer.delay(3);
-			speed=0.3;
-		}
+//		if(current>=4){
+//			speed=-0.3;
+//			Timer.delay(3);
+//			speed=0.3;
+//		}
 		
-		vic.set(speed);
 		
 		//Idea 2
 		
-		while(current>=4){ // 4 being test value
-			speed = -0.5;
-			Timer.delay(1);
-			
-			if(current > 2 && current < 3){
-				continue;
-			}
+//		if(current > 20){
+//			back = true;
+//			timer.start();
+//		}
+//		
+//		if(back == true && timer.get() < 2){
+//			speed = -0.5;
+//		}else{
+//			back = false;
+//			speed = temp;
+//			timer.reset();
+//		}
+//		
+		
+		
+		switch(mode){
+			case 0:
+				speed = temp;
+				if(current > currentTest)mode = 1;
+				break;
+			case 1:
+				timer.start();
+				speed = -0.2;
+				mode = 2;
+				break;
+			case 2:
+				if(timer.get() > 3){
+					mode = 3;
+					timer.stop();
+					timer.reset();
+				}
+				break;
+			case 3:
+				timer.start();
+				speed = 0.1;
+				mode = 4;
+				break;
+			case 4:
+				if(timer.get() > 0.5){
+					timer.stop();
+					timer.reset();
+					mode = 0;
+				}
+				break;
+			default:
+				mode = 0;
+				break;
+				
 		}
 		
+		//Idea 3
+		
+//		if(current > 4){
+//			speed = -0.5;
+//			Timer.delay(1);
+//		}
+//		
+//		else if(current > 2 && current < 3){
+//			return;
+//		}else{
+//			speed = -0.5;
+//			Timer.delay(1);
+//		}
 		
 		
+		
+		System.out.println("mode: " + mode + "    " + current + "                 " + speed + "             " + back + "                " + timer.get());
+		vic.set(speed);
 		for(int i = 1; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
 		
 	}
