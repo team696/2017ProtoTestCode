@@ -86,7 +86,7 @@ public class Robot extends IterativeRobot {
 	 */
 	
 	double temp = 0;
-	double currentTest = 35;
+	double currentTest = 10;
 	@Override
 	public void teleopPeriodic() {
 		if(!oldButton[1] && joy.getRawButton(1))temp+=0.1;
@@ -129,23 +129,75 @@ public class Robot extends IterativeRobot {
 				break;
 			case 1:
 				timer.start();
-				speed = -0.2;
+				speed = -0.05;
 				mode = 2;
 				break;
 			case 2:
-				if(timer.get() > 3){
-					mode = 3;
-					timer.stop();
-					timer.reset();
-				}
+				speed = -0.1;
+				Timer.delay(0.1);
+				mode = 3;
 				break;
 			case 3:
-				timer.start();
-				speed = 0.1;
+				speed = -0.2;
+				Timer.delay(0.1);
 				mode = 4;
 				break;
 			case 4:
-				if(timer.get() > 0.5){
+				speed = -0.3;
+				Timer.delay(0.1);
+				mode = 5;
+				break;
+			case 5:
+				speed = -0.4;
+				Timer.delay(0.1);
+				mode = 6;
+				break;
+			case 6:
+				speed = -0.5;
+				Timer.delay(0.1);
+				mode = 7;
+				break;
+			case 7:
+				if(timer.get() >= 2){
+					timer.stop();
+					timer.reset();
+					mode = 8;
+					
+				}
+				break;
+			case 8:
+				timer.start();
+				speed = 0.05;
+				Timer.delay(0.1);
+				mode = 9;
+				break;
+			case 9:
+				speed = 0.1;
+				Timer.delay(0.1);
+				mode = 10;
+				break;
+			case 10:
+				speed = 0.15;
+				Timer.delay(0.1);
+				mode = 11;
+				break;
+			case 11:
+				speed = 0.2;
+				Timer.delay(0.1);
+				mode = 12;
+				break;
+			case 12:
+				speed = 0.25;
+				Timer.delay(0.1);
+				mode = 13;
+				break;
+			case 13:
+				speed = 0.3;
+				Timer.delay(0.1);
+				mode = 14;
+				break;
+			case 14:
+				if(timer.get() >= 2){
 					timer.stop();
 					timer.reset();
 					mode = 0;
