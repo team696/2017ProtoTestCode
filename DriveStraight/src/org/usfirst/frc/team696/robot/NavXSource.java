@@ -40,7 +40,6 @@ public class NavXSource implements PIDSource {
 		error = setPoint - currentAngle;
 		if(error > 180)currentAngle = currentAngle + 360;
 		if(error < -180)currentAngle = currentAngle - 360;
-		System.out.println("pidGet");
 		return currentAngle;
 	}
 

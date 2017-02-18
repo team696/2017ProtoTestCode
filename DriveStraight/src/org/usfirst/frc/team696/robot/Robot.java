@@ -4,6 +4,7 @@ import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
@@ -25,17 +26,20 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	
+	Joystick arduino = new Joystick(0);
+	Joystick wheel = new Joystick(1);
+	
 	public static IMU navX;
 	SerialPort port;
 	NavXSource navXSource;
 	
-	PIDTankDrive driveTrain = new PIDTankDrive(9, 8, 7, 2, 3, 4, 1);
+	TankDriveOutput driveTrain = new TankDriveOutput(9, 8, 7, 2, 3, 4);
 	PIDController driveStraight;
 	
 	double directionSetPoint = 0,
 			turn = 0,
 			stick = 0;
-	
+	boolean firstZero = true;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -55,7 +59,7 @@ public class Robot extends IterativeRobot {
 		
 		navXSource = new NavXSource(navX);
 		
-		driveStraight = new PIDController(0.1, 0, 0, navXSource, driveTrain, 0.2);
+		driveStraight = new PIDController(0.01, 0, 0, navXSource, driveTrain, 0.02);
 		SmartDashboard.putNumber("directionSetPoint", 0);
 		driveStraight.enable();
 	}
@@ -96,20 +100,34 @@ public class Robot extends IterativeRobot {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void teleopPeriodic() {
-		if(Math.abs(stick) > 0.05)stick = 0;
-		if(Math.abs(turn) > 0.05)turn = 0;
-		directionSetPoint+=turn;
+		stick = -arduino.getRawAxis(4);
+		turn = wheel.getRawAxis(0);
+		if(Math.abs(stick) < 0.05)stick = 0;
+		if(Math.abs(turn) < 0.1)turn = 0;
+
+		if(turn == 0){
+			if(firstZero){
+				directionSetPoint = navX.getYaw();
+				firstZero = false;
+			}
+			driveTrain.driveStraightMode(true);
+		} else {
+			firstZero = true;
+			driveTrain.driveStraightMode(false);
+		}
 		
-		directionSetPoint = SmartDashboard.getNumber("directionSetPoint");
+//		directionSetPoint = SmartDashboard.getNumber("directionSetPoint");
 		
 		if(directionSetPoint > 179)directionSetPoint = -180;
 		if(directionSetPoint < -179)directionSetPoint = 180;
+		
 		navXSource.setSetPoint(directionSetPoint);
 		driveStraight.setSetpoint(directionSetPoint);
-		driveTrain.setStick(stick);
-		driveStraight.enable();
 		
-		System.out.println(navX.getYaw() + "               " + directionSetPoint);
+		driveTrain.setStick(stick);
+		driveTrain.setTurn(turn);
+		
+//		System.out.println("     navX: " + navX.getYaw() + "     target: " + directionSetPoint);
 		
 	}
 
@@ -122,7 +140,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		navXSource.setSetPoint(179);
-		System.out.println(navX.getYaw() + "   " + navX.getYaw() + "   " + navXSource.pidGet() + "   ");
+//		System.out.println("       navX: " + "   " + navX.getYaw() + "    pidGet" + navXSource.pidGet() + "   ");
 	}
 }
 
