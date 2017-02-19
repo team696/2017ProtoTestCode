@@ -203,7 +203,7 @@ public class Robot extends IterativeRobot {
       
 
       
-     System.out.println("Range 1: " + range + "      Range 2: " + range2); 
+     System.out.println("Range 1: " + range ); 
 
      
 //     LeftDrive = 0.2;
