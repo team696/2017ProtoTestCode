@@ -31,6 +31,7 @@ public class Robot extends IterativeRobot {
     Joystick joy = new Joystick(0);
     Victor vic = new Victor(4);
     CANTalon talon = new CANTalon(0);
+    CANTalon talon2 = new CANTalon(1);
     
     double speed = 0;
     boolean[] oldButton = new boolean[11];
@@ -63,6 +64,8 @@ public class Robot extends IterativeRobot {
     	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
         
         talon.reset();
+        
+        
         for(int i = 0; i <= 10; i++)oldButton[i] = false;
         
         vic.setInverted(true);

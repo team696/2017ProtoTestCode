@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.autonomous.DoNothing;
-import org.usfirst.frc.team696.robot.autonomous.DriveTest;
 import org.usfirst.frc.team696.robot.commands.BasicArcadeDrive;
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
@@ -69,7 +68,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		chooser.addDefault("Do Nothing", new DoNothing());
-		chooser.addObject("DriveTest", new DriveTest());
+//		chooser.addObject("DriveTest", new DriveTest());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		try {
@@ -143,7 +142,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(driveStraight);
 		Scheduler.getInstance().run();
 	}
 

@@ -116,8 +116,6 @@ public class Robot extends IterativeRobot {
 			driveTrain.driveStraightMode(false);
 		}
 		
-//		directionSetPoint = SmartDashboard.getNumber("directionSetPoint");
-		
 		if(directionSetPoint > 179)directionSetPoint = -180;
 		if(directionSetPoint < -179)directionSetPoint = 180;
 		
