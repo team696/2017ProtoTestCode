@@ -34,9 +34,9 @@ public class Robot extends IterativeRobot {
     double directionError = 0;
     double desiredDirection;
     double currentDirection; 
-    double KP = 0.0175; 
-    double KI = 0.0002; 
-    double KD = 0.0003; 
+    double Kp = 0.0175; 
+    double Ki = 0.0002; 
+    double Kd = 0.0003; 
     double alpha = 0.95; 
 	
     boolean isFinished = false;
@@ -104,7 +104,7 @@ public class Robot extends IterativeRobot {
     		vi = vcc/512; 
     		ri = vm/vi; 
     		range = ri; 
-//    		
+		
 //        	directionError = currentDirection - desiredDirection;
 //        	
 //        	if(directionError > 180)directionError = directionError - 360;
@@ -173,7 +173,7 @@ public class Robot extends IterativeRobot {
     			driveB.tankDrive(0, 0);
     			edu.wpi.first.wpilibj.Timer.delay(1);
     			drive.tankDrive(0.5, 0.5);
-    			drive.tankDrive(0.5, 0.5);
+    			driveB.tankDrive(0.5, 0.5);
     			edu.wpi.first.wpilibj.Timer.delay(2);
     			drive.tankDrive(0, 0);
     			driveB.tankDrive(0, 0);
@@ -203,7 +203,7 @@ public class Robot extends IterativeRobot {
       
 
       
-     System.out.println("Range 1: " + range ); 
+     System.out.println("Range 1: " + range + "                Range 2: " + range2); 
 
      
 //     LeftDrive = 0.2;

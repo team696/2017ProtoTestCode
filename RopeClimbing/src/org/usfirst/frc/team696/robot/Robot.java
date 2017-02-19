@@ -27,7 +27,8 @@ public class Robot extends IterativeRobot {
 //    Victor victorTwo;
     Joystick xbox;
     
-    RobotDrive drive = new RobotDrive(0,1,9,8);
+    RobotDrive driveA = new RobotDrive(9,7,2,4);
+    RobotDrive driveB = new RobotDrive(8,3);
     
     double speed,
     		goodSpeed;
@@ -115,11 +116,8 @@ public class Robot extends IterativeRobot {
 //        victorTwo.set(speed);
         
     	for(int i = 1; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
-<<<<<<< HEAD
-    	drive.tankDrive(leftDrive, rightDrive);
-=======
-    	drive.arcadeDrive(xbox.getRawAxis(1), xbox.getRawAxis(4));
->>>>>>> refs/remotes/origin/master
+    	driveA.arcadeDrive(-xbox.getRawAxis(1), xbox.getRawAxis(4));
+    	driveB.arcadeDrive(-xbox.getRawAxis(1), xbox.getRawAxis(4));
     	
     	System.out.println(speed);
     }
