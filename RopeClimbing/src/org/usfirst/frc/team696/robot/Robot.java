@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     
     Victor victorOne;
-//    Victor victorTwo;
+    Victor victorTwo;
     Joystick xbox;
     
     RobotDrive driveA = new RobotDrive(9,7,2,4);
@@ -51,17 +51,17 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto choices", chooser);
         
         speed = 0;
-        goodSpeed = speed;
+        goodSpeed = 1;
         
-        victorOne = new Victor(4);
-//        victorTwo = new Victor(6);
-        xbox = new Joystick(0);
+        victorOne = new Victor(5);
+        victorTwo = new Victor(6);
+        xbox = new Joystick(3);
         oldButton = new boolean[11];
         
         for(int i = 1; i <= 10; i++)oldButton[i] = false;
         
-        victorOne.setInverted(false);
-//        victorTwo.setInverted(false);
+        victorOne.setInverted(true);
+        victorTwo.setInverted(true);
     }
     
 	/**
@@ -113,11 +113,11 @@ public class Robot extends IterativeRobot {
     	if(xbox.getRawAxis(3) > 0.7)speed = goodSpeed;
         
         victorOne.set(speed);
-//        victorTwo.set(speed);
+        victorTwo.set(speed);
         
     	for(int i = 1; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
-    	driveA.arcadeDrive(-xbox.getRawAxis(1), xbox.getRawAxis(4));
-    	driveB.arcadeDrive(-xbox.getRawAxis(1), xbox.getRawAxis(4));
+    	driveA.arcadeDrive(-xbox.getRawAxis(1), -xbox.getRawAxis(4));
+    	driveB.arcadeDrive(-xbox.getRawAxis(1), -xbox.getRawAxis(4));
     	
     	System.out.println(speed);
     }
