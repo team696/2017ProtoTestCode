@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team696.robot.autonomous.DoNothing;
 import org.usfirst.frc.team696.robot.commands.BasicArcadeDrive;
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
+import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
@@ -49,6 +50,8 @@ public class Robot extends IterativeRobot {
 			= new IntakeSubsystem(RobotMap.intakeMotor);
 	public static ShooterSubsystem shooterSubsystem
 			= new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
+	public static ConveyorSubsystem conveyorSubsystem
+			= new ConveyorSubsystem(RobotMap.conveyorBeltMotor);
 	
 	public static Encoder leftDriveEncoder 
 			= new Encoder(RobotMap.leftDriveEncoderA, RobotMap.leftDriveEncoderB);
