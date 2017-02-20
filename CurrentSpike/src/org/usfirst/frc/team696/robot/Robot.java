@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	Timer timer = new Timer();
 	int mode = 0;
 	double targetOutput = 0;
-	double targetTime = 1;
+	double targetTime = 0.5;
 	double currentTime;
 	double currentOutput;
 	
@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
 	 */
 	
 	double temp = 0;
-	double currentTest = 10; 
+	double currentTest = 13; 
 	@Override
 	public void teleopPeriodic() {
 		if(!oldButton[1] && joy.getRawButton(1))targetOutput+=0.5;
@@ -126,7 +126,7 @@ public class Robot extends IterativeRobot {
 				mode = 2;
 				break;
 			case 2:
-				if(timer.get()>=1){
+				if(timer.get()>=0.5){
 					timer.stop();
 					timer.reset();
 					mode = 3;
