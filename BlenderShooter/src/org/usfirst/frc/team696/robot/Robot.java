@@ -98,7 +98,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		if(!oldButton[1] && afterGlow.getRawButton(1))speed1+=0.1; 
     	if(!oldButton[2] && afterGlow.getRawButton(2))speed2+=0.1;
-    	if(!oldButton[4] && afterGlow.getRawButton(4))speed3+=0.5;//blender
+    	if(!oldButton[4] && afterGlow.getRawButton(4))speed3+=0.7;//blender
     	if(!oldButton[3] && afterGlow.getRawButton(3))speed4+=0.85;//output
     	if(!oldButton[6] && afterGlow.getRawButton(6)){
     		speed1=0;
@@ -118,7 +118,7 @@ public class Robot extends IterativeRobot {
     	
     	
     	
-    	System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 + "    speed4: " + speed4 + "           current: " + current.getCurrent(6) );
+    	System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 + "    speed4: " + speed4 + "           current: " + current.getCurrent(8) );
     	
     	 }
 		

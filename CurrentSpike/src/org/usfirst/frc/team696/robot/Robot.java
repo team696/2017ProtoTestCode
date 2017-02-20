@@ -34,6 +34,10 @@ public class Robot extends IterativeRobot {
 	double speed2 = 0;  
 	Timer timer = new Timer();
 	int mode = 0;
+	double targetOutput = 0.5;
+	double targetTime = 0.5;
+	double currentTime;
+	double currentOutput;
 	
 //	double currentTime;
 //	double targetTime = 0.5;
@@ -50,6 +54,9 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		for(int i = 1; i <= 10; i++)oldButton[i] = false;
+		
+		vic2.setInverted(true);
+		
 		
 	}
 
@@ -93,18 +100,15 @@ public class Robot extends IterativeRobot {
 	 */
 	
 	double temp = 0;
-	double currentTest = 20; 
+	double currentTest = 10; 
 	@Override
 	public void teleopPeriodic() {
 		if(!oldButton[1] && joy.getRawButton(1))temp+=0.5;
 		if(!oldButton[2] && joy.getRawButton(2))temp-=0.5;
-		if(joy.getRawButton(6))temp=0;
+		if(!oldButton[6] && joy.getRawButton(6))temp=0;
 		
 		if(!oldButton[3] && joy.getRawButton(3))speed2+=0.85;//output
-		if (!oldButton[6] && joy.getRawButton(6)){
-			speed2 = 0; 
-		}
-		
+		if(!oldButton[5] && joy.getRawButton(5))speed2=0; 
 		
 		current = pdp.getCurrent(8);
 		
@@ -137,94 +141,34 @@ public class Robot extends IterativeRobot {
 		
 	switch(mode){
 			case 0:
-				speed = temp;
+				speed = targetOutput;
 				if(current > currentTest)mode = 1;
 				break;
 			case 1:
 				timer.start();
-				speed = -0.4;
+				speed = -0.5;
 				mode = 2;
 				break;
 			case 2:
-				if(timer.get() >= 0.2){
-					speed = -0.1;
+				if(timer.get()>=1){
+					timer.stop();
+					timer.reset();
 					mode = 3;
-				}
-				break;
+					} break; 
 			case 3:
-			if(timer.get() >= 0.4){
-					speed = -0.2;
+				timer.start();
+				if(timer.get() < targetTime){
+					speed = timer.get() * (1/targetTime) * targetOutput;
 					mode = 4;
 				}
 				break;
 			case 4:
-				if(timer.get() >= 0.6){
-				speed = -0.3;
-					mode = 5;
-			}
-				break;
-			case 5:
-				if(timer.get() >= 0.8){
-					speed = -0.4;
-					mode = 6;
-				}
-			break;
-			case 6:
-				if(timer.get() >= 1){
-					speed = -0.5;
-					mode = 7;
-				}
-				break;
-			case 7:
-				if(timer.get() >= 1.5){
+				if(timer.get() >= targetTime && speed == targetOutput){
 					timer.stop();
 					timer.reset();
-					mode = 8;					
-				}
-				break;
-			case 8:
-				timer.start();
-				speed = 0.05;
-				Timer.delay(0.1);
-				mode = 9;
-				break;
-			case 9:
-				if(timer.get() >= 0.2){
-					speed = 0.1;
-					mode = 10;
-				}
-				break;
-			case 10:
-				if(timer.get() >= 0.4){
-					speed = 0.2;
-					mode = 11;
-				}
-				break;
-			case 11:
-				if(timer.get() >= 0.6){
-					speed = 0.3;
-					mode = 12;
-				}
-				break;
-			case 12:
-				if(timer.get() >= 0.8){
-					speed = 0.4;
-					mode = 13;
-				}
-				break;
-			case 13:
-				if(timer.get() >= 1){
-					speed = 0.5;
-					mode = 14;
-				}
-				break;
-			case 14:
-				if(timer.get() >= 1.5){
-					timer.stop();
-				timer.reset();
 					mode = 0;
-				}
-				break;
+				} break; 
+				
 			default:
 				mode = 0;
 				break;
