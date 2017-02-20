@@ -25,7 +25,7 @@ public class Robot extends IterativeRobot {
 	
 	PowerDistributionPanel pdp = new PowerDistributionPanel();
 	double current;
-	VictorSP vic = new VictorSP(4);
+	VictorSP vic = new VictorSP(2);
 	VictorSP vic2 = new VictorSP(3); 
 	boolean[] oldButton = new boolean[11];
 	boolean back = false;
@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	double speed2 = 0;  
 	Timer timer = new Timer();
 	int mode = 0;
-	double targetOutput = 0.5;
+	double targetOutput = 0;
 	double targetTime = 0.5;
 	double currentTime;
 	double currentOutput;
@@ -100,44 +100,20 @@ public class Robot extends IterativeRobot {
 	 */
 	
 	double temp = 0;
-	double currentTest = 10; 
+	double currentTest = 13; 
 	@Override
 	public void teleopPeriodic() {
-		if(!oldButton[1] && joy.getRawButton(1))temp+=0.5;
-		if(!oldButton[2] && joy.getRawButton(2))temp-=0.5;
-		if(!oldButton[6] && joy.getRawButton(6))temp=0;
+		if(!oldButton[1] && joy.getRawButton(1))targetOutput+=0.5;
+		if(!oldButton[2] && joy.getRawButton(2))targetOutput=0.5;
+		if(!oldButton[6] && joy.getRawButton(6)){
+			targetOutput = 0;
+			speed2 = 0;
+		}
 		
 		if(!oldButton[3] && joy.getRawButton(3))speed2+=0.85;//output
 		if(!oldButton[5] && joy.getRawButton(5))speed2=0; 
 		
-		current = pdp.getCurrent(8);
-		
-		
-		//Idea 1
-		
-//		if(current>=4){
-//			speed=-0.3;
-//			Timer.delay(3);
-//			speed=0.3;
-//		}
-		
-		
-		//Idea 2
-		
-//		if(current > 20){
-//			back = true;
-//			timer.start();
-//		}
-//		
-//		if(back == true && timer.get() < 2){
-//			speed = -0.5;
-//		}else{
-//			back = false;
-//			speed = temp;
-//			timer.reset();
-//		}
-//		
-		
+		current = pdp.getCurrent(12);
 		
 	switch(mode){
 			case 0:
@@ -150,20 +126,23 @@ public class Robot extends IterativeRobot {
 				mode = 2;
 				break;
 			case 2:
-				if(timer.get()>=1){
+				if(timer.get()>=0.5){
 					timer.stop();
 					timer.reset();
 					mode = 3;
 					} break; 
 			case 3:
 				timer.start();
-				if(timer.get() < targetTime){
-					speed = timer.get() * (1/targetTime) * targetOutput;
-					mode = 4;
-				}
+				mode = 4;
 				break;
 			case 4:
-				if(timer.get() >= targetTime && speed == targetOutput){
+				if(timer.get() < targetTime){
+					speed = timer.get() * (1/targetTime) * targetOutput;
+					mode = 5;
+				}
+				break;
+			case 5:
+				if(timer.get() >= targetTime){
 					timer.stop();
 					timer.reset();
 					mode = 0;
@@ -174,111 +153,6 @@ public class Robot extends IterativeRobot {
 				break;
 				
 		}
-		
-		//Idea 3
-		
-//		if(current > 4){
-//			speed = -0.5;
-//			Timer.delay(1);
-//		}
-//		
-//		else if(current > 2 && current < 3){
-//			return;
-//		}else{
-//			speed = -0.5;
-//			Timer.delay(1);
-//		}
-		
-		
-//		switch(mode){
-//		case 0:
-//			speed = temp;
-//			if(current > currentTest)mode = 1;
-//			break;
-//		case 1:
-//			timer.start();
-//			speed = -0.08;
-//			mode = 2;
-//			break;
-//		case 2:
-//			speed = 0.1;
-//			Timer.delay(0.1);
-//			mode = 3;
-//			break;
-//		case 3:
-//			speed = -0.2;
-//			Timer.delay(0.1);
-//			mode = 4;
-//			break;
-//		case 4:
-//			speed = -0.3;
-//			Timer.delay(0.1);
-//			mode = 5;
-//			break;
-//		case 5:
-//			speed = -0.4;
-//			Timer.delay(0.1);
-//			mode = 6;
-//			break;
-//		case 6:
-//			speed = -0.5;
-//			Timer.delay(0.1);
-//			mode = 7;
-//			break;
-//		case 7:
-//			if(timer.get() >= 2){
-//				timer.stop();
-//				timer.reset();
-//				mode = 8;
-//				
-//			}
-//			break;
-//		case 8:
-//			timer.start();
-//			speed = 0.05;
-//			Timer.delay(0.1);
-//			mode = 9;
-//			break;
-//		case 9:
-//			speed = 0.1;
-//			Timer.delay(0.1);
-//			mode = 10;
-//			break;
-//		case 10:
-//			speed = 0.15;
-//			Timer.delay(0.1);
-//			mode = 11;
-//			break;
-//		case 11:
-//			speed = 0.2;
-//			Timer.delay(0.1);
-//			mode = 12;
-//			break;
-//		case 12:
-//			speed = 0.25;
-//			Timer.delay(0.1);
-//			mode = 13;
-//			break;
-//		case 13:
-//			speed = 0.3;
-//			Timer.delay(0.1);
-//			mode = 14;
-//			break;
-//		case 14:
-//			if(timer.get() >= 2){
-//				timer.stop();
-//				timer.reset();
-//				mode = 0;
-//			}
-//			break;
-//		default:
-//			mode = 0;
-//			break;
-//			
-//	}
-//	
-		
-		
 		
 		System.out.println("mode: " + mode + "    " + current + "                 " + speed + "             " + back + "                " + timer.get());
 		vic.set(speed);
