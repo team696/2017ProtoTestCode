@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class SetTargetRPM extends Command {
 
 	double targetRPM = 0;
+	boolean runFlyWheel = false;
 	
     public SetTargetRPM(double targetRPM) {
         // Use requires() here to declare subsystem dependencies
@@ -20,10 +21,12 @@ public class SetTargetRPM extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	runFlyWheel = !runFlyWheel;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	if(!runFlyWheel)targetRPM = 0;
     	Robot.shooterSubsystem.setTargetRPM(targetRPM);
     }
 

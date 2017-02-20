@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RunConveyor extends Command {
+public class SetConveyor extends Command {
 
 	double speed = 0;
 	
-    public RunConveyor(double speed) {
+    public SetConveyor(double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	this.speed = speed;
