@@ -74,10 +74,10 @@ public class Robot extends IterativeRobot {
         
         vic.setInverted(true);
         
-        SmartDashboard.putNumber("p", 0);
+        SmartDashboard.putNumber("p", 0.35);
         SmartDashboard.putNumber("i", 0);
-    	SmartDashboard.putNumber("d", 0);
-        SmartDashboard.putNumber("f", 0);
+    	SmartDashboard.putNumber("d", 0.02);
+        SmartDashboard.putNumber("f", 0.027);
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
         SmartDashboard.putNumber("targetRPM", 0);
