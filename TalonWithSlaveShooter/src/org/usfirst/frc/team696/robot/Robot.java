@@ -117,8 +117,8 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
-    Timer timer = new Timer();
-    boolean firstRun = true;
+//    Timer timer = new Timer();
+//    boolean firstRun = true;
     
 //    public double rampUp(double targetTime, double targetSpeed){
 //    	if(firstRun){
@@ -153,8 +153,6 @@ public class Robot extends IterativeRobot {
     	talon.setD(SmartDashboard.getNumber("d", 0));
     	talon.setF(SmartDashboard.getNumber("f", 0)); 
     	talon.setCloseLoopRampRate(SmartDashboard.getNumber("ramp rate", 0));
-//    	SmartDashboard.putNumber("output voltage", talon.getOutputVoltage());
-//    	SmartDashboard.putNumber("output curren	t", talon.getOutputCurrent());
     	
     	if(!oldButton[1] && xbox.getRawButton(1))speed+=0.1;
     	else if(!oldButton[2] && xbox.getRawButton(2))speed-=0.1;
