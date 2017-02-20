@@ -21,8 +21,9 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 	RobotDrive driveA = new RobotDrive(9, 8, 2, 3);
 	RobotDrive driveB = new RobotDrive(7, 4);
-	Joystick arduino = new Joystick(0);
-	Joystick wheel = new Joystick(1);
+//	Joystick arduino = new Joystick(0);
+//	Joystick wheel = new Joystick(1);
+	Joystick xbox = new Joystick(3);
 	VictorSP intake = new VictorSP(0);
 	double leftValue = 0;
 	double rightValue = 0;
@@ -83,21 +84,24 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		speed = -arduino.getRawAxis(4);
-		turn = wheel.getRawAxis(0);
+//		speed = -arduino.getRawAxis(4);
+//		turn = wheel.getRawAxis(0);
+		
+		speed = -xbox.getRawAxis(0);
+		turn = xbox.getRawAxis(1);
 		
 		leftValue = (speed + turn);
 		rightValue = (speed - turn);
 		
-		if(!oldButton[6] && arduino.getRawButton(6))runIntake = !runIntake;
+		if(!oldButton[6] && xbox.getRawButton(6))runIntake = !runIntake;
 		
-		if(runIntake)intake.set(-0.8);
+		if(runIntake)intake.set(0.8);
 		else intake.set(0);
 		
-		for(int i = 1; i < 11; i++)oldButton[i] = arduino.getRawButton(i);
+		for(int i = 1; i < 11; i++)oldButton[i] = xbox.getRawButton(i);
 		
-		driveA.tankDrive(leftValue, rightValue);
-		driveB.tankDrive(leftValue, rightValue);
+//		driveA.tankDrive(leftValue, rightValue);
+//		driveB.tankDrive(leftValue, rightValue);
 	}
 
 	/**
