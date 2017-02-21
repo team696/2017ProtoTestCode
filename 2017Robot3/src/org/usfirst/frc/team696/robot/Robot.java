@@ -14,6 +14,7 @@ import org.usfirst.frc.team696.robot.autonomous.DoNothing;
 import org.usfirst.frc.team696.robot.commands.BasicArcadeDrive;
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
 import org.usfirst.frc.team696.robot.commands.RunShooter;
+import org.usfirst.frc.team696.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ExampleSubsystem;
@@ -53,6 +54,8 @@ public class Robot extends IterativeRobot {
 			= new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 	public static ConveyorSubsystem conveyorSubsystem
 			= new ConveyorSubsystem(RobotMap.conveyorBeltMotor);
+	public static ClimberSubsystem climberSubsystem
+			= new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
 	
 	public static Encoder leftDriveEncoder 
 			= new Encoder(RobotMap.leftDriveEncoderA, RobotMap.leftDriveEncoderB);

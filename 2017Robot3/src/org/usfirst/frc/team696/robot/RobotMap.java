@@ -24,4 +24,7 @@ public class RobotMap {
 	public static int conveyorBeltMotor = 1;
 	public static int masterShooterTalon = 2;
 	public static int slaveShooterTalon = 1;
+	
+	public static int climberMotorA = 5;
+	public static int climberMotorB = 6;
 }

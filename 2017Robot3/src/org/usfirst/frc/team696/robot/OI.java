@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
 import org.usfirst.frc.team696.robot.commands.LockPosition;
+import org.usfirst.frc.team696.robot.commands.RunClimber;
 import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetTargetRPM;
 import org.usfirst.frc.team696.robot.commands.ToggleDriveStraight;
@@ -28,6 +29,8 @@ public class OI {
 	JoystickButton runFlyWheel = new JoystickButton(gamePad, 1);
 	JoystickButton stopFlyWheel = new JoystickButton(gamePad, 2);
 	JoystickButton runConveyor = new JoystickButton(gamePad, 3);
+	JoystickButton runClimber = new JoystickButton(gamePad, 8);
+	JoystickButton stopClimber = new JoystickButton(gamePad, 7);
 	
 	public OI(){
 		runIntake.whenActive(new ToggleIntake());
@@ -45,6 +48,9 @@ public class OI {
 		
 		runConveyor.whenPressed(new SetConveyor(0.8));
 		runConveyor.whenReleased(new SetConveyor(0));
+		
+		runClimber.whenPressed(new RunClimber(-1));
+		stopClimber.whenPressed(new RunClimber(0));
 		
 	}
 }
