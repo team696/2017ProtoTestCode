@@ -26,7 +26,8 @@ public class OI {
 	JoystickButton toggleDriveStraight = new JoystickButton(wheel, 11);
 	JoystickButton lockPosition = new JoystickButton(wheel, 1);
 	JoystickButton runFlyWheel = new JoystickButton(gamePad, 1);
-	JoystickButton runConveyor = new JoystickButton(gamePad, 2);
+	JoystickButton stopFlyWheel = new JoystickButton(gamePad, 2);
+	JoystickButton runConveyor = new JoystickButton(gamePad, 3);
 	
 	public OI(){
 		runIntake.whenActive(new ToggleIntake());
@@ -39,9 +40,10 @@ public class OI {
 		lockPosition.whenPressed(new LockPosition(0.04, 0.1, 0, 0.3));
 		lockPosition.whenReleased(new LockPosition(0.012, 0, 0, 0));
 		
-		runFlyWheel.whenPressed(new SetTargetRPM(3000));
+		runFlyWheel.whenPressed(new SetTargetRPM(2500));
+		stopFlyWheel.whenPressed(new SetTargetRPM(0));
 		
-		runConveyor.whenPressed(new SetConveyor(-0.8));
+		runConveyor.whenPressed(new SetConveyor(0.8));
 		runConveyor.whenReleased(new SetConveyor(0));
 		
 	}

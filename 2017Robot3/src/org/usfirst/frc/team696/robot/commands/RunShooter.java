@@ -7,14 +7,12 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetTargetRPM extends Command {
+public class RunShooter extends Command {
 
-	double targetRPM = 0;
-	
-    public SetTargetRPM(double targetRPM) {
+    public RunShooter() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	this.targetRPM = targetRPM;
+    	requires(Robot.shooterSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -23,13 +21,12 @@ public class SetTargetRPM extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.targetRPM = targetRPM;
-    	System.out.println("set TARGET execute     " + targetRPM + "     " + Robot.targetRPM);
+    	Robot.shooterSubsystem.run();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

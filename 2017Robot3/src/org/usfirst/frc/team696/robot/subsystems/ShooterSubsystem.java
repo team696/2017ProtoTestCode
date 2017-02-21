@@ -1,5 +1,6 @@
 package org.usfirst.frc.team696.robot.subsystems;
 
+import org.usfirst.frc.team696.robot.Robot;
 import org.usfirst.frc.team696.robot.RobotMap;
 
 import com.ctre.CANTalon;
@@ -20,12 +21,10 @@ public class ShooterSubsystem extends Subsystem {
 	CANTalon masterShooter;
 	CANTalon slaveShooter;
 	
-	double targetRPM = 0;
-	
-	double kP = 0.35, 
+	double kP = 0.33, 
 			kI = 0, 
-			kD = 0.02, 
-			kF = 0.027;
+			kD = 0.07, 
+			kF = 0.024;
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -48,20 +47,30 @@ public class ShooterSubsystem extends Subsystem {
     	
     	masterShooter.enableControl();
     	slaveShooter.enableControl();
+    	
+    	masterShooter.setP(kP);
+    	masterShooter.setI(kI);
+    	masterShooter.setD(kD);
+    	masterShooter.setF(kF);
     }
     
-    public void setTargetRPM(double targetRPM){
-    	this.targetRPM = targetRPM;
+    public void run(){
+    	if(Robot.targetRPM == 0)disable();
+    	else enable();
+    	masterShooter.setSetpoint(Robot.targetRPM);
+    	slaveShooter.set(masterShooter.getDeviceID());
     }
     
     public void enable(){
     	masterShooter.enableControl();
     	slaveShooter.enableControl();
+    	System.out.println("enable");
     }
     
     public void disable(){
-    	masterShooter.disable();
-    	slaveShooter.disable();
+    	masterShooter.disableControl();
+    	slaveShooter.disableControl();
+    	System.out.println("disable");
     }
     
     

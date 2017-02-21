@@ -72,9 +72,6 @@ public class BasicArcadeDrive extends Command {
     	
     	Robot.driveTrainSubsystem.setStick(speed);
     	Robot.driveTrainSubsystem.setTurn(turn);
-    	
-    	System.out.println("target: " + directionSetPoint + "      current: " + Robot.navX.getYaw());
-    	
     }
 
     protected boolean isFinished() {

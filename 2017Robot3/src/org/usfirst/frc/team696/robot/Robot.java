@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team696.robot.autonomous.DoNothing;
 import org.usfirst.frc.team696.robot.commands.BasicArcadeDrive;
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
+import org.usfirst.frc.team696.robot.commands.RunShooter;
 import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ExampleSubsystem;
@@ -66,7 +67,8 @@ public class Robot extends IterativeRobot {
 							alphaDirection = 0;
 	public static boolean driveStraight = true;
 	
-	public static boolean shooterIsEnabled = true;
+	public static boolean shooterIsEnabled = false;
+	public static double targetRPM = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -143,6 +145,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		Scheduler.getInstance().add(new BasicArcadeDrive());
+		Scheduler.getInstance().add(new RunShooter());
 	}
 
 	/**

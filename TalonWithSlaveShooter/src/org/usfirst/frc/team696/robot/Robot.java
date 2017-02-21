@@ -167,7 +167,7 @@ public class Robot extends IterativeRobot {
     	
     	talon.enableControl();
     	talon1.enableControl();
-    	vic.set(speed);
+    	vic.set(-0.8);
 //    	System.out.println(talon.getPulseWidthVelocity() + "     " + talon.get());
     }
     
