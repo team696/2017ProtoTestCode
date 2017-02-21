@@ -24,7 +24,7 @@ public class Robot extends IterativeRobot {
     
     Joystick joy = new Joystick(0);
     AnalogInput ultra = new AnalogInput(1);
-    AnalogInput ultra2 = new AnalogInput(0);
+    AnalogInput ultra2 = new AnalogInput(3);
     Solenoid shift = new Solenoid(4);
     double range; 
     double LeftDrive = 0; 
@@ -50,9 +50,11 @@ public class Robot extends IterativeRobot {
     double vm2 = ultra2.getVoltage();
     double vi = vcc/512;
     double ri = vm/vi;
+    double vi2 = vcc/1024;
 
-
-    double range2 = vm2/vi;
+    double rangem = 5*(vm2/vi2);
+    double range2 = rangem/25.4;
+    
     RobotDrive drive = new RobotDrive(3,2,7,8);
     RobotDrive driveB = new RobotDrive(4,9);
     
@@ -197,9 +199,13 @@ public class Robot extends IterativeRobot {
         range = ri;
         vm = ultra.getVoltage();
         vi = vcc/512;
+        vi2 = vcc/1024;
         ri = vm/vi;
         vm2 = ultra2.getVoltage();
-        range2 = vm2/vi;
+        double ri2 = (vm2/vi2)*5;
+        range2 = ri2 * 1/25.4;
+        
+        
       
 
       

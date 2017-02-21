@@ -31,7 +31,7 @@ public class Robot extends IterativeRobot {
     Servo ser = new Servo(10);
     VictorSP intake = new VictorSP(0);
     double speed = 0;
-    double target = 0;
+    double target =0; 
     boolean[] oldButton = new boolean[11];
 
 	/**
