@@ -19,8 +19,9 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	
+	int bufferLength = 1;
 	I2C pixy;
-	byte[] buffer = new byte[10];
+	byte[] buffer = new byte[bufferLength];
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -32,7 +33,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		
-		pixy = new I2C(Port.kOnboard, 0);
+		pixy = new I2C(Port.kOnboard, 0x54);
 	}
 
 	/**
@@ -75,7 +76,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-			pixy.readOnly(buffer, 10);
+			pixy.readOnly(buffer, bufferLength);
 			
 			for(int i = 0; i < buffer.length; i++){
 				System.out.print(buffer[i] + "   ");
