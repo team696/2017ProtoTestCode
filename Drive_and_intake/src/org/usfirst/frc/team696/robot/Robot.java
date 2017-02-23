@@ -1,8 +1,12 @@
 package org.usfirst.frc.team696.robot;
 
+import com.kauailabs.nav6.frc.IMU;
+import com.kauailabs.nav6.frc.IMUAdvanced;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,6 +36,9 @@ public class Robot extends IterativeRobot {
 	double speed = 0;
 	boolean runIntake = false;
 	boolean[] oldButton = new boolean[11];
+	
+	public static IMU navX;
+	SerialPort port;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -42,6 +49,12 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+		
+		try {
+			byte UpdateRateHz = 50;
+			port = new SerialPort(57600, SerialPort.Port.kMXP);
+			navX = new IMUAdvanced(port, UpdateRateHz);
+		} catch(Exception ex){System.out.println("NavX not working");};
 	}
 
 	/**
