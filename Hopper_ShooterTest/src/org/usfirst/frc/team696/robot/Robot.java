@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
 	  * motor controllers controlling ur emotions ;)
 	  */
       VictorSP	vic1 = new VictorSP(0); // hopper
+      VictorSP  vic3 = new VictorSP(10); // shaft 
       VictorSP vic2 = new VictorSP(1);  // belt 
       CANTalon tal1 = new CANTalon(1);  // shooter
   	  CANTalon tal2 = new CANTalon(2);  // shooter 
@@ -40,10 +41,11 @@ public class Robot extends IterativeRobot {
       /*
        * it has to have speed or else it's boring 
        */
-        double speed1 = 0; 
+        double speed1 = 0; // hopper 
         double speed2 = 0; 
         double speed3 = 0;
         double speed4 = 0; 
+        double speed5 = 0; // shaft 
         
         
 	/**
@@ -59,6 +61,7 @@ public class Robot extends IterativeRobot {
 	        
 	        vic1.setInverted(true);  // hopper 
 	        vic2.setInverted(false);  // belt 
+	        vic3.setInverted(true);  // shaft 
 	        
 	        tal1.changeControlMode(TalonControlMode.PercentVbus);
 	        tal2.changeControlMode(TalonControlMode.PercentVbus);
@@ -109,9 +112,13 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		/*
-		 * Hopper 
+		 * Hopper and shaft  
 		 */
-		if(!oldButton[1] && hard.getRawButton(1))speed1+=0.8;
+		
+		 if(!oldButton[1] && hard.getRawButton(1)){
+	        	speed1+= 0.8;
+	        	speed5+= 0.5;
+	        }
     	
     	
     	
@@ -121,6 +128,7 @@ public class Robot extends IterativeRobot {
     		speed2 = 0; 
     		speed3 = 0; 
     		speed4 = 0; 
+    		speed5 = 0; 
     	}
     	
     	/*
@@ -142,6 +150,8 @@ public class Robot extends IterativeRobot {
     
     	 vic1.set(speed1);  // hopper
     	 vic2.set(speed2); // belt 
+    	 vic3.set(speed5);  // shaft
+    	 
     	 tal1.set(speed3); // shooter  
     	 tal2.set(speed4);   //shooter 
     	 
@@ -149,7 +159,7 @@ public class Robot extends IterativeRobot {
          for(int i = 0; i <= 10; i++)oldButton[i] = hard.getRawButton(i);
          
          
-         System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 + "    speed4: " + speed4);
+         System.out.println("speed1: " + speed1 +  "  speed2:  "  + speed2 + "  speed3:  " + speed3 + "    speed4: " + speed4  +   "    speed5:   " + speed5 );
 	}
 
 	/**

@@ -18,7 +18,7 @@ public class OI {
 	public static Joystick wheel = new Joystick(1);
 	public static Joystick gamePad = new Joystick(2);
 	
-	JoystickButton runClimber = new JoystickButton(gamePad, 9);
+	JoystickButton runClimber = new JoystickButton(gamePad, 8);
 	
 	JoystickButton toggleConveyorHopper = new JoystickButton(gamePad, 2);
 	JoystickButton toggleIntake = new JoystickButton(gamePad, 1);
