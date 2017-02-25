@@ -2,6 +2,7 @@
 package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -9,7 +10,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
+import org.usfirst.frc.team696.robot.commands.RunShooter;
+import org.usfirst.frc.team696.robot.commands.TeleopDrive;
+import org.usfirst.frc.team696.robot.subsystems.ClimberSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
+
+import com.kauailabs.nav6.frc.IMU;
+import com.kauailabs.nav6.frc.IMUAdvanced;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,11 +33,36 @@ import org.usfirst.frc.team696.robot.subsystems.ExampleSubsystem;
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
+	public static ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem(RobotMap.conveyorBeltMotor);
+	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
+	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.hopperMotor);
+	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
+	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
+	
 	public static OI oi;
+	
+	public static IMU navX;
+	SerialPort port;
 
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
-
+	
+	public static boolean shooterAtSpeed = false;
+	public static double targetRPM = 0;
+	
+	public static double targetDirection = 0;
+	
+	public static boolean shooterEnabled = true;
+	public static boolean driveStraightEnabled = true;
+	public static boolean hopperEnabled = true;
+	public static boolean conveyorEnabled = true;
+	public static boolean intakeEnabled = true;
+	public static boolean hoodEnabled = true;
+	public static boolean climberEnabld = true;
+	
+	public static boolean driveStraightTempEnabled = true;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -36,6 +73,14 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		
+		try {
+			byte UpdateRateHz = 50;
+			port = new SerialPort(57600, SerialPort.Port.kMXP);
+			navX = new IMUAdvanced(port, UpdateRateHz);
+		} catch(Exception ex){System.out.println("NavX not working");};
+		
+		targetDirection = navX.getYaw();
 	}
 
 	/**
@@ -96,6 +141,9 @@ public class Robot extends IterativeRobot {
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		
+		Scheduler.getInstance().add(new TeleopDrive());
+		Scheduler.getInstance().add(new RunShooter());
 	}
 
 	/**
