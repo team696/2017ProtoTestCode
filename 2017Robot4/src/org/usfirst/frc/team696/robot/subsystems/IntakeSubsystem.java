@@ -1,6 +1,6 @@
 package org.usfirst.frc.team696.robot.subsystems;
 
-import org.usfirst.frc.team696.robot.RobotMap;
+import org.usfirst.frc.team696.robot.Robot;
 
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -24,11 +24,7 @@ public class IntakeSubsystem extends Subsystem {
     }
     
     public void setSpeedValue(double speedValue){
-    	this.speedValue = speedValue;
-    	run();
-    }
-    
-    private void run(){
+    	if(!Robot.intakeEnabled || !Robot.shooterAtSpeed)speedValue = 0;
     	intakeMotor.set(speedValue);
     }
 }
