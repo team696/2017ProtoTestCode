@@ -1,12 +1,7 @@
 package org.usfirst.frc.team696.robot.commands;
 
-import java.io.IOException;
-import java.net.InetAddress;
-
 import org.usfirst.frc.team696.robot.Robot;
-import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.utilities.NavXSource;
-import org.usfirst.frc.team696.robot.utilities.PIDControl;
 import org.usfirst.frc.team696.robot.utilities.Util;
 
 import edu.wpi.first.wpilibj.PIDController;
@@ -15,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class BasicArcadeDrive extends Command {
+public class TeleopDrive extends Command {
 
 	double speed = 0;
 	double turn = 0;
@@ -27,7 +22,7 @@ public class BasicArcadeDrive extends Command {
 	NavXSource navXSource = new NavXSource(Robot.navX);
 	PIDController driveStraight = new PIDController(0.12, 0, 0.0, navXSource, Robot.driveTrainSubsystem, 0.1);
 	
-    public BasicArcadeDrive() {
+    public TeleopDrive() {
     	requires(Robot.driveTrainSubsystem);
     	driveStraight.enable();
     }
@@ -47,10 +42,11 @@ public class BasicArcadeDrive extends Command {
     		if(firstZero){
     			directionSetPoint = Robot.navX.getYaw();
     			firstZero = false;
+    			Robot.driveStraightTempEnabled = true;
     		}
     	} else {
     		firstZero = true;
-    		Robot.driveTrainSubsystem.driveStraightMode(false);
+    		Robot.driveStraightTempEnabled = false;
     	}
     	
     	navXSource.setSetPoint(directionSetPoint);
