@@ -10,6 +10,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class TestDirectionDrive extends CommandGroup {
 
     public TestDirectionDrive() {
-        addSequential(new Drive(0, 0));
+        addSequential(new Drive(1, 1));
     }
 }

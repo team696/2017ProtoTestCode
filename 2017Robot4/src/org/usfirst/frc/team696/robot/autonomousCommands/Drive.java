@@ -25,9 +25,9 @@ public class Drive extends Command {
 	double distanceError = 0;
 	double speedTurnScale = 0;
 	NavXSource navXSource = new NavXSource(Robot.navX);
-	PIDController directionPID = new PIDController(0.12, 0, 0.0, navXSource, Robot.driveTrainSubsystem, 0.1);
+	PIDController directionPID = new PIDController(0, 0, 0, navXSource, Robot.driveTrainSubsystem, 0.1);
 	PIDControl distancePID = new PIDControl(0, 0, 0, 0);
-	
+
     public Drive(double targetDistance, double targetDirection) {
         requires(Robot.driveTrainSubsystem);
         directionPID.enable();

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import org.usfirst.frc.team696.robot.autonomousCommandGroups.TestDirectionDrive;
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
 import org.usfirst.frc.team696.robot.commands.RunShooter;
 import org.usfirst.frc.team696.robot.commands.TeleopDrive;
@@ -75,6 +76,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		chooser.addDefault("Default Auto", new ExampleCommand());
+		chooser.addObject("TestDirectionDrive", new TestDirectionDrive());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		

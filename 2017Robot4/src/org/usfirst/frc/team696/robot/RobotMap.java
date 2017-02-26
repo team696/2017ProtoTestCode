@@ -16,7 +16,7 @@ public class RobotMap {
 	
 	public static int intakeMotor = 0;
 	public static int hopperMotor = 10;
-	public static int sideSwipeMotor = 11;
+	public static int sideSwipeMotor = 12;
 	
 	public static int leftDriveEncoderA = 2;
 	public static int leftDriveEncoderB = 3;

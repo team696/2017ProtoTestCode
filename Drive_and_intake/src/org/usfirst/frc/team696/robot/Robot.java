@@ -25,9 +25,9 @@ public class Robot extends IterativeRobot {
 	SendableChooser<String> chooser = new SendableChooser<>();
 	RobotDrive driveA = new RobotDrive(9, 8, 2, 3);
 	RobotDrive driveB = new RobotDrive(7, 4);
-//	Joystick arduino = new Joystick(0);
-//	Joystick wheel = new Joystick(1);
-	Joystick xbox = new Joystick(3);
+	//Joystick arduino = new Joystick(0);
+	//Joystick wheel = new Joystick(1);
+	Joystick xbox = new Joystick(0);
 	VictorSP intake = new VictorSP(0);
 	double leftValue = 0;
 	double rightValue = 0;
@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
 	boolean runIntake = false;
 	boolean[] oldButton = new boolean[11];
 	
-	public static IMU navX;
+	public static IMUU navX;
 	SerialPort port;
 
 	/**
