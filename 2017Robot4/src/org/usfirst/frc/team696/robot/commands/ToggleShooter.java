@@ -9,22 +9,21 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ToggleShooter extends Command {
 
-	double targetRPM = 0;
+	double targetRPM = 2500;
 	boolean run = false;
 	
-    public ToggleShooter(double targetRPM) {
-    	this.targetRPM = targetRPM;
+    public ToggleShooter() {
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	run = !run;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!run)targetRPM = 0;
-    	Robot.targetRPM = targetRPM;
+    	run = !run;
+    	if(run)Robot.targetRPM = targetRPM;
+    	else Robot.targetRPM = 0;
     }
 
     // Make this return true when this Command no longer needs to run execute()

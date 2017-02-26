@@ -9,23 +9,22 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ToggleIntake extends Command {
 
-	double speed = 0;
+	double speed = 0.75;
 	boolean run = false;
 	
-    public ToggleIntake(double speed) {
+    public ToggleIntake() {
         requires(Robot.intakeSubsystem);
-        this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	run = !run;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!run)speed = 0;
-    	Robot.intakeSubsystem.setSpeedValue(speed);
+    	run = !run;
+    	if(run)Robot.intakeSubsystem.setSpeedValue(speed);
+    	else Robot.intakeSubsystem.setSpeedValue(0);
     }
 
     // Make this return true when this Command no longer needs to run execute()

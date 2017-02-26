@@ -29,11 +29,11 @@ public class OI {
 		runClimber.whenPressed(new SetClimberSpeed(-1));
 		runClimber.whenReleased(new SetClimberSpeed(0));
 		
-		toggleConveyorHopper.whenPressed(new ToggleConveyor(0.8));
-		toggleConveyorHopper.whenPressed(new ToggleHopper(0.8));
+		toggleConveyorHopper.whenPressed(new ToggleConveyor());
+		toggleConveyorHopper.whenPressed(new ToggleHopper());
 		
-		toggleIntake.whenPressed(new ToggleIntake(0.75));
+		toggleIntake.whenPressed(new ToggleIntake());
 		
-		toggleShooter.whenPressed(new ToggleShooter(2500));
+		toggleShooter.whenPressed(new ToggleShooter());
 	}
 }
