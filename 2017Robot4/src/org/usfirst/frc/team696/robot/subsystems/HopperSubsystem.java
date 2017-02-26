@@ -14,18 +14,21 @@ public class HopperSubsystem extends Subsystem {
     // here. Call these from Commands.
 
 	VictorSP hopperMotor;
+	VictorSP sideSwipeMotor;
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public HopperSubsystem(int hopperMotor){
+    public HopperSubsystem(int hopperMotor, int sideSwipeMotor){
     	this.hopperMotor = new VictorSP(hopperMotor);
+    	this.sideSwipeMotor = new VictorSP(sideSwipeMotor);
     }
     
     public void setSpeed(double speed){
     	if(!Robot.hopperEnabled || !Robot.shooterAtSpeed)speed = 0;
+    	sideSwipeMotor.set(speed);
     	hopperMotor.set(speed);
     }
 }
