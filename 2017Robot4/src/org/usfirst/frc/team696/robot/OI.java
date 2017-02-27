@@ -20,17 +20,18 @@ public class OI {
 	
 	JoystickButton runClimber = new JoystickButton(gamePad, 8);
 	
-	JoystickButton toggleConveyorHopper = new JoystickButton(gamePad, 2);
-	JoystickButton toggleIntake = new JoystickButton(gamePad, 1);
+	JoystickButton toggleConveyor = new JoystickButton(gamePad, 6);
+	JoystickButton toggleHopper = new JoystickButton(gamePad, 7);
+	JoystickButton toggleIntake = new JoystickButton(gamePad, 5);
 	
-	JoystickButton toggleShooter = new JoystickButton(gamePad, 5);
+	JoystickButton toggleShooter = new JoystickButton(gamePad, 1);
 	
 	public OI(){
 		runClimber.whenPressed(new SetClimberSpeed(-1));
 		runClimber.whenReleased(new SetClimberSpeed(0));
 		
-		toggleConveyorHopper.whenPressed(new ToggleConveyor());
-		toggleConveyorHopper.whenPressed(new ToggleHopper());
+		toggleConveyor.whenPressed(new ToggleConveyor());
+		toggleHopper.whenPressed(new ToggleHopper());
 		
 		toggleIntake.whenPressed(new ToggleIntake());
 		

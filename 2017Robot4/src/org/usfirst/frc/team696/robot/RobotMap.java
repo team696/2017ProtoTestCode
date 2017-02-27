@@ -24,6 +24,7 @@ public class RobotMap {
 	public static int rightDriveEncoderB = 1;
 	
 	public static int conveyorBeltMotor = 1;
+	
 	public static int masterShooterTalon = 2;
 	public static int slaveShooterTalon = 1;
 	

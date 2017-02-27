@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
 	RobotDrive driveA = new RobotDrive(8, 9, 2, 3);
 	RobotDrive driveB = new RobotDrive(10, 4);
 	
-	VictorSP intakeMotor = new VictorSP(11);
+	VictorSP intakeMotor = new VictorSP(0);
 	
 	VictorSP climberMotorA = new VictorSP(5);
 	VictorSP climberMotorB = new VictorSP(6);

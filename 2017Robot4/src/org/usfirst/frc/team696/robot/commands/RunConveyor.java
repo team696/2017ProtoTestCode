@@ -7,30 +7,24 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ToggleIntake extends Command {
+public class RunConveyor extends Command {
 
-	double speed = 0.75;
-	
-    public ToggleIntake() {
+    public RunConveyor() {
+        requires(Robot.conveyorSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.runIntake = !Robot.runIntake;
-    	System.out.println("initialize");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.runIntake)Robot.intakeSpeed = speed;
-    	else Robot.intakeSpeed = 0;
-    	System.out.println("execute " + Robot.intakeSpeed);
-    	
+    	Robot.conveyorSubsystem.setSpeed(Robot.conveyorSpeed);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

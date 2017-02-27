@@ -23,11 +23,11 @@ public class HopperSubsystem extends Subsystem {
     
     public HopperSubsystem(int hopperMotor, int sideSwipeMotor){
     	this.hopperMotor = new VictorSP(hopperMotor);
-    	this.sideSwipeMotor = new VictorSP(sideSwipeMotor);
+    	this.sideSwipeMotor = new VictorSP(-sideSwipeMotor);
     }
     
     public void setSpeed(double speed){
-    	if(!Robot.hopperEnabled || !Robot.shooterAtSpeed)speed = 0;
+//    	if(!Robot.hopperEnabled)speed = 0;
     	sideSwipeMotor.set(speed);
     	hopperMotor.set(speed);
     }

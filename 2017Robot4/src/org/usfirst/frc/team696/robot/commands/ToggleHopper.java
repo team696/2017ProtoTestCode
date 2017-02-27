@@ -9,22 +9,20 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ToggleHopper extends Command {
 
-	double speed = 0.8;
-	boolean run = false;
+	double speed = 0.5;
 	
     public ToggleHopper() {
-    	requires(Robot.hopperSubsystem);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.runHopper = !Robot.runHopper;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	run = !run;
-    	if(run)Robot.hopperSubsystem.setSpeed(speed);
-    	else Robot.hopperSubsystem.setSpeed(0);
+    	if(Robot.runHopper)Robot.hopperSpeed = speed;
+    	else Robot.hopperSpeed = 0;
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -37,6 +37,7 @@ public class ShooterSubsystem extends Subsystem {
     	slaveShooter.changeControlMode(TalonControlMode.Follower);
     	slaveShooter.set(0);
     	
+    	masterShooter.reverseOutput(false);
     	masterShooter.reverseSensor(true);
     	slaveShooter.reverseOutput(true);
     	

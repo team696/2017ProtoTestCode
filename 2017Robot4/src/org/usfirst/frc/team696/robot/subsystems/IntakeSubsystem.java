@@ -24,7 +24,7 @@ public class IntakeSubsystem extends Subsystem {
     }
     
     public void setSpeedValue(double speedValue){
-    	if(!Robot.intakeEnabled || !Robot.shooterAtSpeed)speedValue = 0;
+    	if(!Robot.intakeEnabled/* || !Robot.shooterAtSpeed*/)speedValue = 0;
     	intakeMotor.set(speedValue);
     }
 }

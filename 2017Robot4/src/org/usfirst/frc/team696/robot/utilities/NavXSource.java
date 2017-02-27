@@ -1,5 +1,7 @@
 package org.usfirst.frc.team696.robot.utilities;
 
+import org.usfirst.frc.team696.robot.Robot;
+
 import com.kauailabs.nav6.frc.IMU;
 
 import edu.wpi.first.wpilibj.PIDSource;
@@ -11,11 +13,11 @@ public class NavXSource implements PIDSource {
 			currentAngle = 0,
 			error = 0;
 	
-	public IMU navX;
+//	public IMU navX;
 	
-	public NavXSource(IMU navX) {
+	public NavXSource() {
 		// TODO Auto-generated constructor stub
-		this.navX = navX;
+//		this.navX = navX;
 	}
 	
 	@Override
@@ -36,7 +38,7 @@ public class NavXSource implements PIDSource {
 	@Override
 	public double pidGet() {
 		// TODO Auto-generated method stub
-		currentAngle = navX.getYaw();
+		currentAngle = Robot.navX.getYaw();
 		error = setPoint - currentAngle;
 		if(error > 180)currentAngle = currentAngle + 360;
 		if(error < -180)currentAngle = currentAngle - 360;

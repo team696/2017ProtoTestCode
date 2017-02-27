@@ -19,7 +19,7 @@ public class TeleopDrive extends Command {
 	double directionSetPoint = 0;
 	boolean firstZero = true;
 	double speedTurnScale = 0;
-	NavXSource navXSource = new NavXSource(Robot.navX);
+	NavXSource navXSource = new NavXSource();
 	PIDController driveStraight = new PIDController(0.12, 0, 0.0, navXSource, Robot.driveTrainSubsystem, 0.1);
 	
     public TeleopDrive() {
