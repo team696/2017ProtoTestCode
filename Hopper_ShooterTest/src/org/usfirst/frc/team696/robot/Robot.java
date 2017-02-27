@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 	 /*
 	  * motor controllers controlling ur emotions ;)
 	  */
-      VictorSP	vic1 = new VictorSP(0); // hopper
+      VictorSP	vic1 = new VictorSP(12); // hopper
       VictorSP  vic3 = new VictorSP(10); // shaft 
       VictorSP vic2 = new VictorSP(1);  // belt 
       CANTalon tal1 = new CANTalon(1);  // shooter
@@ -59,9 +59,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", chooser);
 		 for(int i = 0; i <= 10; i++)oldButton[i] = false;
 	        
-	        vic1.setInverted(true);  // hopper 
+	        vic1.setInverted(false);  // hopper 
 	        vic2.setInverted(false);  // belt 
-	        vic3.setInverted(true);  // shaft 
+	        vic3.setInverted(false);  // shaft 
 	        
 	        tal1.changeControlMode(TalonControlMode.PercentVbus);
 	        tal2.changeControlMode(TalonControlMode.PercentVbus);
@@ -106,7 +106,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
-	boolean run = false;
+	 // boolean run = false;
 	
 	@Override
 	public void teleopPeriodic() {
@@ -116,8 +116,8 @@ public class Robot extends IterativeRobot {
 		 */
 		
 		 if(!oldButton[1] && hard.getRawButton(1)){
-	        	speed1+= 0.8;
-	        	speed5+= 0.5;
+	        	speed1+= 0.5; // belt 
+	        	speed5+= 0.5;  // shaft 
 	        }
     	
     	
@@ -134,19 +134,20 @@ public class Robot extends IterativeRobot {
     	/*
     	 * belt 
     	 */
-    	if(!oldButton[2] && hard.getRawButton(2))speed2+=0.5;
+    	if(!oldButton[2] && hard.getRawButton(2))speed2+=0.7;
     	
     	
     	
     	/*
     	 * shooter 
     	 */
+    	if(!oldButton[4] && hard.getRawButton(4)){
+        	speed3+= 0.7; // shooter 
+        	speed4+= 0.7;  // shooter
+        }
+	
     	
-    	if(!oldButton[3] && hard.getRawButton(3))run = !run;
-    	if(!oldButton[4] && hard.getRawButton(4))speed4+=0.7;
     	
-    	if(run)speed3 = 0.7;
-    	else speed3 = 0;
     
     	 vic1.set(speed1);  // hopper
     	 vic2.set(speed2); // belt 

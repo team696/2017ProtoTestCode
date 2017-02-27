@@ -9,23 +9,20 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ToggleConveyor extends Command {
 
-	double speed = 0;
-	boolean run = false;
+	double speed = 0.8;
 	
-    public ToggleConveyor(double speed) {
-    	requires(Robot.conveyorSubsystem);
-    	this.speed = speed;
+    public ToggleConveyor() {
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	run = !run;
+    	Robot.runConveyor = !Robot.runConveyor;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!run)speed = 0;
-    	Robot.conveyorSubsystem.setSpeed(speed);
+    	if(Robot.runConveyor)Robot.conveyorSpeed = speed;
+    	else Robot.conveyorSpeed = 0;
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -31,6 +31,8 @@ public class Robot extends IterativeRobot {
     
     Joystick xbox = new Joystick(3);
     Victor vic = new Victor(1);
+    Victor hopper = new Victor(10);
+    Victor sideSwipe = new Victor(12);
     CANTalon talon = new CANTalon(2);
     CANTalon talon1 = new CANTalon(1);
     
@@ -55,18 +57,16 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
-//        talon.reverseSensor(true);
         talon.reverseOutput(false);
+        talon.reverseSensor(true);
         talon.enable();
         talon.changeControlMode(TalonControlMode.Speed);
-//    	talon.changeControlMode(TalonControlMode.PercentVbus);
 
         talon.set(0);
         
     	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
         
         talon1.changeControlMode(TalonControlMode.Follower);
-//    	talon2.changeControlMode(TalonControlMode.PercentVbus);
         talon1.set(0);
         talon1.reverseOutput(true);
         
@@ -74,13 +74,13 @@ public class Robot extends IterativeRobot {
         
         vic.setInverted(true);
         
-        SmartDashboard.putNumber("p", 0.35);
+        SmartDashboard.putNumber("p", 0.33);
         SmartDashboard.putNumber("i", 0);
-    	SmartDashboard.putNumber("d", 0.02);
-        SmartDashboard.putNumber("f", 0.027);
+    	SmartDashboard.putNumber("d", 0.07);
+        SmartDashboard.putNumber("f", 0.024);
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
-        SmartDashboard.putNumber("targetRPM", 0);
+        SmartDashboard.putNumber("targetRPM", 2500);
     }
     
 	/**
@@ -141,34 +141,31 @@ public class Robot extends IterativeRobot {
 //    
     public void teleopPeriodic() {
     	
-    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM", 0));
+    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM", 2500));
     	talon1.set(talon.getDeviceID());
     	
     	//talon.get();
     	
     	talon.setAllowableClosedLoopErr(10);
     	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p", 0));
+    	talon.setP(SmartDashboard.getNumber("p", 0.33));
     	talon.setI(SmartDashboard.getNumber("i", 0));
-    	talon.setD(SmartDashboard.getNumber("d", 0));
-    	talon.setF(SmartDashboard.getNumber("f", 0)); 
-    	talon.setCloseLoopRampRate(SmartDashboard.getNumber("ramp rate", 0));
-    	
-    	if(!oldButton[1] && xbox.getRawButton(1))speed+=0.1;
-    	else if(!oldButton[2] && xbox.getRawButton(2))speed-=0.1;
-    	else if(!oldButton[6] && xbox.getRawButton(6))speed = 0;
-    	
-    	if(!oldButton[3] && xbox.getRawButton(3))speed-=0.8;
-    	else if(!oldButton[4] && xbox.getRawButton(4))speed+=0.8;
-    	
-    	for(int i = 1; i <= 10; i++)oldButton[i] = xbox.getRawButton(i);
-    	
-    	
+    	talon.setD(SmartDashboard.getNumber("d", 0.07));
+    	talon.setF(SmartDashboard.getNumber("f", 0.024)); 
     	
     	talon.enableControl();
     	talon1.enableControl();
-    	vic.set(-0.8);
-//    	System.out.println(talon.getPulseWidthVelocity() + "     " + talon.get());
+    	
+    	if(xbox.getRawButton(1)){
+	    	vic.set(-0.8);
+	    	hopper.set(0.6);
+	    	sideSwipe.set(-0.6);
+    	} else {
+    		vic.set(0);
+    		hopper.set(0);
+    		sideSwipe.set(0);
+    	}
+    	System.out.println(talon.getPulseWidthVelocity() + "     " + talon.get());
     }
     
     /**

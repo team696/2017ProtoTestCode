@@ -22,7 +22,7 @@ public class ConveyorSubsystem extends Subsystem {
     }
     
     public void setSpeed(double speed){
-    	if(!Robot.conveyorEnabled || !Robot.shooterAtSpeed)speed = 0;
+    	if(!Robot.conveyorEnabled /*|| !Robot.shooterAtSpeed*/)speed = 0;
     	conveyor.set(speed);
     }
 }

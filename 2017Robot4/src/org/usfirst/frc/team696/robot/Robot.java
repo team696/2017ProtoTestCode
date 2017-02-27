@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.commands.ExampleCommand;
+import org.usfirst.frc.team696.robot.commands.RunConveyor;
+import org.usfirst.frc.team696.robot.commands.RunHopper;
+import org.usfirst.frc.team696.robot.commands.RunIntake;
 import org.usfirst.frc.team696.robot.commands.RunShooter;
 import org.usfirst.frc.team696.robot.commands.TeleopDrive;
 import org.usfirst.frc.team696.robot.subsystems.ClimberSubsystem;
@@ -54,6 +57,9 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean shooterAtSpeed = false;
 	public static double targetRPM = 0;
+	public static double conveyorSpeed = 0;
+	public static double hopperSpeed = 0;
+	public static double intakeSpeed = 0;
 	
 	public static double targetDirection = 0;
 	
@@ -64,6 +70,11 @@ public class Robot extends IterativeRobot {
 	public static boolean intakeEnabled = true;
 	public static boolean hoodEnabled = true;
 	public static boolean climberEnabld = true;
+	
+	public static boolean runConveyor = false;
+	public static boolean runIntake = false;
+	public static boolean runShooter = false;
+	public static boolean runHopper = false;
 	
 	public static boolean driveStraightTempEnabled = true;
 	
@@ -151,6 +162,9 @@ public class Robot extends IterativeRobot {
 		
 		Scheduler.getInstance().add(new TeleopDrive());
 		Scheduler.getInstance().add(new RunShooter());
+		Scheduler.getInstance().add(new RunConveyor());
+		Scheduler.getInstance().add(new RunIntake());
+		Scheduler.getInstance().add(new RunHopper());
 	}
 
 	/**
