@@ -1,6 +1,8 @@
 package org.usfirst.frc.team696.robot;
 
-import org.usfirst.frc.team696.robot.utilities.DriveCmd;
+import org.usfirst.frc.team696.robot.utilities.DriveTrainOutput;
+import org.usfirst.frc.team696.robot.utilities.NavXSource;
+import org.usfirst.frc.team696.robot.utilities.SixMotorDrive;
 import org.usfirst.frc.team696.robot.utilities.Util;
 
 import com.ctre.CANTalon;
@@ -12,6 +14,8 @@ import com.kauailabs.nav6.frc.IMUAdvanced;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -50,8 +54,6 @@ public class Robot extends IterativeRobot {
 	VictorSP hopperMotor = new VictorSP(RobotMap.hopperMotor);
 	VictorSP conveyorMotor = new VictorSP(RobotMap.conveyorBeltMotor);
 	
-	DriveCmd drive = new DriveCmd(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
-
 	boolean runShooter = false;
 	boolean runIntake = false;
 	boolean runConveyor = false;
@@ -63,7 +65,15 @@ public class Robot extends IterativeRobot {
 	double leftValue = 0;
 	double rightValue = 0;
 	
+	boolean firstZero = false;
+	double directionSetPoint = 0;
+	public static boolean driveStraightTempEnabled = true;
+	
 	boolean[] oldButton = new boolean[11];
+	
+	NavXSource navXSource = new NavXSource();
+	DriveTrainOutput drive = new DriveTrainOutput(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
+	PIDController directionPID = new PIDController(0.1, 0, 0, navXSource, drive, 0.01);
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -188,10 +198,27 @@ public class Robot extends IterativeRobot {
     	speedTurnScale = 1/(Math.abs(speed)*2 + 1);
     	turn = Util.smoothDeadZone(turn, -0.2, 0.2, -1, 1, 0) * Math.abs((speedTurnScale));
 		
+    	if(turn == 0){
+    		if(firstZero){
+    			directionSetPoint = Robot.navX.getYaw();
+    			firstZero = false;
+    			driveStraightTempEnabled = true;
+    		}
+    	} else {
+    		firstZero = true;
+    		driveStraightTempEnabled = false;
+    	}
+    	
+    	navXSource.setSetPoint(directionSetPoint);
+    	directionPID.setSetpoint(directionSetPoint);
+    	
+    	
+    	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
-    	
-    	drive.tankDrive(leftValue, rightValue);
+
+    	drive.setSpeed(speed);
+    	drive.setTurn(turn);
     	
 		for(int i = 1; i < 11; i++)oldButton[i] = gamePad.getRawButton(i);
 	}
