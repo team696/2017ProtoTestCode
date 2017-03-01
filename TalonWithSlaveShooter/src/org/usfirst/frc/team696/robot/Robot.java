@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
         chooser.addObject("My Auto", customAuto);
         SmartDashboard.putData("Auto choices", chooser);
         
-        talon.reverseOutput(false);
+        talon.reverseOutput(true);
         talon.reverseSensor(true);
         talon.enable();
         talon.changeControlMode(TalonControlMode.Speed);
@@ -74,9 +74,9 @@ public class Robot extends IterativeRobot {
         
         vic.setInverted(true);
         
-        SmartDashboard.putNumber("p", 0.33);
+        SmartDashboard.putNumber("p", 0.09);
         SmartDashboard.putNumber("i", 0);
-    	SmartDashboard.putNumber("d", 0.07);
+    	SmartDashboard.putNumber("d", 0.0);
         SmartDashboard.putNumber("f", 0.024);
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
@@ -136,21 +136,20 @@ public class Robot extends IterativeRobot {
 //    }
     
     public void teleopInit(){
-    	talon.reverseSensor(true);
     }
 //    
     public void teleopPeriodic() {
     	
-    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM", 2500));
+    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM", 2700));
     	talon1.set(talon.getDeviceID());
     	
     	//talon.get();
     	
     	talon.setAllowableClosedLoopErr(10);
     	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p", 0.33));
+    	talon.setP(SmartDashboard.getNumber("p", 0.09));
     	talon.setI(SmartDashboard.getNumber("i", 0));
-    	talon.setD(SmartDashboard.getNumber("d", 0.07));
+    	talon.setD(SmartDashboard.getNumber("d", 0.0));
     	talon.setF(SmartDashboard.getNumber("f", 0.024)); 
     	
     	talon.enableControl();
