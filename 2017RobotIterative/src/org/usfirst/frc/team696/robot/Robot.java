@@ -50,21 +50,29 @@ public class Robot extends IterativeRobot {
 	VictorSP intakeMotor = new VictorSP(RobotMap.intakeMotor);
 	VictorSP climberMotorA = new VictorSP(RobotMap.climberMotorA);
 	VictorSP climberMotorB = new VictorSP(RobotMap.climberMotorB);
+	/*
+	 * side swipe and hopper 
+	 */
 	VictorSP sideSwipeMotor = new VictorSP(RobotMap.sideSwipeMotor);
 	VictorSP hopperMotor = new VictorSP(RobotMap.hopperMotor);
+	 
 	VictorSP conveyorMotor = new VictorSP(RobotMap.conveyorBeltMotor);
 	
 	boolean runShooter = false;
 	boolean runIntake = false;
 	boolean runConveyor = false;
 	boolean runHopper = false;
+	/*
+	 * side swipe and hopper 
+	 */
+	boolean runsideSwipeMotor = false; 
+	boolean runhopperMotor = false; 
 	
 	double speed = 0;
 	double turn = 0;
 	double speedTurnScale = 0;
 	double leftValue = 0;
 	double rightValue = 0;
-	
 	boolean firstZero = false;
 	double directionSetPoint = 0;
 	public static boolean driveStraightTempEnabled = true;
@@ -81,12 +89,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
+		 // chooser = new SendableChooser<>();
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+		SmartDashboard.putNumber("targetRPM", 0);
 		
-		masterTalon.reverseOutput(false);
-		masterTalon.reverseSensor(true);
+		masterTalon.reverseOutput(true);
+		masterTalon.reverseSensor(false);
 		masterTalon.enable();
 		masterTalon.changeControlMode(TalonControlMode.Speed);
 
@@ -96,15 +106,21 @@ public class Robot extends IterativeRobot {
         
         slaveTalon.changeControlMode(TalonControlMode.Follower);
         slaveTalon.set(0);
-        slaveTalon.reverseOutput(true);
+        slaveTalon.reverseOutput(true); 
 
-        masterTalon.setP(0.33);
+       masterTalon.setP(0.1);
         masterTalon.setI(0);
-        masterTalon.setD(0.07);
+       
+        masterTalon.setD(0.0);
         masterTalon.setF(0.024);
         
         masterTalon.enableControl();
         slaveTalon.enableControl();
+        
+//        SmartDashboard.putNumber("P", 0);
+//        SmartDashboard.putNumber("I", 0);
+//        SmartDashboard.putNumber("D", 0);
+//        SmartDashboard.putNumber("F", 0);
 		
 		try {
 			byte UpdateRateHz = 50;
@@ -155,12 +171,20 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		/* 
+		 * intake and convayer 
+		 */
 		if(gamePad.getRawButton(1) && !oldButton[1])runIntake = !runIntake;
 		if(gamePad.getRawButton(6) && !oldButton[6]){
 			runConveyor = !runConveyor;
 			runHopper = !runHopper;
 		}
+		/*
+		 * shooter 
+		 */
 		if(gamePad.getRawButton(5) && !oldButton[5])runShooter = !runShooter;
+
+		
 		
 		if(runIntake)intakeMotor.set(0.7);
 		else intakeMotor.set(0);
@@ -169,14 +193,22 @@ public class Robot extends IterativeRobot {
 		if(runHopper){
 			sideSwipeMotor.set(-0.5);
 			hopperMotor.set(0.5);
+			
 		} else {
 			sideSwipeMotor.set(0);
 			hopperMotor.set(0);
 		}
 		if(runShooter){
-			masterTalon.setSetpoint(2500);
+			masterTalon.setSetpoint(100);
 			masterTalon.enableControl();
 			slaveTalon.enableControl();
+//			masterTalon.SmartDashboard("targetRPM");
+//			masterTalon.setAllowableClosedLoopErr(10);
+//			SmartDashboard.putNumber("currentRPM", masterTalon.get());
+//			SmartDashboard.putNumber("P", masterTalon.get());
+//			SmartDashboard.putNumber("I", masterTalon.get());
+//			SmartDashboard.putNumber("D", masterTalon.get());
+//			SmartDashboard.putNumber("F", masterTalon.get());
 		} else {
 			masterTalon.setSetpoint(0);
 			masterTalon.disableControl();
@@ -211,14 +243,16 @@ public class Robot extends IterativeRobot {
     	
     	navXSource.setSetPoint(directionSetPoint);
     	directionPID.setSetpoint(directionSetPoint);
-    	
-    	
+    
+
+		
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
 
     	drive.setSpeed(speed);
     	drive.setTurn(turn);
+   
     	
 		for(int i = 1; i < 11; i++)oldButton[i] = gamePad.getRawButton(i);
 	}

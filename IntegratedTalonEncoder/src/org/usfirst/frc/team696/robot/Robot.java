@@ -30,8 +30,8 @@ public class Robot extends IterativeRobot {
     
     Joystick joy = new Joystick(0);
     Victor vic = new Victor(4);
-    CANTalon talon = new CANTalon(0);
-    CANTalon talon2 = new CANTalon(1);
+    CANTalon talon = new CANTalon(1);
+    CANTalon talon2 = new CANTalon(2);
     
     double speed = 0;
     boolean[] oldButton = new boolean[11];
@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto choices", chooser);
         SmartDashboard.putNumber("targetRPM", 0);
         
-        talon.reverseSensor(true);
+        talon.reverseSensor(false);
         talon.reverseOutput(true);
         talon.enable();
         talon.changeControlMode(TalonControlMode.Speed);
@@ -64,6 +64,16 @@ public class Robot extends IterativeRobot {
     	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
         
         talon.reset();
+        
+        talon2.reverseSensor(true);
+        talon2.reverseOutput(false);
+        talon2.enable();
+        talon2.changeControlMode(TalonControlMode.Speed);
+        talon2.set(0);
+        
+    	talon2.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+        
+        talon2.reset();
         
         
         for(int i = 0; i <= 10; i++)oldButton[i] = false;
@@ -113,13 +123,23 @@ public class Robot extends IterativeRobot {
     	talon.setSetpoint(SmartDashboard.getNumber("targetRPM"));
     	talon.setAllowableClosedLoopErr(10);
 //    	talon.ClearIaccum(); 
-    	SmartDashboard.putNumber("currentRPM", talon.get());
+    	SmartDashboard.putNumber("currentRPM", talon.get()); 
+    	
     	talon.setP(SmartDashboard.getNumber("p"));
     	talon.setI(SmartDashboard.getNumber("i"));
     	talon.setD(SmartDashboard.getNumber("d"));
     	talon.setF(SmartDashboard.getNumber("f")); 
+    	
+    	talon2.setP(SmartDashboard.getNumber("p"));
+    	talon2.setI(SmartDashboard.getNumber("i"));
+    	talon2.setD(SmartDashboard.getNumber("d"));
+    	talon2.setF(SmartDashboard.getNumber("f")); 
+    	
+    	
     	SmartDashboard.putNumber("output voltage", talon.getOutputVoltage());
     	SmartDashboard.putNumber("output current", talon.getOutputCurrent());
+    	SmartDashboard.putNumber("output voltage", talon2.getOutputVoltage());
+    	SmartDashboard.putNumber("output current", talon2.getOutputCurrent());
     	
     	if(!oldButton[1] && joy.getRawButton(1))speed+=0.1;
     	else if(!oldButton[2] && joy.getRawButton(2))speed-=0.1;
@@ -134,6 +154,7 @@ public class Robot extends IterativeRobot {
     	
     	System.out.println("speed: " + speed);
     	talon.enableControl();
+    	talon2.enableControl(); 
     	vic.set(speed);
     	
     }
