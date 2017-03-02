@@ -23,6 +23,8 @@ public class Robot extends IterativeRobot {
 
 	public static CANTalon masterTalon = new CANTalon(2);
 	CANTalon slaveTalon = new CANTalon(1);
+	TakeBackHalfController tbh = new TakeBackHalfController(0);
+	double gain = 0;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -41,6 +43,10 @@ public class Robot extends IterativeRobot {
 		masterTalon.reverseOutput(true);
 		slaveTalon.reverseOutput(true);
 		masterTalon.reverseSensor(true);
+		
+		SmartDashboard.putNumber("gain", 0);
+		SmartDashboard.putNumber("currentRPM", 0);
+		SmartDashboard.putNumber("targetRPM", 0);
 	}
 
 	/**
@@ -78,11 +84,20 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-	/**
-	 * This function is called periodically during operator control
-	 */
+	@Override
+	public void teleopInit() {
+		tbh.start();
+	}
+
 	@Override
 	public void teleopPeriodic() {
+		tbh.setGain(SmartDashboard.getNumber("gain", 0));
+		tbh.setTargetRPM(SmartDashboard.getNumber("targetRPM", 0));
+		SmartDashboard.putNumber("currentRPM", masterTalon.get());
+		
+		masterTalon.set(tbh.getOutputValue());
+		slaveTalon.set(masterTalon.getDeviceID());
+		
 	}
 
 	/**
