@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 	public static CANTalon masterTalon = new CANTalon(2);
 	CANTalon slaveTalon = new CANTalon(1);
 	
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
