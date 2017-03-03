@@ -30,17 +30,20 @@ public class TakeBackHalfController implements Runnable{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		error = targetRPM - getRPM();
-		
-		outputValue += gain*error;
-		if(outputValue > 1)outputValue = 1;
-		if(outputValue < -1)outputValue = -1;
-		
-		if(oldError > 0 != error > 0){
-			outputValue = 0.5 * (outputValue + tbh);
-			tbh = outputValue;
-			oldError = error;
+		while(true){
+			error = targetRPM - getRPM();
+			
+			outputValue += gain*error;
+			if(outputValue > 1)outputValue = 1;
+			if(outputValue < -1)outputValue = -1;
+			
+			if(oldError > 0 != error > 0){
+				outputValue = 0.5 * (outputValue + tbh);
+				tbh = outputValue;
+				oldError = error;
+			}
+			
+			if(targetRPM == 0)outputValue = 0;
 		}
 	}
 

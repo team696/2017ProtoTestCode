@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
     final String defaultAuto = "Default";
     final String customAuto = "My Auto";
     String autoSelected;
-    SendableChooser chooser;
+//    SendableChooser chooser;
     
     Joystick xbox = new Joystick(3);
     Victor vic = new Victor(1);
@@ -52,10 +52,10 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", defaultAuto);
-        chooser.addObject("My Auto", customAuto);
-        SmartDashboard.putData("Auto choices", chooser);
+//        chooser = new SendableChooser();
+//        chooser.addDefault("Default Auto", defaultAuto);`
+//        chooser.addObject("My Auto", customAuto);
+//        SmartDashboard.putData("Auto choices", chooser);
         
         talon.reverseOutput(true);
         talon.reverseSensor(true);
@@ -74,10 +74,14 @@ public class Robot extends IterativeRobot {
         
         vic.setInverted(true);
         
+<<<<<<< HEAD
+        SmartDashboard.putNumber("p", 0.7);
+=======
         SmartDashboard.putNumber("p", 0.1);
+>>>>>>> refs/remotes/origin/master
         SmartDashboard.putNumber("i", 0);
     	SmartDashboard.putNumber("d", 0.0);
-        SmartDashboard.putNumber("f", 0.024);
+        SmartDashboard.putNumber("f", 0.0);
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
         SmartDashboard.putNumber("targetRPM", 2700);
@@ -93,7 +97,7 @@ public class Robot extends IterativeRobot {
 	 * If using the SendableChooser make sure to add them to the chooser code above as well.
 	 */
     public void autonomousInit() {
-    	autoSelected = (String) chooser.getSelected();
+   // 	autoSelected = (String) chooser.getSelected();
 //		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
 		System.out.println("Auto selected: " + autoSelected);
     }
@@ -147,10 +151,10 @@ public class Robot extends IterativeRobot {
     	
     	talon.setAllowableClosedLoopErr(10);
     	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p", 0.09));
+    	talon.setP(SmartDashboard.getNumber("p", 0.7));
     	talon.setI(SmartDashboard.getNumber("i", 0));
     	talon.setD(SmartDashboard.getNumber("d", 0.0));
-    	talon.setF(SmartDashboard.getNumber("f", 0.024)); 
+    	talon.setF(SmartDashboard.getNumber("f", 0.0)); 
     	
     	talon.enableControl();
     	talon1.enableControl();
