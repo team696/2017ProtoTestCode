@@ -51,11 +51,6 @@ public class Robot extends IterativeRobot {
 		masterTalon.changeControlMode(TalonControlMode.PercentVbus);
 		slaveTalon.changeControlMode(TalonControlMode.PercentVbus);
 		
-//		masterTalon.reverseOutput(false);
-//		slaveTalon.reverseOutput(true);
-//		masterTalon.reverseSensor(false);
-//		masterTalon.reverseOutput(true);
-//		slaveTalon.reverseOutput(true);
 		masterTalon.reverseSensor(true);
 		
 		SmartDashboard.putNumber("gain", 2.7E-7);
