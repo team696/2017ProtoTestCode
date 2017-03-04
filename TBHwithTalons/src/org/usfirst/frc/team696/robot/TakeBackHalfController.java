@@ -10,7 +10,8 @@ public class TakeBackHalfController implements Runnable{
 	double outputValue = 0;
 	double gain = 0;
 	double tbh = 0;
-
+	double oldTargetRPM = 0;
+	
 	public TakeBackHalfController(double gain){
 		this.gain = gain;
 	}
@@ -44,11 +45,18 @@ public class TakeBackHalfController implements Runnable{
 			}
 			
 			if(targetRPM == 0)outputValue = 0;
+			
+			if(oldTargetRPM != targetRPM){
+				tbh = 0;
+				oldError = 10;
+			}
+			oldTargetRPM = targetRPM;
+			
 		}
 	}
 
 	private double getRPM(){
-		return Robot.masterTalon.get();
+		return Robot.masterTalon.getSpeed();
 	}
 	
 	public double getOutputValue(){

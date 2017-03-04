@@ -5,6 +5,8 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,7 +26,16 @@ public class Robot extends IterativeRobot {
 	public static CANTalon masterTalon = new CANTalon(2);
 	CANTalon slaveTalon = new CANTalon(1);
 	TakeBackHalfController tbh = new TakeBackHalfController(0);
-	double gain = 0;
+	double gain = 2.7E-7;
+	
+	VictorSP conveyor = new VictorSP(1);
+	VictorSP hopper = new VictorSP(10);
+	VictorSP sideSwipe = new VictorSP(12);
+	
+	Joystick xbox = new Joystick(3);
+	
+	boolean firstRun = true;
+	
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -38,13 +49,11 @@ public class Robot extends IterativeRobot {
 		
 		masterTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		masterTalon.changeControlMode(TalonControlMode.PercentVbus);
-		slaveTalon.changeControlMode(TalonControlMode.Follower);
+		slaveTalon.changeControlMode(TalonControlMode.PercentVbus);
 		
-		masterTalon.reverseOutput(true);
-		slaveTalon.reverseOutput(true);
 		masterTalon.reverseSensor(true);
 		
-		SmartDashboard.putNumber("gain", 0);
+		SmartDashboard.putNumber("gain", 2.7E-7);
 		SmartDashboard.putNumber("currentRPM", 0);
 		SmartDashboard.putNumber("targetRPM", 0);
 	}
@@ -86,17 +95,28 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		tbh.start();
+		if(firstRun)tbh.start();
+		firstRun = false;
 	}
 
 	@Override
 	public void teleopPeriodic() {
 		tbh.setGain(SmartDashboard.getNumber("gain", 0));
 		tbh.setTargetRPM(SmartDashboard.getNumber("targetRPM", 0));
-		SmartDashboard.putNumber("currentRPM", masterTalon.get());
+		SmartDashboard.putNumber("currentRPM", masterTalon.getSpeed());
 		
-		masterTalon.set(tbh.getOutputValue());
-		slaveTalon.set(masterTalon.getDeviceID());
+		masterTalon.set(-tbh.getOutputValue());
+		slaveTalon.set(tbh.getOutputValue());
+		
+		if(xbox.getRawButton(1)){
+	    	conveyor.set(0.8);
+	    	hopper.set(0.6);
+	    	sideSwipe.set(-0.6);
+    	} else {
+    		conveyor.set(0);
+    		hopper.set(0);
+    		sideSwipe.set(0);
+    	}
 		
 	}
 

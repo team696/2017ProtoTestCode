@@ -74,9 +74,13 @@ public class Robot extends IterativeRobot {
         
         vic.setInverted(true);
         
+<<<<<<< HEAD
 
         
         SmartDashboard.putNumber("p", 0.1);
+=======
+        SmartDashboard.putNumber("p", 0.7);
+>>>>>>> refs/remotes/origin/master
         SmartDashboard.putNumber("i", 0);
     	SmartDashboard.putNumber("d", 0.0);
         SmartDashboard.putNumber("f", 0.02);
