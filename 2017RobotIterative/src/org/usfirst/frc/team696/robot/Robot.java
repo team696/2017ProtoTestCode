@@ -83,10 +83,10 @@ public class Robot extends IterativeRobot {
 	/*
 	 * Set up Gear pickup
 	 */
-	VictorSP gearPivotMotor = new VictorSP(RobotMap.gearPivotMotor);
-	VictorSP gearIntakeMotor = new VictorSP(RobotMap.gearIntakeMotor);
-	DigitalInput gearTopLimit = new DigitalInput(RobotMap.topLimit);
-	DigitalInput gearBottomLimit = new DigitalInput(RobotMap.bottomLimit);
+//	VictorSP gearPivotMotor = new VictorSP(RobotMap.gearPivotMotor);
+//	VictorSP gearIntakeMotor = new VictorSP(RobotMap.gearIntakeMotor);
+//	DigitalInput gearTopLimit = new DigitalInput(RobotMap.topLimit);
+//	DigitalInput gearBottomLimit = new DigitalInput(RobotMap.bottomLimit);
 	
 	/*
 	 * state of mechanisms
@@ -266,37 +266,37 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set gear state
 		 */
-		switch(gearMode){
-		case 0:
-			if(!gearTopLimit.get()){
-				gearPivotMotor.set(0.1);
-				gearIntakeMotor.set(0);
-			} else {
-				gearPivotMotor.set(0);
-				gearIntakeMotor.set(0);
-			}
-			break;
-		case 1: 
-			if(!gearBottomLimit.get()){
-				gearPivotMotor.set(-0.1);
-				gearIntakeMotor.set(1);
-			} else {
-				gearPivotMotor.set(0);
-				gearIntakeMotor.set(1);
-			}
-			break;
-		case 2:
-			if(!gearTopLimit.get()){
-				gearPivotMotor.set(0.1);
-				gearIntakeMotor.set(0);
-			} else {
-				gearPivotMotor.set(0);
-				gearIntakeMotor.set(-0.5);
-			}
-			break;
-		default:
-			gearMode = 0;
-		}
+//		switch(gearMode){
+//		case 0:
+//			if(!gearTopLimit.get()){
+//				gearPivotMotor.set(0.1);
+//				gearIntakeMotor.set(0);
+//			} else {
+//				gearPivotMotor.set(0);
+//				gearIntakeMotor.set(0);
+//			}
+//			break;
+//		case 1: 
+//			if(!gearBottomLimit.get()){
+//				gearPivotMotor.set(-0.1);
+//				gearIntakeMotor.set(1);
+//			} else {
+//				gearPivotMotor.set(0);
+//				gearIntakeMotor.set(1);
+//			}
+//			break;
+//		case 2:
+//			if(!gearTopLimit.get()){
+//				gearPivotMotor.set(0.1);
+//				gearIntakeMotor.set(0);
+//			} else {
+//				gearPivotMotor.set(0);
+//				gearIntakeMotor.set(-0.5);
+//			}
+//			break;
+//		default:
+//			gearMode = 0;
+//		}
 		
 		/*
 		 * drive control
@@ -313,20 +313,21 @@ public class Robot extends IterativeRobot {
     	/*
     	 * enable and disable drive straight for when turning and not turning
     	 */
-    	if(turn == 0){
-    		if(firstZero){
-    			directionSetPoint = Robot.navX.getYaw();
-    			firstZero = false;
-    			driveStraightTempEnabled = true;
-    		}
-    	} else {
-    		firstZero = true;
-    		driveStraightTempEnabled = false;
-    	}
+//    	if(turn == 0){
+//    		if(firstZero){
+//    			directionSetPoint = Robot.navX.getYaw();
+//    			firstZero = false;
+//    			driveStraightTempEnabled = true;
+//    		}
+//    	} else {
+//    		firstZero = true;
+//    		driveStraightTempEnabled = false;
+//    	}
     	
     	/*
     	 * set drive straight directions
     	 */
+    	directionPID.enable();
     	navXSource.setSetPoint(directionSetPoint);
     	directionPID.setSetpoint(directionSetPoint);
 

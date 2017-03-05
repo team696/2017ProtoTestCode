@@ -34,8 +34,8 @@ public class RobotMap {
 	public static int climberMotorA = 5;
 	public static int climberMotorB = 6;
 	
-	public static int topLimit = 0;
-	public static int bottomLimit = 0;
-	public static int gearPivotMotor = 0;
-	public static int gearIntakeMotor = 0;
+	public static int topLimit = 4;
+//	public static int bottomLimit = 0;
+//	public static int gearPivotMotor = 0;
+//	public static int gearIntakeMotor = 0;
 }
