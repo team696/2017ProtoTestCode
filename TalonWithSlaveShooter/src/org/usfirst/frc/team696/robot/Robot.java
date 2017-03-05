@@ -74,10 +74,16 @@ public class Robot extends IterativeRobot {
         
         vic.setInverted(true);
         
+<<<<<<< HEAD
+
+        
+        SmartDashboard.putNumber("p", 0.1);
+=======
         SmartDashboard.putNumber("p", 0.7);
+>>>>>>> refs/remotes/origin/master
         SmartDashboard.putNumber("i", 0);
     	SmartDashboard.putNumber("d", 0.0);
-        SmartDashboard.putNumber("f", 0.0);
+        SmartDashboard.putNumber("f", 0.02);
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
         SmartDashboard.putNumber("targetRPM", 2700);
@@ -147,10 +153,10 @@ public class Robot extends IterativeRobot {
     	
     	talon.setAllowableClosedLoopErr(10);
     	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p", 0.7));
+    	talon.setP(SmartDashboard.getNumber("p", 0.1));
     	talon.setI(SmartDashboard.getNumber("i", 0));
     	talon.setD(SmartDashboard.getNumber("d", 0.0));
-    	talon.setF(SmartDashboard.getNumber("f", 0.0)); 
+    	talon.setF(SmartDashboard.getNumber("f", 0.02)); 
     	
     	talon.enableControl();
     	talon1.enableControl();

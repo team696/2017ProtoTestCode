@@ -31,14 +31,17 @@ public class DriveTrainOutput extends SixMotorDrive implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		// TODO Auto-generated method stub
-		if(!Robot.driveStraightTempEnabled)output = turn;
+//		if(!Robot.driveStraightTempEnabled)output = turn;
 //		
 //		if(!Robot.driveStraightEnabled)output = turn;
+		
+		output = turn;
 		
 		leftValue = stick + output;
 		rightValue = stick - output;
 		
 		this.tankDrive(leftValue, rightValue);
+		
 
 	}
 

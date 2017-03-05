@@ -10,6 +10,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -80,6 +81,14 @@ public class Robot extends IterativeRobot {
 	VictorSP climberMotorB = new VictorSP(RobotMap.climberMotorB);
 	
 	/*
+	 * Set up Gear pickup
+	 */
+//	VictorSP gearPivotMotor = new VictorSP(RobotMap.gearPivotMotor);
+//	VictorSP gearIntakeMotor = new VictorSP(RobotMap.gearIntakeMotor);
+//	DigitalInput gearTopLimit = new DigitalInput(RobotMap.topLimit);
+//	DigitalInput gearBottomLimit = new DigitalInput(RobotMap.bottomLimit);
+	
+	/*
 	 * state of mechanisms
 	 */
 	boolean runShooter = false;
@@ -88,6 +97,7 @@ public class Robot extends IterativeRobot {
 	boolean runHopper = false;
 	boolean runsideSwipeMotor = false; 
 	boolean runhopperMotor = false; 
+	int gearMode = 0;
 	
 	/*
 	 * driving variables
@@ -199,6 +209,13 @@ public class Robot extends IterativeRobot {
 		if(gamePad.getRawButton(5) && !oldButton[5])runShooter = !runShooter;
 		
 		/*
+		 * choose gear mode
+		 */
+		if(gamePad.getRawButton(2))gearMode = 0;
+		if(gamePad.getRawButton(3))gearMode = 1;
+		if(gamePad.getRawButton(4))gearMode = 2;
+		
+		/*
 		 * set intake values
 		 */
 		if(runIntake)intakeMotor.set(0.7);
@@ -247,6 +264,41 @@ public class Robot extends IterativeRobot {
 		}
 		
 		/*
+		 * set gear state
+		 */
+//		switch(gearMode){
+//		case 0:
+//			if(!gearTopLimit.get()){
+//				gearPivotMotor.set(0.1);
+//				gearIntakeMotor.set(0);
+//			} else {
+//				gearPivotMotor.set(0);
+//				gearIntakeMotor.set(0);
+//			}
+//			break;
+//		case 1: 
+//			if(!gearBottomLimit.get()){
+//				gearPivotMotor.set(-0.1);
+//				gearIntakeMotor.set(1);
+//			} else {
+//				gearPivotMotor.set(0);
+//				gearIntakeMotor.set(1);
+//			}
+//			break;
+//		case 2:
+//			if(!gearTopLimit.get()){
+//				gearPivotMotor.set(0.1);
+//				gearIntakeMotor.set(0);
+//			} else {
+//				gearPivotMotor.set(0);
+//				gearIntakeMotor.set(-0.5);
+//			}
+//			break;
+//		default:
+//			gearMode = 0;
+//		}
+		
+		/*
 		 * drive control
 		 * speed: forward speed
 		 * turn: turn rate
@@ -261,20 +313,21 @@ public class Robot extends IterativeRobot {
     	/*
     	 * enable and disable drive straight for when turning and not turning
     	 */
-    	if(turn == 0){
-    		if(firstZero){
-    			directionSetPoint = Robot.navX.getYaw();
-    			firstZero = false;
-    			driveStraightTempEnabled = true;
-    		}
-    	} else {
-    		firstZero = true;
-    		driveStraightTempEnabled = false;
-    	}
+//    	if(turn == 0){
+//    		if(firstZero){
+//    			directionSetPoint = Robot.navX.getYaw();
+//    			firstZero = false;
+//    			driveStraightTempEnabled = true;
+//    		}
+//    	} else {
+//    		firstZero = true;
+//    		driveStraightTempEnabled = false;
+//    	}
     	
     	/*
     	 * set drive straight directions
     	 */
+    	directionPID.enable();
     	navXSource.setSetPoint(directionSetPoint);
     	directionPID.setSetpoint(directionSetPoint);
 
