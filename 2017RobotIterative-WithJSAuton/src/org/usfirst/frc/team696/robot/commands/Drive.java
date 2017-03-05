@@ -17,8 +17,8 @@ public class Drive extends JSCommand{
 	double leftValue = 0;
 	double rightValue = 0;
 	
-	PID distancePID = new PID(0, 0, 0, 0);
-	PID directionPID = new PID(0, 0, 0, 0);
+	PID distancePID = new PID(0, 0, 0, 1);
+	PID directionPID = new PID(0, 0, 0, 1);
 	
 	public Drive(double distance, double direction){
 		targetDistance = distance;
@@ -29,6 +29,13 @@ public class Drive extends JSCommand{
 		targetDistance = distance;
 		targetDirection = Robot.navX.getYaw() + direction;
 		JSCommand.inParallel = inParallel;
+	}
+	
+	public Drive(double distance, double direction, double diskP, double diskI, double diskD, double dirkP, double dirkI, double dirkD){
+		targetDistance = distance;
+		targetDirection = Robot.navX.getYaw() + direction;
+		distancePID.setPID(diskP, diskI, diskD);
+		directionPID.setPID(dirkP, dirkI, dirkD);
 	}
 
 	public void update(){

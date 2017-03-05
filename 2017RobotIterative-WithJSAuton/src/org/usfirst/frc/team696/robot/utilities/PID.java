@@ -4,7 +4,7 @@ public class PID implements Runnable{
 	private double kP = 0;
 	private double kI = 0;
 	private double kD = 0;
-	private double alpha = 0;
+	private double alpha = 1;
 	private double error = 0;
 	private double oldError = 0;
 	private double cumulativeError = 0;

@@ -1,7 +1,9 @@
 package org.usfirst.frc.team696.robot;
 
-import org.usfirst.frc.team696.robot.utilities.DriveTrainOutput;
-import org.usfirst.frc.team696.robot.utilities.NavXSource;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.usfirst.frc.team696.robot.utilities.SixMotorDrive;
 import org.usfirst.frc.team696.robot.utilities.Util;
 
@@ -11,25 +13,14 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.VictorSP;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-	
-	/*
-	 * set up and initialize autonomous chooser
-	 */
-	final String defaultAuto = "Default";
-	final String customAuto = "My Auto";
-	String autoSelected;
-	SendableChooser<String> chooser = new SendableChooser<>();
 	
 	/*
 	 * set up and initialize joysticks
@@ -61,7 +52,7 @@ public class Robot extends IterativeRobot {
 	public static Encoder rightDriveEncoder = new Encoder(RobotMap.rightDriveEncoderA, RobotMap.rightDriveEncoderB);
 	
 	/*
-	 * Set up and initialize CAN Talons for shooting
+	 * Set up and initdialize CAN Talons for shooting
 	 */
 	CANTalon masterTalon = new CANTalon(RobotMap.masterShooterTalon);
 	CANTalon slaveTalon = new CANTalon(RobotMap.slaveShooterTalon);
@@ -113,8 +104,13 @@ public class Robot extends IterativeRobot {
 	double rightValue = 0;
 	boolean firstZero = false;
 	public static double directionSetPoint = 0;
-	public static boolean driveStraightEnabled = true;
-
+	
+	/*
+	 * set up Script Engine for JS interpreter
+	 */
+	static ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+	String autonScript = "";
+	
 	/*
 	 * set up oldButton[] for gamepad
 	 */
@@ -122,16 +118,10 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
-		/*
-		 * put chooser onto SmartDashboard
-		 */
-		chooser = new SendableChooser<>();
-		chooser.addDefault("Default Auto", defaultAuto);
-		chooser.addObject("My Auto", customAuto);
-		SmartDashboard.putData("Auto choices", chooser);
+		SmartDashboard.putString("autonScript", "");
 		
 		/*
-		 * Set up masterTalon
+		 * Set up masterTalonz
 		 */
 		masterTalon.reverseOutput(true);
 		masterTalon.reverseSensor(false);
@@ -170,32 +160,20 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		/*
-		 * Get which auto was selected
-		 */
-		autoSelected = chooser.getSelected();
-		autoSelected = SmartDashboard.getString("Auto Selector", defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
-		
-		driveStraightEnabled = true;
+		autonScript = SmartDashboard.getString("autonScript", "");
 	}
 
 	@Override
 	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customAuto:
-			//custom code
-			break;
-		case defaultAuto:
-			autoSelected = "customAuto";
-		default:
-			break;
+		try {
+			engine.eval(autonScript);
+		} catch (ScriptException e) {
+			System.out.println("failed to run autonScript");
 		}
 	}
 
 	@Override
 	public void teleopInit(){
-		driveStraightEnabled = false;
 	}
 	
 	@Override
