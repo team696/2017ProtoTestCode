@@ -1,9 +1,6 @@
 package org.usfirst.frc.team696.robot;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
+import org.usfirst.frc.team696.robot.commands.Drive;
 import org.usfirst.frc.team696.robot.utilities.SixMotorDrive;
 import org.usfirst.frc.team696.robot.utilities.Util;
 
@@ -17,6 +14,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -92,7 +90,7 @@ public class Robot extends IterativeRobot {
 	boolean runHopper = false;
 	boolean runsideSwipeMotor = false; 
 	boolean runhopperMotor = false; 
-	int gearMode = 0;
+	boolean autonFirstRun = true;
 	
 	/*
 	 * driving variables
@@ -104,12 +102,13 @@ public class Robot extends IterativeRobot {
 	double rightValue = 0;
 	boolean firstZero = false;
 	public static double directionSetPoint = 0;
+	double distancePerPulse = (4*Math.PI)/200;
 	
 	/*
 	 * set up Script Engine for JS interpreter
 	 */
-	static ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-	String autonScript = "";
+//	static ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+	String autonScript = "print('failed');";
 	
 	/*
 	 * set up oldButton[] for gamepad
@@ -118,7 +117,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
-		SmartDashboard.putString("autonScript", "");
+		leftDriveEncoder.setReverseDirection(true);
+		SmartDashboard.putString("autonScript", "print('failed');");
 		
 		/*
 		 * Set up masterTalonz
@@ -152,6 +152,9 @@ public class Robot extends IterativeRobot {
 			navX = new IMUAdvanced(port, UpdateRateHz);
 		} catch(Exception ex){System.out.println("NavX not working");};
 		
+		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
+		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
+		
 		/*
 		 * Initialize oldButton[]
 		 */
@@ -160,16 +163,68 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		autonScript = SmartDashboard.getString("autonScript", "");
+		autonScript = SmartDashboard.getString("autonScript", "print('failed');");
+//		autonFirstRun = true;
 	}
 
+	int autoMode = 0;
+	Drive autonDrive;
+	Timer autoTimer = new Timer();
+	
 	@Override
 	public void autonomousPeriodic() {
-		try {
-			engine.eval(autonScript);
-		} catch (ScriptException e) {
-			System.out.println("failed to run autonScript");
+		switch(autoMode){
+		case 0:
+			autonDrive = new Drive(70, 0, 0.75);
+			autonDrive.start();
+			autoMode = 1;
+			break;
+		case 1:
+			if(autonDrive.isFinished())autoMode = 2;
+			autonDrive.update();
+			break;
+		case 2:
+			autoTimer.start();
+			drive.tankDrive(-0.4, -0.4);
+			autoMode = 3;
+			break;
+		case 3:
+			if(autoTimer.get() > 3){
+				autoTimer.stop();
+				autoTimer.reset();
+				drive.tankDrive(0, 0);
+				autoMode = 4;
+			}
+			break;
+		case 4:
+			autonDrive = new Drive(0, 65, 0.75);
+			autonDrive.start();
+			autoMode = 5;
+			break;
+		case 5:
+			if(autonDrive.isFinished())autoMode = 6;
+			autonDrive.update();
+			break;
+		case 6:
+//			autonDrive = new Drive(35, 0, 0.3);
+//			autonDrive.start();
+//			autoMode = 7;
+			break;
+		case 7:
+			if(autonDrive.isFinished())autoMode = 8;
+			autonDrive.update();
+			break;
 		}
+		System.out.println(autoMode);
+		
+	}
+	
+	public static void runAuto(){
+//		try {
+//			engine.eval("var test = Java.type('org.usfirst.frc.team696.robot.commands.TestRun()');");
+//		} catch (ScriptException e) {
+//			e.printStackTrace();
+//		} 
 	}
 
 	@Override
@@ -196,13 +251,6 @@ public class Robot extends IterativeRobot {
 		 * run shooter when button 5 is pushed on gamepad
 		 */
 		if(gamePad.getRawButton(5) && !oldButton[5])runShooter = !runShooter;
-		
-		/*
-		 * choose gear mode
-		 */
-		if(gamePad.getRawButton(2))gearMode = 0;
-		if(gamePad.getRawButton(3))gearMode = 1;
-		if(gamePad.getRawButton(4))gearMode = 2;
 		
 		/*
 		 * set intake values

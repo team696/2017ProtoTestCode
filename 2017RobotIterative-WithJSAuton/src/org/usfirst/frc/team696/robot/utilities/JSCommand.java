@@ -1,5 +1,7 @@
 package org.usfirst.frc.team696.robot.utilities;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class JSCommand implements Runnable{
 	public static boolean isFinished = false;
 	static Thread t;
@@ -7,18 +9,22 @@ public class JSCommand implements Runnable{
 	
 	public JSCommand() {
 		if(t == null)t = new Thread(this);
-		t.start();
 		inParallel = false;
 	}
 	
+	public void start(){
+		t.start();
+	}
+	
 	public JSCommand(boolean inParallel) {
-		JSCommand.inParallel = inParallel;
+		this.inParallel = inParallel;
 		if(t == null)t = new Thread(this);
 		t.start();
 	}
 	
 	public void run(){
 		while(!isFinished){
+//			if(timer.get() > 5) isFinished = true;
 			update();
 		}
 	}

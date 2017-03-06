@@ -130,15 +130,15 @@ public class Robot extends IterativeRobot {
 		 * Set up masterTalon
 		 */
 		masterTalon.reverseOutput(true);
-		masterTalon.reverseSensor(false);
+		masterTalon.reverseSensor(true);
 		masterTalon.enable();
 		masterTalon.changeControlMode(TalonControlMode.Speed);
 		masterTalon.set(0);
 		masterTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		masterTalon.setP(0.1);
+		masterTalon.setP(0.0);
         masterTalon.setI(0);
         masterTalon.setD(0.0);
-        masterTalon.setF(0.024);
+        masterTalon.setF(0.02);
         masterTalon.enableControl();
 		
         /*
@@ -242,7 +242,7 @@ public class Robot extends IterativeRobot {
 		 * set shooter values
 		 */
 		if(runShooter){
-			masterTalon.setSetpoint(100);
+			masterTalon.setSetpoint(1000);
 			masterTalon.enableControl();
 			slaveTalon.enableControl();
 		} else {
@@ -307,22 +307,10 @@ public class Robot extends IterativeRobot {
 		speed = -arduino.getRawAxis(4);
     	turn = wheel.getRawAxis(0);
     	speed = Util.smoothDeadZone(speed, -0.01, 0.1, -1, 1, 0);
+    	if(wheel.getRawButton(6))speed = 0;
     	speedTurnScale = 1/(Math.abs(speed)*2 + 1);
     	turn = Util.smoothDeadZone(turn, -0.2, 0.2, -1, 1, 0) * Math.abs((speedTurnScale));
 		
-    	/*
-    	 * enable and disable drive straight for when turning and not turning
-    	 */
-//    	if(turn == 0){
-//    		if(firstZero){
-//    			directionSetPoint = Robot.navX.getYaw();
-//    			firstZero = false;
-//    			driveStraightTempEnabled = true;
-//    		}
-//    	} else {
-//    		firstZero = true;
-//    		driveStraightTempEnabled = false;
-//    	}
     	
     	/*
     	 * set drive straight directions

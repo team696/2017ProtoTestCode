@@ -1,4 +1,3 @@
-kkka
 package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
