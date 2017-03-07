@@ -31,10 +31,16 @@ public class Robot extends IterativeRobot {
     public static CANTalon slaveTalon = new CANTalon(1);
     
     double speed = 0;
+    
+    /*
+     * READ!!!!
+     * 2 masses 2 motors
+     * works ok
+     */
     public static double targetRPM = 2700;
-    public static double minThreshold = 2600;
+    public static double minThreshold = 2700;
     public static double outputValue = 0;
-    public static double powerForFlywheel = 0;
+    public static double powerForFlywheel = 0.65;
 	
 	/**
 	 * This function is run when the robot is first started up and should be

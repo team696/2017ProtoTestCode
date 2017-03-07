@@ -67,10 +67,16 @@ public class Robot extends IterativeRobot {
         
         for(int i = 0; i <= 10; i++)oldButton[i] = false;
         
-        SmartDashboard.putNumber("p", 0.0);
-        SmartDashboard.putNumber("i", 0);
-    	SmartDashboard.putNumber("d", 0.0);
-        SmartDashboard.putNumber("f", 0.0);
+        /*
+         * READ!!!!!!!
+         * 1 mass, 1 motor
+         * works ok
+         */
+        SmartDashboard.putNumber("p", 0.6);
+        SmartDashboard.putNumber("i", 3E-5);
+    	SmartDashboard.putNumber("d", 0);
+        SmartDashboard.putNumber("f", 0.021);
+        
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
         SmartDashboard.putNumber("targetRPM", 2700);
