@@ -77,7 +77,7 @@ public class FlywheelPID implements Runnable{
 	}
 	
 	public double getValue(){
-		return constrain(outputValue);
+		return outputValue = constrain(outputValue);
 	}
 	
 	public void run(){

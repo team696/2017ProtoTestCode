@@ -70,7 +70,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("targetRPM", 2700);
         SmartDashboard.putNumber("masterTalon current", 0);
         SmartDashboard.putNumber("slaveTalon current", 0);
-        SmartDashboard.putNumber("powerForFlywheel", 0);
+        SmartDashboard.putNumber("powerForFlywheel", 0.65);
+        SmartDashboard.putBoolean("run hopper system", false);
 	}
 
 	/**
@@ -119,22 +120,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-//		velocity = -masterTalon.getEncVelocity()*0.1464829974811083;
-//		minThreshold = SmartDashboard.getNumber("minThreshold", minThreshold);
-//        SmartDashboard.putNumber("currentRPM", velocity);
-//        targetRPM = SmartDashboard.getNumber("targetRPM", 2700);
-//        powerForFlywheel = SmartDashboard.getNumber("powerForFlywheel", 0);
-//        
-//        if(velocity > targetRPM)outputValue = 0;
-//        if(velocity < minThreshold)outputValue = powerForFlywheel;
-//        
-//        SmartDashboard.putNumber("masterTalon current", masterTalon.getOutputCurrent());
-//        SmartDashboard.putNumber("slaveTalon current", slaveTalon.getOutputCurrent());
-//        
-//        masterTalon.set(outputValue);
-//        slaveTalon.set(-outputValue);
-        
-        if(gamePad.getRawButton(1)){
+        if(SmartDashboard.getBoolean("run hopper system", false)){
 	    	conveyor.set(0.8);
 	    	hopper.set(0.6);
 	    	sideSwipe.set(-0.6);

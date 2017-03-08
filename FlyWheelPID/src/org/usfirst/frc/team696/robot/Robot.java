@@ -14,6 +14,7 @@ public class Robot extends IterativeRobot {
 	double kP = 0;
 	double kI = 0;
 	double kD = 0;
+	double alpha = 0;
 	
 	FlywheelPID flywheelPID = new FlywheelPID(kP, kI, kD);
 
@@ -46,6 +47,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("p", 0);
         SmartDashboard.putNumber("i", 0);
         SmartDashboard.putNumber("d", 0);
+        SmartDashboard.putNumber("alpha", 0);
+        SmartDashboard.putBoolean("run hopper system", false);
 	}
 
 	@Override
@@ -56,6 +59,11 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 	}
 
+	
+	public void teleopInit(){
+		flywheelPID.start();
+	}
+	
 	@Override
 	public void teleopPeriodic() {
 		velocity = -masterTalon.getEncVelocity()*0.1464829974811083;
@@ -64,15 +72,28 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("currentRPM", velocity);
 		SmartDashboard.putNumber("masterTalon current", masterTalon.getOutputCurrent());
 		SmartDashboard.putNumber("slaveTalon current", slaveTalon.getOutputCurrent());
+		SmartDashboard.putNumber("flywheel value", flywheelPID.getValue());
+		
 		kP = SmartDashboard.getNumber("p", 0);
 		kI = SmartDashboard.getNumber("i", 0);
 		kD = SmartDashboard.getNumber("d", 0);
+		alpha = SmartDashboard.getNumber("alpha", 0);
 		
 		flywheelPID.setError(targetRPM - velocity);
 		flywheelPID.setPID(kP, kI, kD);
 		
 		masterTalon.set(flywheelPID.getValue());
 		slaveTalon.set(-flywheelPID.getValue());
+		
+		if(SmartDashboard.getBoolean("run hopper system", false)){
+	    	conveyor.set(0.8);
+	    	hopper.set(0.6);
+	    	sideSwipe.set(-0.6);
+    	} else {
+    		conveyor.set(0);
+    		hopper.set(0);
+    		sideSwipe.set(0);
+    	}
 	}
 
 	@Override
