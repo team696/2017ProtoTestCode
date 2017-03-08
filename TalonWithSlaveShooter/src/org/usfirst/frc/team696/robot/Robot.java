@@ -29,12 +29,12 @@ public class Robot extends IterativeRobot {
     String autoSelected;
 //    SendableChooser chooser;
     
-    Joystick xbox = new Joystick(3);
-    Victor vic = new Victor(1);
+    Joystick gamePad = new Joystick(2);
+    Victor conveyor = new Victor(1);
     Victor hopper = new Victor(10);
     Victor sideSwipe = new Victor(12);
-    CANTalon talon = new CANTalon(2);
-    CANTalon talon1 = new CANTalon(1);
+    CANTalon masterTalon = new CANTalon(2);
+    CANTalon slaveTalon = new CANTalon(1);
     
     double speed = 0;
     boolean[] oldButton = new boolean[11];
@@ -52,36 +52,36 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-//        chooser = new SendableChooser();
-//        chooser.addDefault("Default Auto", defaultAuto);`
-//        chooser.addObject("My Auto", customAuto);
-//        SmartDashboard.putData("Auto choices", chooser);
-        
-        talon.reverseOutput(true);
-        talon.reverseSensor(true);
-        talon.enable();
-        talon.changeControlMode(TalonControlMode.Speed);
+        masterTalon.reverseOutput(false);
+        masterTalon.reverseSensor(true);
+        masterTalon.enable();
+        masterTalon.changeControlMode(TalonControlMode.Speed);
 
-        talon.set(0);
+        masterTalon.set(0);
         
-    	talon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
+    	masterTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
         
-        talon1.changeControlMode(TalonControlMode.Follower);
-        talon1.set(0);
-        talon1.reverseOutput(true);
+        slaveTalon.changeControlMode(TalonControlMode.Follower);
+        slaveTalon.set(0);
+        slaveTalon.reverseOutput(true);
         
         for(int i = 0; i <= 10; i++)oldButton[i] = false;
         
-        vic.setInverted(true);
+        /*
+         * READ!!!!!!!
+         * 1 mass, 1 motor
+         * works ok
+         */
+        SmartDashboard.putNumber("p", 0.6);
+        SmartDashboard.putNumber("i", 3E-5);
+    	SmartDashboard.putNumber("d", 0);
+        SmartDashboard.putNumber("f", 0.021);
         
-        
-        SmartDashboard.putNumber("p", 0.1);
-        SmartDashboard.putNumber("i", 0);
-    	SmartDashboard.putNumber("d", 0.0);
-        SmartDashboard.putNumber("f", 0.02);
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
         SmartDashboard.putNumber("targetRPM", 2700);
+        SmartDashboard.putNumber("masterTalon current", 0);
+        SmartDashboard.putNumber("slaveTalon current", 0);
     }
     
 	/**
@@ -138,42 +138,40 @@ public class Robot extends IterativeRobot {
     
     public void teleopInit(){
     }
-//    
+
     public void teleopPeriodic() {
     	
-    	talon.setSetpoint(SmartDashboard.getNumber("targetRPM", 2700));
-    	talon1.set(talon.getDeviceID());
+    	masterTalon.setSetpoint(SmartDashboard.getNumber("targetRPM", 2700));
+    	slaveTalon.set(masterTalon.getDeviceID());
     	
-    	//talon.get();
+    	masterTalon.setAllowableClosedLoopErr(10);
+    	SmartDashboard.putNumber("currentRPM", masterTalon.get());
+    	masterTalon.setP(SmartDashboard.getNumber("p", 0.0));
+    	masterTalon.setI(SmartDashboard.getNumber("i", 0));
+    	masterTalon.setD(SmartDashboard.getNumber("d", 0.0));
+    	masterTalon.setF(SmartDashboard.getNumber("f", 0.00)); 
     	
-    	talon.setAllowableClosedLoopErr(10);
-    	SmartDashboard.putNumber("currentRPM", talon.get());
-    	talon.setP(SmartDashboard.getNumber("p", 0.1));
-    	talon.setI(SmartDashboard.getNumber("i", 0));
-    	talon.setD(SmartDashboard.getNumber("d", 0.0));
-    	talon.setF(SmartDashboard.getNumber("f", 0.02)); 
+    	masterTalon.enableControl();
+    	slaveTalon.enableControl();
     	
-    	talon.enableControl();
-    	talon1.enableControl();
+    	SmartDashboard.putNumber("masterTalon current", masterTalon.getOutputCurrent());
+    	SmartDashboard.putNumber("slaveTalon current", slaveTalon.getOutputCurrent());
     	
-    	if(xbox.getRawButton(1)){
-	    	vic.set(-0.8);
+    	if(gamePad.getRawButton(1)){
+	    	conveyor.set(0.8);
 	    	hopper.set(0.6);
 	    	sideSwipe.set(-0.6);
     	} else {
-    		vic.set(0);
+    		conveyor.set(0);
     		hopper.set(0);
     		sideSwipe.set(0);
     	}
-    	System.out.println(talon.getPulseWidthVelocity() + "     " + talon.get());
     }
     
     /**
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
-    	System.out.println(talon.getEncPosition());
-    
     }
     
 }
