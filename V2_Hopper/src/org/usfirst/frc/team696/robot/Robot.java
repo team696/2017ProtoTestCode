@@ -1,6 +1,7 @@
 package org.usfirst.frc.team696.robot;
 
 import com.ctre.CANTalon;
+import com.ctre.CANTalon.TalonControlMode;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -26,6 +27,7 @@ public class Robot extends IterativeRobot {
     
 	VictorSP vic1 = new VictorSP(12); // belts
     VictorSP vic2 = new VictorSP(10); // shaft 
+    VictorSP vic3 = new VictorSP(1); // convayer 
     CANTalon tal1 = new CANTalon(1);  // shooter
 	CANTalon tal2 = new CANTalon(2);  // shooter 
 	
@@ -33,6 +35,7 @@ public class Robot extends IterativeRobot {
     double speed2 = 0; 
     double speed3 = 0;
     double speed4 = 0;
+    double speed5 = 0; // convayer 
     
 
 	/**
@@ -48,8 +51,12 @@ public class Robot extends IterativeRobot {
 		for(int i = 0; i <= 10; i++)oldButton[i] = false;
 		
 		
-		 vic1.setInverted(false);  // belts 
+		 vic1.setInverted(true);  // belts 
 	     vic2.setInverted(false);  // shaft 
+	     vic3.setInverted(false);   // convayer 
+	     
+	     tal1.changeControlMode(TalonControlMode.PercentVbus);
+	     tal2.changeControlMode(TalonControlMode.PercentVbus);
 	}
 
 	/**
@@ -105,18 +112,24 @@ public class Robot extends IterativeRobot {
 	    		speed3 += 0.7;
 	    		speed4 += 0.7;
 	    	}
+		 if(!oldButton[3] && joy.getRawButton(3)){
+	    		speed5 += 0.7;
+	    		
+		 }
 		 
     	if(!oldButton[6] && joy.getRawButton(6)){
     		speed = 0; 
     		speed2 = 0;
     		speed3 = 0;
     		speed4 = 0;
+    		speed5 = 0; 
     		
     	}
     	
 
     	vic1.set(speed);
     	vic2.set(speed2);
+    	vic3.set(speed5); // convayer 
     	tal1.set(speed3);
     	tal2.set(speed4);
     	
