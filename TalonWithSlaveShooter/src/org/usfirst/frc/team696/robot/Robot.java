@@ -72,10 +72,10 @@ public class Robot extends IterativeRobot {
          * 1 mass, 1 motor
          * works ok
          */
-        SmartDashboard.putNumber("p", 0.6);
-        SmartDashboard.putNumber("i", 3E-5);
-    	SmartDashboard.putNumber("d", 0);
-        SmartDashboard.putNumber("f", 0.021);
+        SmartDashboard.putNumber("p", 0.05);
+        SmartDashboard.putNumber("i", 0);
+    	SmartDashboard.putNumber("d", 0.6);
+        SmartDashboard.putNumber("f", 0.026);
         
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
@@ -147,10 +147,10 @@ public class Robot extends IterativeRobot {
     	
     	masterTalon.setAllowableClosedLoopErr(10);
     	SmartDashboard.putNumber("currentRPM", masterTalon.get());
-    	masterTalon.setP(SmartDashboard.getNumber("p", 0.0));
+    	masterTalon.setP(SmartDashboard.getNumber("p", 0.05));
     	masterTalon.setI(SmartDashboard.getNumber("i", 0));
-    	masterTalon.setD(SmartDashboard.getNumber("d", 0.0));
-    	masterTalon.setF(SmartDashboard.getNumber("f", 0.00)); 
+    	masterTalon.setD(SmartDashboard.getNumber("d", 0.6));
+    	masterTalon.setF(SmartDashboard.getNumber("f", 0.026)); 
     	
     	masterTalon.enableControl();
     	slaveTalon.enableControl();
