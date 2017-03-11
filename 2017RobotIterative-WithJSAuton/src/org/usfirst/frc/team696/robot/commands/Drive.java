@@ -74,8 +74,6 @@ public class Drive {
 			rightValue = 0;
 		}
 		
-		System.out.println("target: " + targetDistance + "    current: " + currentDistance + "   left: " + Robot.leftDriveEncoder.getDistance() + "   right: " + Robot.rightDriveEncoder.getDistance());
-		
 		Robot.drive.tankDrive(leftValue, rightValue);
 		
 	}
