@@ -108,8 +108,10 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopInit(){
-//		ser2.setAngle(180);
-//		ser4.setAngle(1);
+		ser2.setAngle(1);
+		ser4.setAngle(1);
+		ser1.setAngle(179); // bottom left
+		ser3.setAngle(1); // bottom right
 		target1 = ser1.getAngle();
 		target2 = ser2.getAngle();
 		target3 = ser3.getAngle();
@@ -128,12 +130,13 @@ public class Robot extends IterativeRobot {
 		
 		// upper flap thingy thingy 
 		if(!oldButton[1] && joy.getRawButton(1)){
-			target1 += 90;
+			time.start();
+//			target1 -= 90;
 			target3 += 90;
 		}
 		
 		if(!oldButton[2] && joy.getRawButton(2)){
-			target1 -= 90;
+			target1 += 90;
 			target3 -= 90; //negative 
 		}
 		
@@ -144,11 +147,11 @@ public class Robot extends IterativeRobot {
 			time.stop();
 		}
 		
-//		if(time.get() >= 1){
-//			target4 += 10;
-//			time.stop();
-//			time.reset();
-//		}
+		if(time.get() >= 0.15){
+			target1 -= 90;
+			time.stop();
+			time.reset();
+		}
 		// down flaps thingy thingy that goes wwooosh and open up 
 		if(!oldButton[4] && joy.getRawButton(4)){
 			target2 -= 10;
