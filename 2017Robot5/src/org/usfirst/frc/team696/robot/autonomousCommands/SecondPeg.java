@@ -8,6 +8,7 @@ public class SecondPeg extends CommandGroup {
 	
 	public SecondPeg() {
 		
+		
 	}
 	
 	public void leftSide(){
