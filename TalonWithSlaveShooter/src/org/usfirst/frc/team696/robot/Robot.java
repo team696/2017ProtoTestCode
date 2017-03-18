@@ -160,7 +160,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("slaveTalon current", slaveTalon.getOutputCurrent());
     	
     	if(SmartDashboard.getBoolean("run hopper system", false)){
-	    	conveyor.set(0.6);
+	    	conveyor.set(0.5);
 	    	hopper.set(0.6);
 	    	sideSwipe.set(-0.6);
     	} else {

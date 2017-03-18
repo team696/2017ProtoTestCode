@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,12 +29,19 @@ public class Robot extends IterativeRobot {
 	SerialPort port;
 	
 	Joystick joy = new Joystick(1);
-    Servo ser = new Servo(10);
+    Servo ser1 = new Servo(16);
+    Servo ser2 = new Servo(17);
+    Servo ser3 = new Servo(18);
+    Servo ser4 = new Servo(19);
     VictorSP intake = new VictorSP(0);
     double speed = 0;
-    double target =0; 
+    double target1 = 0;
+    double target3 = 0;
+    double target2 = 0;
+    double target4 = 0;
     boolean[] oldButton = new boolean[11];
-
+    public static Timer time = new Timer();
+    
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -50,6 +58,9 @@ public class Robot extends IterativeRobot {
 		} catch(Exception ex){System.out.println("NavX not working");};
 		
 		for(int i = 1; i <= 10; i++)oldButton[i] = false;
+//		ser2.setAngle(50);
+//		ser2.setAngle(ser2.getAngle());
+
 	}
 	
 	
@@ -94,6 +105,19 @@ public class Robot extends IterativeRobot {
 	 */
 	double goodTarget = 1;
 	
+	
+	@Override
+	public void teleopInit(){
+		ser2.setAngle(1);
+		ser4.setAngle(1);
+		ser1.setAngle(179); // bottom left
+		ser3.setAngle(1); // bottom right
+		target1 = ser1.getAngle();
+		target2 = ser2.getAngle();
+		target3 = ser3.getAngle();
+		target4 = ser4.getAngle();
+	}
+	
 	@Override
 	public void teleopPeriodic() {
 		
@@ -104,17 +128,45 @@ public class Robot extends IterativeRobot {
 //    	if(joy.getRawButton(5))speed = 0.8;
 //    	else speed = 0;
 		
-		if(!oldButton[1] && joy.getRawButton(1))target = target+10;
-		if(!oldButton[2] && joy.getRawButton(2))target = target-10;
-		if(target >= 181)target = 1;
-		if(target < 1)target = 50;
+		// upper flap thingy thingy 
+		if(!oldButton[1] && joy.getRawButton(1)){
+			time.start();
+//			target1 -= 90;
+			target3 += 90;
+		}
+		
+		if(!oldButton[2] && joy.getRawButton(2)){
+			target1 += 90;
+			target3 -= 90; //negative 
+		}
+		
+		if(!oldButton[3] && joy.getRawButton(3)){
+			time.start();
+			target2 += 10;
+			target4 += 10;
+			time.stop();
+		}
+		
+		if(time.get() >= 0.15){
+			target1 -= 90;
+			time.stop();
+			time.reset();
+		}
+		// down flaps thingy thingy that goes wwooosh and open up 
+		if(!oldButton[4] && joy.getRawButton(4)){
+			target2 -= 10;
+			target4 -=10;
+		}
+		
 		
     	
-    	ser.setAngle(target);
-    	intake.set(speed);
+    	ser1.setAngle(target1);
+    	ser2.setAngle(target2);
+    	ser3.setAngle(target3);
+    	ser4.setAngle(target4);
     	
     	for(int i = 1; i <= 10; i++)oldButton[i] = joy.getRawButton(i);
-    	System.out.println("Servo Angle: " + ser.getAngle() + "   TargetAngle: " + target);
+    	System.out.println("servo 1: " + target1 + "    " + ser1.getAngle() +"   servo 2: " + target2 + "   " + ser2.getAngle() + "   servo 3: " + target3 + "   " + ser3.getAngle() + "   servo 4: " + target4 + ser4.getAngle());
         
     }
 	
