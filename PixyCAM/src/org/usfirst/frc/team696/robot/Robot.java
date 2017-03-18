@@ -19,9 +19,11 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	
-	int bufferLength = 1;
+	int bufferLength = 40;
 	I2C pixy;
-	byte[] buffer = new byte[bufferLength];
+	byte[] longBuffer = new byte[bufferLength];
+	byte[] shortBuffer = new byte[1];
+	int pos = 0;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -74,14 +76,34 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
+	
 	@Override
 	public void teleopPeriodic() {
-			pixy.readOnly(buffer, bufferLength);
-			
-			for(int i = 0; i < buffer.length; i++){
-				System.out.print(buffer[i] + "   ");
+			if(pos == 4){
+				pos = 0;
+				pixy.readOnly(longBuffer, bufferLength);
+				for(int i = 0; i < longBuffer.length; i++){
+					System.out.print(longBuffer[i] + "   ");
+				}
+				System.out.println();
+			} else {
+				pixy.readOnly(shortBuffer, 1);
+				
+				if((shortBuffer[0] == 85 && pos%2 == 00 || (shortBuffer[0] == -86 && pos%2 == 1))){
+					pos++;
+				} else {
+					pos = 0;
+				}
 			}
-			System.out.println();
+			
+//		pixy.readOnly(longBuffer, bufferLength);
+//		
+//		if(longBuffer[0] == 85 && longBuffer[2] == 85 && longBuffer[1] == -86 && longBuffer[3] == -86){
+//			for(int i = 0;i < longBuffer.length; i++){
+//				System.out.print(longBuffer[i] + "      ");
+//			}
+//			System.out.println();
+//		}
 	}
 
 	/**
