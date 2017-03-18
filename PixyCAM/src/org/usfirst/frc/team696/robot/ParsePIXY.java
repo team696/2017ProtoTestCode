@@ -10,7 +10,9 @@ public class ParsePIXY implements Runnable{
 	int state = 0;
 	double[] x = {0, 0};
 	double[] y = {0, 0};
-	int tempCheckSum = 0;
+	int XYPos = 0;
+	int checkSum = 0;
+	int sum = 0;
 	byte[] buffer2 = new byte[2];
 	byte[] buffer10 = new byte[10];
 	byte[] buffer1 = new byte[1];
@@ -18,7 +20,6 @@ public class ParsePIXY implements Runnable{
 	Thread t = new Thread(this);
 	
 	public ParsePIXY(I2C pixy) {
-		// TODO Auto-generated constructor stub
 		this.pixy = pixy;
 	}
 	
@@ -29,7 +30,6 @@ public class ParsePIXY implements Runnable{
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		while(!isFinished){
 //			if(pos == 4){
 //				pos = 0;
@@ -47,31 +47,60 @@ public class ParsePIXY implements Runnable{
 //					pos = 0;
 //				}
 //			}
+			
 			switch(state){
-				//synchroniztion
-				case 0:
-					if(pos == 4){
-						pos = 0;
-//						pixy.readOnly(longBuffer, bufferLength);
-						state = 1;
+			//synchronize
+			case 0:
+				if(pos == 4){
+					state = 1;
+					pos = 0;
+				} else {
+					buffer1();
+					
+					if((buffer1[0] == 85 && pos%2 == 0) || (buffer1[0] == -86 && pos%2 == 1)){
+						pos++;
 					} else {
-						buffer1();
-						if((buffer1[0] == 85 && pos%2 == 00 || (buffer1[0] == -86 && pos%2 == 1))){
-							pos++;
-						} else {
-							pos = 0;
-						}
+						pos = 0;
 					}
-					break;
-				//in sync
-				case 1:
-					buffer2();
-					buffer10();
-					for(int i = 0; i < buffer10.length;i++){
-						tempCheckSum += buffer10[i];
-					}
-					
-					
+				}
+				break;
+			//set checksum
+			case 1:
+				buffer2();
+				checkSum = (buffer2[1] << 8) | buffer2[0];
+				state = 2;
+				break;
+			//compare checksum to sum
+			case 2:
+				buffer10();
+				for(int i = 0; i < 10; i++)sum+=buffer10[i];
+				state = 0;
+				if(sum == checkSum)state = 3;
+				break;
+			//get x and y center
+			case 3:
+				if(XYPos > 1)XYPos = 0;
+				x[XYPos] = (buffer10[3] << 8) | buffer10[2];
+				y[XYPos] = (buffer10[5] << 8) | buffer10[4];
+				XYPos++;
+				state = 4;
+				break;
+			//check for new object
+			case 4:
+				buffer2();
+				if(buffer2[0] == 85 && buffer2[1] == -86)state = 5;
+				else state = 0;
+				break;
+			//check for new frame
+			case 5:
+				buffer2();
+				state = 2;
+				if(buffer2[0] == 85 && buffer2[1] == -86)state = 1;
+				else checkSum = (buffer2[1] << 8) | buffer2[0];
+				break;
+			default:
+				state = 0;
+				break;
 			}
 		}
 	}
