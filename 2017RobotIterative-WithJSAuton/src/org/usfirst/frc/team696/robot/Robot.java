@@ -129,10 +129,10 @@ public class Robot extends IterativeRobot {
 		masterTalon.changeControlMode(TalonControlMode.Speed);
 		masterTalon.set(0);
 		masterTalon.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		masterTalon.setP(0.1);
+		masterTalon.setP(0.077);
         masterTalon.setI(0);
         masterTalon.setD(0.0);
-        masterTalon.setF(0.024);
+        masterTalon.setF(0.03);
         masterTalon.enableControl();
 		
         /*
@@ -279,7 +279,7 @@ public class Robot extends IterativeRobot {
 		 * set shooter values
 		 */
 		if(runShooter){
-			masterTalon.setSetpoint(100);
+			masterTalon.setSetpoint(3325);
 			masterTalon.enableControl();
 			slaveTalon.enableControl();
 		} else {

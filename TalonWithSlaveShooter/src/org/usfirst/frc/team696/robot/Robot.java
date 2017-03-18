@@ -52,8 +52,8 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        masterTalon.reverseOutput(false);
-        masterTalon.reverseSensor(true);
+        masterTalon.reverseOutput(true);
+        masterTalon.reverseSensor(false);
         masterTalon.enable();
         masterTalon.changeControlMode(TalonControlMode.Speed);
 
@@ -72,14 +72,14 @@ public class Robot extends IterativeRobot {
          * 1 mass, 1 motor
          * works ok
          */
-        SmartDashboard.putNumber("p", 0.05);
+        SmartDashboard.putNumber("p", 0.077);
         SmartDashboard.putNumber("i", 0);
-    	SmartDashboard.putNumber("d", 0.6);
-        SmartDashboard.putNumber("f", 0.026);
+    	SmartDashboard.putNumber("d", 0.0);
+        SmartDashboard.putNumber("f", 0.03);
         
         SmartDashboard.putNumber("ramp rate", 0);
         SmartDashboard.putNumber("currentRPM", 0);
-        SmartDashboard.putNumber("targetRPM", 2700);
+        SmartDashboard.putNumber("targetRPM", 3325);
         SmartDashboard.putNumber("masterTalon current", 0);
         SmartDashboard.putNumber("slaveTalon current", 0);
         SmartDashboard.putBoolean("run hopper system", false);
@@ -142,15 +142,16 @@ public class Robot extends IterativeRobot {
 
     public void teleopPeriodic() {
     	
-    	masterTalon.setSetpoint(SmartDashboard.getNumber("targetRPM", 2700));
+    	masterTalon.setSetpoint(SmartDashboard.getNumber("targetRPM", 3325));
     	slaveTalon.set(masterTalon.getDeviceID());
+    	masterTalon.clearIAccum();
     	
     	masterTalon.setAllowableClosedLoopErr(10);
     	SmartDashboard.putNumber("currentRPM", masterTalon.get());
-    	masterTalon.setP(SmartDashboard.getNumber("p", 0.05));
+    	masterTalon.setP(SmartDashboard.getNumber("p", 0.077));
     	masterTalon.setI(SmartDashboard.getNumber("i", 0));
-    	masterTalon.setD(SmartDashboard.getNumber("d", 0.6));
-    	masterTalon.setF(SmartDashboard.getNumber("f", 0.026)); 
+    	masterTalon.setD(SmartDashboard.getNumber("d", 0.0));
+    	masterTalon.setF(SmartDashboard.getNumber("f", 0.03)); 
     	
     	masterTalon.enableControl();
     	slaveTalon.enableControl();
