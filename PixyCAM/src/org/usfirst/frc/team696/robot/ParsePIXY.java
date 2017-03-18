@@ -31,22 +31,7 @@ public class ParsePIXY implements Runnable{
 	@Override
 	public void run() {
 		while(!isFinished){
-//			if(pos == 4){
-//				pos = 0;
-//				pixy.readOnly(longBuffer, bufferLength);
-//				for(int i = 0; i < longBuffer.length; i++){
-//					System.out.print(longBuffer[i] + "   ");
-//				}
-//				System.out.println();
-//			} else {
-//				pixy.readOnly(shortBuffer, 1);
-//				
-//				if((shortBuffer[0] == 85 && pos%2 == 00 || (shortBuffer[0] == -86 && pos%2 == 1))){
-//					pos++;
-//				} else {
-//					pos = 0;
-//				}
-//			}
+			System.out.print("state: " + state + "    ");
 			
 			switch(state){
 			//synchronize
@@ -54,6 +39,8 @@ public class ParsePIXY implements Runnable{
 				if(pos == 4){
 					state = 1;
 					pos = 0;
+					XYPos = 0;
+					System.out.print("changing state");
 				} else {
 					buffer1();
 					
@@ -62,26 +49,35 @@ public class ParsePIXY implements Runnable{
 					} else {
 						pos = 0;
 					}
+					System.out.print(buffer1[0] + "    ");
 				}
+				System.out.println();
 				break;
 			//set checksum
 			case 1:
 				buffer2();
-				checkSum = (buffer2[1] << 8) | buffer2[0];
 				state = 2;
+				System.out.println("clearing buffer of checksum");
 				break;
 			//compare checksum to sum
 			case 2:
 				buffer10();
-				for(int i = 0; i < 10; i++)sum+=buffer10[i];
-				state = 0;
-				if(sum == checkSum)state = 3;
+				for(int i = 0; i < 10; i++)System.out.print(buffer10[i] + "    ");
+				System.out.println("getting 10 bytes left in block");
+				state = 3;
 				break;
 			//get x and y center
 			case 3:
 				if(XYPos > 1)XYPos = 0;
-				x[XYPos] = (buffer10[3] << 8) | buffer10[2];
-				y[XYPos] = (buffer10[5] << 8) | buffer10[4];
+				if(XYPos == 0){
+					x[1] = 0;
+					y[1] = 0;
+				}
+				x[XYPos] = 0;
+				x[XYPos] = toWord(buffer10[3], buffer10[2]);
+				y[XYPos] = 0;
+				y[XYPos] = toWord(buffer10[5], buffer10[4]);
+				System.out.println("XYPos " + XYPos + "          " + x[0] + "   " + y[0] + "    " + x[1] + "   " + y[1]);
 				XYPos++;
 				state = 4;
 				break;
@@ -89,14 +85,21 @@ public class ParsePIXY implements Runnable{
 			case 4:
 				buffer2();
 				if(buffer2[0] == 85 && buffer2[1] == -86)state = 5;
-				else state = 0;
+				else {
+					state = 0;
+					XYPos = 0;
+				}
+				System.out.println(buffer2[0] + "   " + buffer2[1]);
 				break;
 			//check for new frame
 			case 5:
 				buffer2();
 				state = 2;
-				if(buffer2[0] == 85 && buffer2[1] == -86)state = 1;
-				else checkSum = (buffer2[1] << 8) | buffer2[0];
+				if(buffer2[0] == 85 && buffer2[1] == -86){
+					state = 1;
+					XYPos = 0;
+				}
+				System.out.println(buffer2[0] + "   " + buffer2[1]);
 				break;
 			default:
 				state = 0;
@@ -117,8 +120,13 @@ public class ParsePIXY implements Runnable{
 		pixy.readOnly(buffer10, 10);
 	}
 	
+	public int toWord(byte one, byte two){
+		return (one << 8) | two;
+	}
+	
 	public void stop(){
 		isFinished = true;
+		t.interrupt();
 	}
 
 }

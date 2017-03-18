@@ -19,11 +19,8 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	
-	int bufferLength = 40;
 	I2C pixy;
-	byte[] longBuffer = new byte[bufferLength];
-	byte[] shortBuffer = new byte[1];
-	int pos = 0;
+	ParsePIXY parsePIXY;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -36,6 +33,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", chooser);
 		
 		pixy = new I2C(Port.kOnboard, 0x54);
+		parsePIXY = new ParsePIXY(pixy);
 	}
 
 	/**
@@ -78,34 +76,28 @@ public class Robot extends IterativeRobot {
 	 */
 	
 	@Override
-	public void teleopPeriodic() {
-			if(pos == 4){
-				pos = 0;
-				pixy.readOnly(longBuffer, bufferLength);
-				for(int i = 0; i < longBuffer.length; i++){
-					System.out.print(longBuffer[i] + "   ");
-				}
-				System.out.println();
-			} else {
-				pixy.readOnly(shortBuffer, 1);
-				
-				if((shortBuffer[0] == 85 && pos%2 == 00 || (shortBuffer[0] == -86 && pos%2 == 1))){
-					pos++;
-				} else {
-					pos = 0;
-				}
-			}
-			
-//		pixy.readOnly(longBuffer, bufferLength);
-//		
-//		if(longBuffer[0] == 85 && longBuffer[2] == 85 && longBuffer[1] == -86 && longBuffer[3] == -86){
-//			for(int i = 0;i < longBuffer.length; i++){
-//				System.out.print(longBuffer[i] + "      ");
-//			}
-//			System.out.println();
-//		}
+	public void teleopInit() {
+		// TODO Auto-generated method stub
+		super.teleopInit();
+		try{
+			parsePIXY.start();
+		}catch(IllegalThreadStateException e){
+			System.out.println("failed to start thread");
+		}
 	}
-
+	
+	@Override
+	public void teleopPeriodic() {
+	
+	}
+	
+	@Override
+	public void disabledInit() {
+		// TODO Auto-generated method stub
+		super.disabledInit();
+		parsePIXY.stop();
+	}
+	
 	/**
 	 * This function is called periodically during test mode
 	 */

@@ -31,8 +31,8 @@ public class Robot extends IterativeRobot {
     
     Joystick gamePad = new Joystick(2);
     Victor conveyor = new Victor(1);
-    Victor hopper = new Victor(10);
-    Victor sideSwipe = new Victor(12);
+//    Victor hopper = new Victor(10);
+//    Victor sideSwipe = new Victor(12);
     CANTalon masterTalon = new CANTalon(2);
     CANTalon slaveTalon = new CANTalon(1);
     
@@ -161,12 +161,12 @@ public class Robot extends IterativeRobot {
     	
     	if(SmartDashboard.getBoolean("run hopper system", false)){
 	    	conveyor.set(0.5);
-	    	hopper.set(0.6);
-	    	sideSwipe.set(-0.6);
+//	    	hopper.set(0.6);
+//	    	sideSwipe.set(-0.6);
     	} else {
     		conveyor.set(0);
-    		hopper.set(0);
-    		sideSwipe.set(0);
+//    		hopper.set(0);
+//    		sideSwipe.set(0);
     	}
     }
     
