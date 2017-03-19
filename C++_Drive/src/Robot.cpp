@@ -8,34 +8,51 @@
 #include <SmartDashboard/SmartDashboard.h>
 
 class Robot: public frc::IterativeRobot {
+
 public:
+
+	 frc::Joystick stick;
+
+     frc::VictorSP LeftTopDrive;
+     frc::VictorSP LeftMiddleDrive;
+
+     frc::VictorSP RightTopDrive;
+     frc::VictorSP RightMiddleDrive;
+
+     frc:: RobotDrive myRobot;
+
+
+     frc::Encoder enc;
+     frc::Encoder enc2;
+
+
+/*
+ * variables
+ */
+double speed = 0;
+double wheel = 0;
+double LeftDrive = 0;
+double RightDrive = 0;
+double time = 0;
+
+  Robot() :
+	enc(1,2),
+	enc2(3,4),
+	stick(0),
+	LeftTopDrive(1),
+	LeftMiddleDrive(2),
+	RightTopDrive(4),
+	RightMiddleDrive(5),
+	myRobot(LeftTopDrive,LeftMiddleDrive,RightTopDrive,RightMiddleDrive),
+{
+
+}
+ // frc:: RobotDrive* drive = new RobotDrive(0,1,2,3);
+
 	void RobotInit() {
-		chooser.AddDefault(autoNameDefault, autoNameDefault);
-		chooser.AddObject(autoNameCustom, autoNameCustom);
-		frc::SmartDashboard::PutData("Auto Modes", &chooser);
-		  frc::Joystick stick { 0 };
-				//Joystick stick = new Joystick(0);
-		        frc::VictorSP LeftTopDrive {1};
-		        frc::VictorSP LeftMiddleDrive {2};
-		        frc::VictorSP LeftRearDrive { 3 };
-
-		        frc::VictorSP RightTopDrive { 4 };
-		        frc::VictorSP RightMiddleDrive { 5 };
-		        frc::VictorSP RightRearDrive { 6 };
-
-		        frc::Encoder enc {1,2};
-		        frc::Encoder enc2 {3,4};
-
-
-		        /*
-		         * variables
-		         */
-		        double speed = 0;
-		        double wheel = 0;
-                double time = 0;
-                double LeftDrive = 0;
-                double RightDrive = 0;
-                frc:: RobotDrive drive = new RobotDrive(0,1,2,3);
+//		chooser.AddDefault(autoNameDefault, autoNameDefault);
+//		chooser.AddObject(autoNameCustom, autoNameCustom);
+//		frc::SmartDashboard::PutData("Auto Modes", &chooser);
 
 
 	}
@@ -52,41 +69,40 @@ public:
 	 * SendableChooser make sure to add them to the chooser code above as well.
 	 */
 	void AutonomousInit() override {
-		autoSelected = chooser.GetSelected();
+	//	autoSelected = chooser.GetSelected();
 		// std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
 		std::cout << "Auto selected: " << autoSelected << std::endl;
 
 		if (autoSelected == autoNameCustom) {
 			// Custom Auto goes here
-		frc::Timer();
+
 		} else {
 			// Default Auto goes here
 		}
 	}
 
 	void AutonomousPeriodic() {
-		if (autoSelected == autoNameCustom) {
+		if (autoSelected == autoNameCustom)
 			// Custom Auto goes here
 
-			if((-enc->Get() + enc2->Get()) /2 < 30){
-			    			drive.tankDrive(0.5,0.5);
-			    			}else{
-			    			drive.tankDrive(0, 0);
+			if(time->Get() > 0) {
+			     myRobot->set(0.5,0.5,0.5,0.5);
+			    			} else {
+			    			myRobot->set(0, 0, 0, 0); }
 
-			    		}
 
-		} else {
+	else {
 			// Default Auto goes here
 		}
-	}
 
+	}
 	void TeleopInit() {
 
 	}
 
 	void TeleopPeriodic() {
 
-		drive->tankdrive(LeftDrive, RightDrive);
+
 
 	}
 
@@ -96,10 +112,11 @@ public:
 
 private:
 	frc::LiveWindow* lw = LiveWindow::GetInstance();
-	frc::SendableChooser<std::string> chooser;
+//	frc::SendableChooser<std::string> chooser;
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
+//	int drive;
 };
 
 START_ROBOT_CLASS(Robot)
