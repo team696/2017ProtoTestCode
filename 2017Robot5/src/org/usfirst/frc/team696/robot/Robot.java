@@ -2,7 +2,10 @@ package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -17,7 +20,10 @@ import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team696.robot.utilities.SixMotorDrive;
+import org.usfirst.frc.team696.robot.utilities.Util;
 
+import com.ctre.CANTalon;
 import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
 
@@ -29,6 +35,14 @@ import com.kauailabs.nav6.frc.IMUAdvanced;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	
+	/*
+	 * set up and initialize joysticks
+	 */
+	Joystick arduino = new Joystick(0);
+	Joystick wheel = new Joystick(1);
+	Joystick gamePad = new Joystick(2);
+	
 
 	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
@@ -41,9 +55,39 @@ public class Robot extends IterativeRobot {
 	public static IMU navX;
 	SerialPort port;
 	
+	/*
+	 * set up and initialize intake
+	 */
+	VictorSP intakeMotor = new VictorSP(RobotMap.intakeMotor);
+	/*
+	 * set up driving
+	 */
+	public static SixMotorDrive drive = new SixMotorDrive(RobotMap.frontLeftMotor, 
+								RobotMap.midLeftMotor, 
+								RobotMap.rearLeftMotor, 
+								RobotMap.frontRightMotor, 
+								RobotMap.midRightMotor, 
+								RobotMap.rearRightMotor);
+	
+	
 	public static Encoder leftDriveEncoder = new Encoder(RobotMap.leftDriveEncoderA, RobotMap.leftDriveEncoderB);
 	public static Encoder rightDriveEncoder = new Encoder(RobotMap.rightDriveEncoderA, RobotMap.rightDriveEncoderB);
+	
 
+	
+	/*
+	 * Set up and initdialize CAN Talons for shooting
+	 */
+	CANTalon masterTalon = new CANTalon(RobotMap.masterShooterTalon);
+	CANTalon slaveTalon = new CANTalon(RobotMap.slaveShooterTalon);
+	
+	/*
+	 * set up and initialize ball chain from hopper to shooter
+	 */
+	VictorSP conveyorMotor = new VictorSP(RobotMap.conveyorMotor);
+	VictorSP sideSwipeMotor = new VictorSP(RobotMap.sideSwipeMotor);
+	VictorSP rollerMotor = new VictorSP(RobotMap.rollerMotor);
+	
 	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 	
@@ -72,6 +116,40 @@ public class Robot extends IterativeRobot {
 	
 	double distancePerPulse = (4*Math.PI)/200;
 	
+	/*
+	 * set up climber
+	 */
+	VictorSP climberMotorA = new VictorSP(RobotMap.climberMotorA);
+	VictorSP climberMotorB = new VictorSP(RobotMap.climberMotorB);
+	
+	/*
+	 * setting up servo
+	 */
+	
+	Servo MouseTrapServo = new Servo(RobotMap.MouseTrapServo); 
+	/*
+	 * servo variable 
+	 */
+	double target = 0; 
+	
+	/*
+	 * set up oldButton[] for gamepad
+	 */
+	boolean[] oldButton = new boolean[11];
+	
+	/*
+	 * driving variables
+	 */
+	double speed = 0;
+	double turn = 0;
+	double speedTurnScale = 0;
+	double leftValue = 0;
+	double rightValue = 0;
+	boolean firstZero = false;
+	public static double directionSetPoint = 0;
+
+
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -96,6 +174,17 @@ public class Robot extends IterativeRobot {
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
 		
 		leftDriveEncoder.setReverseDirection(true);
+		
+		/*
+		 * Servo angle 
+		 */
+		MouseTrapServo.setAngle(50);
+		
+		/*
+		 * Initialize oldButton[]
+		 */
+		for(int i = 0; i < 11; i++)oldButton[i] = false;
+		
 	}
 
 	/**
@@ -162,6 +251,7 @@ public class Robot extends IterativeRobot {
 		
 		Scheduler.getInstance().add(new TeleopDrive());
 		Scheduler.getInstance().add(new RunShooter());
+		
 	}
 
 	/**
@@ -170,6 +260,100 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		
+		/*
+		 * Run intake when button 1 is pushed on gamepad
+		 */
+		if(gamePad.getRawButton(1) && !oldButton[1])runIntake = !runIntake;
+		
+		/*
+		 * Run hopper and conveyor when button 6 is pushed on gamepad
+		 */
+		if(gamePad.getRawButton(6) && !oldButton[6]){
+			runConveyor = !runConveyor;
+			runHopper = !runHopper;
+		}
+
+		/*
+		 * run shooter when button 5 is pushed on gamepad
+		 */
+		if(gamePad.getRawButton(5) && !oldButton[5])runShooter = !runShooter;
+		
+		/*
+		 * set intake values
+		 */
+		if(runIntake)intakeMotor.set(0.7);
+		else intakeMotor.set(0);
+		
+		/*
+		 * set conveyor values
+		 */
+		if(runConveyor)conveyorMotor.set(0.8);
+		else conveyorMotor.set(0);
+		
+		/*
+		 * set hopper values
+		 */
+		if(runHopper){
+			sideSwipeMotor.set(-0.5);
+			rollerMotor.set(0.5);
+		} else {
+			sideSwipeMotor.set(0);
+			rollerMotor.set(0);
+		}
+		
+		/*
+		 * set shooter values
+		 */
+		if(runShooter){
+			masterTalon.setSetpoint(3325);
+			masterTalon.enableControl();
+			slaveTalon.enableControl();
+		} else {
+			masterTalon.setSetpoint(0);
+			masterTalon.disableControl();
+			slaveTalon.disableControl();
+		}
+		slaveTalon.set(masterTalon.getDeviceID());
+		
+		/*
+		 * set climber values
+		 */
+		if(gamePad.getRawButton(8)){
+			climberMotorA.set(-1);
+			climberMotorB.set(-1);
+		} else {
+			climberMotorA.set(0);
+			climberMotorB.set(0);
+		}
+		
+		if(gamePad.getRawButton(9)){
+		target+= 15; 
+		
+	}
+		/*
+		 * drive control
+		 * speed: forward speed
+		 * turn: turn rate
+		 * speedTurnScael: scale to change turn rate based on speed
+		 */
+		speed = -arduino.getRawAxis(4);
+    	turn = wheel.getRawAxis(0);
+    	speed = Util.smoothDeadZone(speed, -0.01, 0.1, -1, 1, 0);
+    	speedTurnScale = 1/(Math.abs(speed)*2 + 1);
+    	turn = Util.smoothDeadZone(turn, -0.2, 0.2, -1, 1, 0) * Math.abs((speedTurnScale));
+    	
+    	
+		
+    	leftValue = speed + turn;
+    	rightValue = speed - turn;
+    	
+    	drive.tankDrive(leftValue, rightValue);
+    	
+    	/*
+    	 * get oldButtons from gamepad
+    	 */
+		for(int i = 1; i < 11; i++)oldButton[i] = gamePad.getRawButton(i);
 	}
 
 	/**
