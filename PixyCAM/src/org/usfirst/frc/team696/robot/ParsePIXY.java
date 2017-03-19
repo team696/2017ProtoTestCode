@@ -1,6 +1,7 @@
 package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.Timer;
 
 public class ParsePIXY implements Runnable{
 
@@ -11,8 +12,6 @@ public class ParsePIXY implements Runnable{
 	double[] x = {0, 0};
 	double[] y = {0, 0};
 	int XYPos = 0;
-	int checkSum = 0;
-	int sum = 0;
 	byte[] buffer2 = new byte[2];
 	byte[] buffer10 = new byte[10];
 	byte[] buffer1 = new byte[1];
@@ -24,46 +23,38 @@ public class ParsePIXY implements Runnable{
 	}
 	
 	public void start(){
-		t.start();
+		if(!t.isAlive())t.start();
 		isFinished = false;
 	}
 
+	double old = 0;
 	@Override
 	public void run() {
 		while(!isFinished){
-			System.out.print("state: " + state + "    ");
-			
 			switch(state){
 			//synchronize
 			case 0:
+				buffer1();
+				
+				if((buffer1[0] == 85 && pos%2 == 0) || (buffer1[0] == -86 && pos%2 == 1)){
+					pos++;
+				} else {
+					pos = 0;
+				}
 				if(pos == 4){
 					state = 1;
 					pos = 0;
 					XYPos = 0;
-					System.out.print("changing state");
-				} else {
-					buffer1();
-					
-					if((buffer1[0] == 85 && pos%2 == 0) || (buffer1[0] == -86 && pos%2 == 1)){
-						pos++;
-					} else {
-						pos = 0;
-					}
-					System.out.print(buffer1[0] + "    ");
 				}
-				System.out.println();
 				break;
 			//set checksum
 			case 1:
 				buffer2();
 				state = 2;
-				System.out.println("clearing buffer of checksum");
 				break;
 			//compare checksum to sum
 			case 2:
 				buffer10();
-				for(int i = 0; i < 10; i++)System.out.print(buffer10[i] + "    ");
-				System.out.println("getting 10 bytes left in block");
 				state = 3;
 				break;
 			//get x and y center
@@ -77,7 +68,6 @@ public class ParsePIXY implements Runnable{
 				x[XYPos] = toWord(buffer10[3], buffer10[2]);
 				y[XYPos] = 0;
 				y[XYPos] = toWord(buffer10[5], buffer10[4]);
-				System.out.println("XYPos " + XYPos + "          " + x[0] + "   " + y[0] + "    " + x[1] + "   " + y[1]);
 				XYPos++;
 				state = 4;
 				break;
@@ -89,7 +79,6 @@ public class ParsePIXY implements Runnable{
 					state = 0;
 					XYPos = 0;
 				}
-				System.out.println(buffer2[0] + "   " + buffer2[1]);
 				break;
 			//check for new frame
 			case 5:
@@ -99,11 +88,18 @@ public class ParsePIXY implements Runnable{
 					state = 1;
 					XYPos = 0;
 				}
-				System.out.println(buffer2[0] + "   " + buffer2[1]);
 				break;
 			default:
 				state = 0;
 				break;
+			}
+			
+			System.out.println(Math.abs(x[0]) - Math.abs(old) + "       " + x[0]);
+			
+			try{
+				Thread.sleep(10);
+			}catch(InterruptedException e){
+				System.out.println("failed to sleep");
 			}
 		}
 	}
@@ -120,13 +116,12 @@ public class ParsePIXY implements Runnable{
 		pixy.readOnly(buffer10, 10);
 	}
 	
-	public int toWord(byte one, byte two){
+	public double toWord(byte one, byte two){
 		return (one << 8) | two;
 	}
 	
 	public void stop(){
 		isFinished = true;
-		t.interrupt();
 	}
 
 }
