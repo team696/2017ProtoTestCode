@@ -15,9 +15,13 @@ public:
 
      frc::VictorSP LeftTopDrive;
      frc::VictorSP LeftMiddleDrive;
+     frc::VictorSP LeftRearDrive;
 
      frc::VictorSP RightTopDrive;
      frc::VictorSP RightMiddleDrive;
+     frc::VictorSP RightRearDrive;\
+
+     frc::Timer time;
 
      frc:: RobotDrive myRobot;
 
@@ -36,11 +40,14 @@ double RightDrive = 0;
 
   Robot() :
 	stick(0),
-	LeftTopDrive(1),
-	LeftMiddleDrive(2),
-	RightTopDrive(4),
-	RightMiddleDrive(5),
-	myRobot(LeftTopDrive,LeftMiddleDrive,RightTopDrive,RightMiddleDrive)
+	LeftTopDrive(9),
+	LeftMiddleDrive(8),
+	LeftRearDrive(7),
+	RightTopDrive(2),
+	RightMiddleDrive(3),
+	RightRearDrive(4),
+	myRobot(LeftTopDrive,LeftMiddleDrive,RightTopDrive, RightMiddleDrive)
+	//myRobot(LeftRearDrive, RightRearDrive)
 
 {
 
@@ -73,7 +80,7 @@ double RightDrive = 0;
 
 		if (autoSelected == autoNameCustom) {
 			// Custom Auto goes here
-
+			time.Start();
 		} else {
 			// Default Auto goes here
 		}
@@ -83,11 +90,17 @@ double RightDrive = 0;
 		if (autoSelected == autoNameCustom) {
 			// Custom Auto goes here
 
-			myRobot.TankDrive(.5, .5);
+			if(time.Get() < 5){
+						    			myRobot.TankDrive(1, 1, false);
+						    		}else{
+						    			myRobot.TankDrive(0., 0., false);
+
+						    		}
+
+		//	myRobot.TankDrive(1, 1);
 
 
-					myRobot.SetSafetyEnabled(false);
-					myRobot.TankDrive(0.5, 0.5);
+
 
 
 		} else {
