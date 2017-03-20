@@ -21,6 +21,7 @@ public:
 
      frc:: RobotDrive myRobot;
 
+     frc::Wait wait();
 
      frc::Encoder enc;
      frc::Encoder enc2;
@@ -33,7 +34,7 @@ double speed = 0;
 double wheel = 0;
 double LeftDrive = 0;
 double RightDrive = 0;
-double Wait = 0;
+
 
   Robot() :
 	enc(1,2),
@@ -43,7 +44,8 @@ double Wait = 0;
 	LeftMiddleDrive(2),
 	RightTopDrive(4),
 	RightMiddleDrive(5),
-	myRobot(LeftTopDrive,LeftMiddleDrive,RightTopDrive,RightMiddleDrive),
+	myRobot(LeftTopDrive,LeftMiddleDrive,RightTopDrive,RightMiddleDrive)
+
 {
 
 }
@@ -85,9 +87,14 @@ double Wait = 0;
 		if (autoSelected == autoNameCustom) {
 			// Custom Auto goes here
 
-			myRobot.TankDrive(0.5, 0.5);
-					Wait(2.0);
+			myRobot.TankDrive(.5, .5);
 
+
+					myRobot.SetSafetyEnabled(false);
+					myRobot.TankDrive(0.5, 0.5);
+
+			//myRobot.TankDrive(0.5, 0.5);
+			//	Wait(2.0);
 		} else {
 			// Default Auto goes here
 	}
@@ -114,6 +121,7 @@ private:
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
 //	int drive;
+	int wait;
 };
 
 START_ROBOT_CLASS(Robot)
