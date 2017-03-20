@@ -19,11 +19,11 @@ public:
 
      frc::VictorSP RightTopDrive;
      frc::VictorSP RightMiddleDrive;
-   //  frc::VictorSP RightRearDrive;
+    // frc::VictorSP RightRearDrive;
 
      frc::Timer time;
 
-  //   frc:: RobotDrive myRobot;
+     frc:: RobotDrive myRobot;
 
 
 
@@ -34,8 +34,10 @@ public:
  */
 double speed = 0;
 double wheel = 0;
-double LeftDrive = 0;
-double RightDrive = 0;
+double LeftDrive = 1;
+double RightDrive = 1;
+double LeftDriveZero = 0;
+double RightDriveZero = 0;
 
 
   Robot() :
@@ -44,15 +46,15 @@ double RightDrive = 0;
 	LeftMiddleDrive(8),
 //	LeftRearDrive(7),
 	RightTopDrive(2),
-	RightMiddleDrive(3)
-//	RightRearDrive(4)
-	//myRobot(LeftTopDrive,LeftMiddleDrive,RightTopDrive, RightMiddleDrive)
+	RightMiddleDrive(3),
+//	RightRearDrive(4),
+	myRobot(LeftTopDrive,LeftMiddleDrive,RightTopDrive, RightMiddleDrive)
 //	myRobot(LeftRearDrive, RightRearDrive)
 
 {
 
 }
-  frc:: RobotDrive* drive = new RobotDrive(LeftTopDrive,LeftMiddleDrive,RightTopDrive,RightMiddleDrive);
+//  frc:: RobotDrive drive = new RobotDrive(LeftTopDrive,LeftMiddleDrive,RightTopDrive,RightMiddleDrive);
 
 	void RobotInit() {
 //		chooser.AddDefault(autoNameDefault, autoNameDefault);
@@ -91,13 +93,14 @@ double RightDrive = 0;
 			// Custom Auto goes here
 
 			if(time.Get() < 9){
-						    			drive->TankDrive(1.0, 1.0, false);
+						    			myRobot.TankDrive(LeftDrive, RightDrive, false);
 						    		}else{
-						    			drive->TankDrive(0.0, 0.0, false);
+						    			myRobot.TankDrive(LeftDriveZero, RightDriveZero, false);
 
 						    		}
 
 		//	myRobot.TankDrive(1, 1);
+
 
 
 
