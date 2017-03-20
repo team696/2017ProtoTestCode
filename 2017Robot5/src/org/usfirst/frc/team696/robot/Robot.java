@@ -126,7 +126,7 @@ public class Robot extends IterativeRobot {
 	 * setting up servo
 	 */
 	
-	Servo MouseTrapServo = new Servo(RobotMap.MouseTrapServo); 
+	Servo MouseTrapServo = new Servo(RobotMap.hoodServo); 
 	/*
 	 * servo variable 
 	 */

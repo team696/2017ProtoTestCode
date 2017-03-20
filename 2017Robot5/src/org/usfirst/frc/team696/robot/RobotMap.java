@@ -31,5 +31,5 @@ public class RobotMap {
 	public static int climberMotorA = 5;
 	public static int climberMotorB = 6;
 	
-	public static int MouseTrapServo = 13; 
+	public static int hoodServo = 13; 
 }

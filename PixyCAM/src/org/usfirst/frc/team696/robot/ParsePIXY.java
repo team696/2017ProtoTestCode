@@ -116,8 +116,8 @@ public class ParsePIXY implements Runnable{
 		pixy.readOnly(buffer10, 10);
 	}
 	
-	public double toWord(byte one, byte two){
-		return (one << 8) | two;
+	public int toWord(byte one, byte two){
+		return ((one << 8) | two) & 0x0000ffff;
 	}
 	
 	public void stop(){
