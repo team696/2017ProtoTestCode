@@ -1,6 +1,6 @@
 package org.usfirst.frc.team696.robot.utilities;
 
-public class PID implements Runnable{
+public class PID{
 	private double kP = 0;
 	private double kI = 0;
 	private double kD = 0;
@@ -9,19 +9,18 @@ public class PID implements Runnable{
 	private double oldError = 0;
 	private double cumulativeError = 0;
 	private double outputValue = 0;
-	Thread t = new Thread(this);
 	
 	public PID(double kP, double kI, double kD, double alpha){
 		this.kP = kP;
 		this.kI = kI;
 		this.kD = kD;
 		this.alpha = alpha;
-		t.start();
 	}
 	
 	public void setError(double error){
 		oldError = this.error;
 		this.error = error;
+		run();
 	}
 	
 	public void setPID(double kP, double kI, double kD, double alpha){
@@ -60,6 +59,6 @@ public class PID implements Runnable{
 	}
 	
 	public void run(){
-		while(true)outputValue = P() + I() + D();
+		outputValue = P() + I() + D();
 	}
 }

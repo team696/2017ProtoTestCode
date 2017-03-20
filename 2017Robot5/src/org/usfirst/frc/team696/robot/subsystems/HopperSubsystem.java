@@ -13,12 +13,10 @@ public class HopperSubsystem extends Subsystem {
 	
 	VictorSP roller;
 	VictorSP sideSwipe;
-	VictorSP conveyor;
 	
-	public HopperSubsystem(int rollerMotor, int sideSwipeMotor, int conveyorMotor){
+	public HopperSubsystem(int rollerMotor, int sideSwipeMotor){
 		roller = new VictorSP(rollerMotor);
 		sideSwipe = new VictorSP(sideSwipeMotor);
-		conveyor = new VictorSP(conveyorMotor);
 	}
 
     public void initDefaultCommand() {
@@ -26,11 +24,7 @@ public class HopperSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void setConveyor(double speed){
-    	conveyor.set(speed);
-    }
-    
-    public void setHopper(double speed){
+    public void setSpeed(double speed){
     	sideSwipe.set(speed);
     	roller.set(speed);
     }

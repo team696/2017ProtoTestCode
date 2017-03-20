@@ -1,12 +1,7 @@
 package org.usfirst.frc.team696.robot.subsystems;
 
-import org.usfirst.frc.team696.robot.Robot;
-import org.usfirst.frc.team696.robot.utilities.DriveCmd;
-import org.usfirst.frc.team696.robot.utilities.SixMotorDrive;
 
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -26,11 +21,6 @@ public class DriveTrainSubsystem extends Subsystem {
 		driveB = new RobotDrive(midLeftMotor,
 				midRightMotor);
 	}
-	
-	public void set(double leftValue, double rightValue){
-		driveA.tankDrive(leftValue, rightValue);
-		driveB.tankDrive(leftValue, rightValue);
-	}
 
 	@Override
 	protected void initDefaultCommand() {
@@ -38,5 +28,9 @@ public class DriveTrainSubsystem extends Subsystem {
 		
 	}
 
+	public void tankDrive(double leftValue, double rightValue){
+		driveA.tankDrive(leftValue, rightValue);
+		driveB.tankDrive(leftValue, rightValue);
+	}
 }
 

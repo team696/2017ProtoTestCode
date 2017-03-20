@@ -51,7 +51,6 @@ public class ShooterSubsystem extends Subsystem {
     }
     
     public void run(){
-    	if(!Robot.shooterEnabled)Robot.targetRPM = 0;
     	if(Robot.targetRPM == 0)disable();
     	else enable();
     	masterShooter.setSetpoint(Robot.targetRPM);
