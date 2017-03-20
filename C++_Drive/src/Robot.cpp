@@ -19,7 +19,7 @@ public:
 
      frc::VictorSP RightTopDrive;
      frc::VictorSP RightMiddleDrive;
-     frc::VictorSP RightRearDrive;\
+     frc::VictorSP RightRearDrive;
 
      frc::Timer time;
 
@@ -90,10 +90,10 @@ double RightDrive = 0;
 		if (autoSelected == autoNameCustom) {
 			// Custom Auto goes here
 
-			if(time.Get() < 5){
-						    			myRobot.TankDrive(1, 1, false);
+			if(time.Get() > 5){
+						    			myRobot.TankDrive(1.0, 1.0, false);
 						    		}else{
-						    			myRobot.TankDrive(0., 0., false);
+						    			myRobot.TankDrive(0.0, 0.0, false);
 
 						    		}
 
