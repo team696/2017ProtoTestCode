@@ -15,11 +15,11 @@ public:
 
      frc::VictorSP LeftTopDrive;
      frc::VictorSP LeftMiddleDrive;
-   //  frc::VictorSP LeftRearDrive;
+    frc::VictorSP LeftRearDrive;
 
      frc::VictorSP RightTopDrive;
      frc::VictorSP RightMiddleDrive;
-    // frc::VictorSP RightRearDrive;
+     frc::VictorSP RightRearDrive;
 
      frc::Timer time;
 
@@ -44,12 +44,10 @@ double RightDriveZero = 0;
 	stick(0),
 	LeftTopDrive(9),
 	LeftMiddleDrive(8),
-//	LeftRearDrive(7),
+	LeftRearDrive(7),
 	RightTopDrive(2),
-	RightMiddleDrive(3),
-//	RightRearDrive(4),
-	myRobot(LeftTopDrive,LeftMiddleDrive,RightTopDrive, RightMiddleDrive)
-//	myRobot(LeftRearDrive, RightRearDrive)
+	RightMiddleDrive(3)
+	//RightRearDrive(4)
 
 {
 
