@@ -21,10 +21,8 @@ public:
 
      frc:: RobotDrive myRobot;
 
-     frc::Wait wait();
 
-     frc::Encoder enc;
-     frc::Encoder enc2;
+
 
 
 /*
@@ -37,8 +35,6 @@ double RightDrive = 0;
 
 
   Robot() :
-	enc(1,2),
-	enc2(3,4),
 	stick(0),
 	LeftTopDrive(1),
 	LeftMiddleDrive(2),
@@ -93,8 +89,7 @@ double RightDrive = 0;
 					myRobot.SetSafetyEnabled(false);
 					myRobot.TankDrive(0.5, 0.5);
 
-			//myRobot.TankDrive(0.5, 0.5);
-			//	Wait(2.0);
+
 		} else {
 			// Default Auto goes here
 	}
