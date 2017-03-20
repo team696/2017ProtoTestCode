@@ -33,7 +33,7 @@ double speed = 0;
 double wheel = 0;
 double LeftDrive = 0;
 double RightDrive = 0;
-double time = 0;
+double Wait = 0;
 
   Robot() :
 	enc(1,2),
@@ -82,18 +82,15 @@ double time = 0;
 	}
 
 	void AutonomousPeriodic() {
-		if (autoSelected == autoNameCustom)
+		if (autoSelected == autoNameCustom) {
 			// Custom Auto goes here
 
-			if(time->Get() > 0) {
-			     myRobot->set(0.5,0.5,0.5,0.5);
-			    			} else {
-			    			myRobot->set(0, 0, 0, 0); }
+			myRobot.TankDrive(0.5, 0.5);
+					Wait(2.0);
 
-
-	else {
+		} else {
 			// Default Auto goes here
-		}
+	}
 
 	}
 	void TeleopInit() {
