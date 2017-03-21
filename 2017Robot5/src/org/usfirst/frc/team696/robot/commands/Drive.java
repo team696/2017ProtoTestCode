@@ -24,17 +24,18 @@ public class Drive extends Command {
 	double maxSpeed = 1;
 	
 	PID distancePID = new PID(0.02, 0, 0, 0);
-	PID directionPID = new PID(0.0001, 0.0000, 0.00, 0.0);
+	PID directionPID = new PID(1, 0.0000, 0.00, 0.0);
 	
     public Drive(double distance, double direction) {
-    	requires(Robot.driveTrainSubsystem);
+//    	requires(Robot.driveTrainSubsystem);
     	targetDistance = distance;
-		targetDirection = Robot.navX.getYaw() + direction;
+		targetDirection = direction;
     }
 
     protected void initialize() {
     	Robot.leftDriveEncoder.reset();
     	Robot.rightDriveEncoder.reset();
+    	targetDirection = Robot.navX.getYaw() + targetDirection;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -67,9 +68,9 @@ public class Drive extends Command {
 			rightValue = 0;
 		}
 
-		System.out.println("targetDirection " + targetDirection + "    currentDirection " + Robot.navX.getYaw());
+		System.out.println(Robot.navX.getYaw() + "    " + targetDirection);
 		
-		Robot.driveTrainSubsystem.set(leftValue, rightValue);
+		Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -94,8 +94,6 @@ public class ParsePIXY implements Runnable{
 				break;
 			}
 			
-			System.out.println(Math.abs(x[0]) - Math.abs(old) + "       " + x[0]);
-			
 			try{
 				Thread.sleep(10);
 			}catch(InterruptedException e){
@@ -117,7 +115,15 @@ public class ParsePIXY implements Runnable{
 	}
 	
 	public int toWord(byte one, byte two){
-		return ((one << 8) | two) & 0x0000ffff;
+		return ((one << 8) | two)/* & 0x0000ffff*/;
+	}
+	
+	public double[] getXs(){
+		return x;
+	}
+	
+	public double[] getYs(){
+		return y;
 	}
 	
 	public void stop(){

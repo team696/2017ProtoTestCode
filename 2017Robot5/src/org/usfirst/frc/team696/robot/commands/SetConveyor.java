@@ -13,7 +13,7 @@ public class SetConveyor extends Command {
 	
     public SetConveyor(double speed) {
         // Use requires() here to declare subsystem dependencies
-    	requires(Robot.hopperSubsystem);
+    	requires(Robot.conveyorSubsystem);
     	this.speed = speed;
     }
 
@@ -23,7 +23,7 @@ public class SetConveyor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.hopperSubsystem.setConveyor(speed);
+    	Robot.conveyorSubsystem.setSpeed(speed);
     }
 
     // Make this return true when this Command no longer needs to run execute()

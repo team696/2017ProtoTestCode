@@ -11,13 +11,14 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class rightGearShoot extends CommandGroup {
+public class LeftGearShoot extends CommandGroup {
 
-    public rightGearShoot() {
-    	addSequential(new Drive(0, -90));
-		addSequential(new Drive(100, 0));
+    public LeftGearShoot() {
+    	addSequential(new Drive(40, 0));
 		addSequential(new Drive(0, 90));
-		addSequential(new Drive(91.3, 0));
+		addSequential(new Drive(40, 0));
+		addSequential(new Drive(0, -90));
+		addSequential(new Drive(13.3, 0));
 		//vision tracking happens here
 		addParallel(new SetShooter(3325));
 		addSequential(new Wait(0.5));

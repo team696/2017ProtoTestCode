@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class Test extends CommandGroup {
 
     public Test() {
-        addSequential(new Drive(40, 0));
+        addSequential(new Drive(0, 45));
     }
     
 }
