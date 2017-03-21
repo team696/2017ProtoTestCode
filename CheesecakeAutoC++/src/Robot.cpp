@@ -14,6 +14,8 @@ class Robot: public frc::IterativeRobot {
     frc::RobotDrive drive {9, 7, 2, 4};
     frc::RobotDrive drive2 {8, 3};
 	frc::Timer time;
+	double speed = 0;
+	frc::Joystick joy {0};
 
 public:
 	void RobotInit() {
