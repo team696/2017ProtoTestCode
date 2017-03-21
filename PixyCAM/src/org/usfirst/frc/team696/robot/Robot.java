@@ -101,6 +101,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(parsePIXY.getXs()[0] + "   " + navX.getYaw());
 	}
 	
 	@Override

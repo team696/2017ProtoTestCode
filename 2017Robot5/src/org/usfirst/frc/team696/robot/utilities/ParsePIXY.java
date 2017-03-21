@@ -1,4 +1,4 @@
-package org.usfirst.frc.team696.robot;
+package org.usfirst.frc.team696.robot.utilities;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;

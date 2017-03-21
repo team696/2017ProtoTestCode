@@ -28,26 +28,12 @@ public class Robot extends IterativeRobot {
 	public static IMU navX;
 	SerialPort port;
 	
-	Joystick joy = new Joystick(1);
-    Servo ser1 = new Servo(16);
-    Servo ser2 = new Servo(17);
-    Servo ser3 = new Servo(18);
-    Servo ser4 = new Servo(19);
-    VictorSP intake = new VictorSP(0);
-    double speed = 0;
-    double target1 = 0;
-    double target3 = 0;
-    double target2 = 0;
-    double target4 = 0;
-    boolean[] oldButton = new boolean[11];
-    public static Timer time = new Timer();
     
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);

@@ -13,7 +13,6 @@ public class Drive extends Command {
 	double targetDistance = 0;
 	double distanceError = 0;
 	double currentDistance = 0;
-	double targetDirection = 0;
 	double directionError = 0;
 
 	double speed = 0;
@@ -29,13 +28,13 @@ public class Drive extends Command {
     public Drive(double distance, double direction) {
 //    	requires(Robot.driveTrainSubsystem);
     	targetDistance = distance;
-		targetDirection = direction;
+		Robot.targetDirection = direction;
     }
 
     protected void initialize() {
     	Robot.leftDriveEncoder.reset();
     	Robot.rightDriveEncoder.reset();
-    	targetDirection = Robot.navX.getYaw() + targetDirection;
+    	Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -43,10 +42,10 @@ public class Drive extends Command {
     	currentDistance = (Robot.leftDriveEncoder.getDistance() + Robot.rightDriveEncoder.getDistance()) / 2;
 		distanceError = targetDistance - currentDistance;
 		
-		directionError = targetDirection - Robot.navX.getYaw();
+		directionError = Robot.targetDirection - Robot.navX.getYaw();
 
-		if(targetDirection > 180)targetDirection = targetDirection - 360;
-		if(targetDirection < -180)targetDirection = targetDirection + 360;
+		if(Robot.targetDirection > 180)Robot.targetDirection = Robot.targetDirection - 360;
+		if(Robot.targetDirection < -180)Robot.targetDirection = Robot.targetDirection + 360;
 		
 		if(directionError > 180)directionError = directionError - 360;
     	if(directionError < -180)directionError = directionError + 360;
@@ -68,9 +67,13 @@ public class Drive extends Command {
 			rightValue = 0;
 		}
 
-		System.out.println(Robot.navX.getYaw() + "    " + targetDirection);
+		System.out.println(Robot.navX.getYaw() + "    " + Robot.targetDirection);
 		
 		Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
+    }
+    
+    public void finish(){
+    	isFinished = true;
     }
 
     // Make this return true when this Command no longer needs to run execute()
