@@ -1,8 +1,10 @@
 package org.usfirst.frc.team696.robot;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -11,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.autonomousCommands.Test;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightGearShoot;
+import org.usfirst.frc.team696.robot.commands.Drive;
+import org.usfirst.frc.team696.robot.commands.PIXYAim;
 import org.usfirst.frc.team696.robot.commands.RunShooter;
 import org.usfirst.frc.team696.robot.commands.SetClimber;
 import org.usfirst.frc.team696.robot.commands.SetConveyor;
@@ -24,7 +28,7 @@ import org.usfirst.frc.team696.robot.subsystems.HoodSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
-import org.usfirst.frc.team696.robot.utilities.SixMotorDrive;
+import org.usfirst.frc.team696.robot.utilities.ParsePIXY;
 import org.usfirst.frc.team696.robot.utilities.Util;
 
 import com.kauailabs.nav6.frc.IMU;
@@ -42,8 +46,17 @@ public class Robot extends IterativeRobot {
 	
 	public static OI oi;
 	
+	/*
+	 * set up navX
+	 */
 	public static IMU navX;
 	SerialPort port;
+	
+	/*
+	 * set up pixy cam
+	 */
+	I2C pixy;
+	public static ParsePIXY parsePIXY;
 	
 	public static Encoder leftDriveEncoder = new Encoder(RobotMap.leftDriveEncoderA, RobotMap.leftDriveEncoderB);
 	public static Encoder rightDriveEncoder = new Encoder(RobotMap.rightDriveEncoderA, RobotMap.rightDriveEncoderB);
@@ -58,13 +71,19 @@ public class Robot extends IterativeRobot {
 	public static boolean runIntake = false;
 	public static boolean runShooter = false;
 	public static boolean runHopper = false;
+	public static boolean runPIXY = false;
+	public static boolean firstPIXYCycle = true;
+	public static boolean tracking = false;
+	
+	public static double targetDirection = 0;
 	
 	double distancePerPulse = (4*Math.PI)/200;
 	
 	/*
-	 * set up oldButton[] for gamepad
+	 * set up oldButton[] arrays for different Joysticks
 	 */
 	boolean[] oldGamePad = new boolean[11];
+	boolean[] oldWheel = new boolean[11];
 	
 	/*
 	 * driving variables
@@ -80,13 +99,20 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		
+		/*
+		 * initialize navX
+		 */
 		try {
 			byte UpdateRateHz = 50;
 			port = new SerialPort(57600, SerialPort.Port.kMXP);
 			navX = new IMUAdvanced(port, UpdateRateHz);
 		} catch(Exception ex){System.out.println("NavX not working");};
 		
-		
+		/*
+		 * initialize pixycam
+		 */
+		pixy = new I2C(Port.kOnboard, 0x54);
+		parsePIXY = new ParsePIXY(pixy);
 		
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
@@ -117,6 +143,10 @@ public class Robot extends IterativeRobot {
 		 * Initialize oldButton[]
 		 */
 		for(int i = 0; i < 11; i++)oldGamePad[i] = false;
+		for(int i = 0; i < 11; i++)oldWheel[i] = false;
+		
+		targetDirection = navX.getYaw();
+		parsePIXY.start();
 	}
 
 	@Override
@@ -160,6 +190,12 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		
 		/*
+		 * start vision tracking
+		 */
+		if(oi.wheel.getRawButton(4) && !oldWheel[4])runPIXY = !runPIXY;
+		if(!oi.wheel.getRawButton(4) && oldWheel[4])targetDirection = navX.getYaw(); 
+		
+		/*
 		 * Run intake when button 1 is pushed on gamepad
 		 */
 		if(oi.gamePad.getRawButton(1) && !oldGamePad[1])runIntake = !runIntake;
@@ -176,6 +212,12 @@ public class Robot extends IterativeRobot {
 		 * run shooter when button 5 is pushed on gamepad
 		 */
 		if(oi.gamePad.getRawButton(5) && !oldGamePad[5])runShooter = !runShooter;
+		
+		if(runPIXY){
+			new PIXYAim();
+			new Drive(0, targetDirection);
+			runPIXY = false;
+		}
 		
 		/*
 		 * set intake values
@@ -222,12 +264,13 @@ public class Robot extends IterativeRobot {
     	leftValue = speed + turn;
     	rightValue = speed - turn;
     	
-    	Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
+    	if(!oi.wheel.getRawButton(4))Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     	
     	/*
-    	 * get oldButtons from gamepad
+    	 * get oldButtons 
     	 */
 		for(int i = 1; i < 11; i++)oldGamePad[i] = oi.gamePad.getRawButton(i);
+		for(int i = 1; i < 11; i++)oldWheel[i] = oi.wheel.getRawButton(i);
 	}
 
 	@Override
