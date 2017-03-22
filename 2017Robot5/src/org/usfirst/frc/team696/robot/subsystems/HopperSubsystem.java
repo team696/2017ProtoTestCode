@@ -24,7 +24,7 @@ public class HopperSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void setSpeed(double speed){
+    public void set(double speed){
     	sideSwipe.set(speed);
     	roller.set(speed);
     }

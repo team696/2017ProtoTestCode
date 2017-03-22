@@ -32,4 +32,11 @@ public class RobotMap {
 	public static int climberMotorB = 6;
 	
 	public static int hoodServo = 13; 
+	
+	public static int leftServo = 14;
+	public static int rightServo = 15;
+	
+	public static int shooterLED = 4;
+	public static int gearLED = 5;
+	public static int beamBreak = 6;
 }

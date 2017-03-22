@@ -6,6 +6,8 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 
+import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -15,18 +17,21 @@ public class ShooterSubsystem extends Subsystem {
 
 	CANTalon masterShooter;
 	CANTalon slaveShooter;
+	DigitalOutput shooterLED;
+	Timer timer = new Timer();
 	
-	double kP = 0.33, 
+	double kP = 0.077, 
 			kI = 0, 
-			kD = 0.07, 
-			kF = 0.024;
+			kD = 0.0, 
+			kF = 0.03;
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public ShooterSubsystem(int masterShooterAddress, int slaveShooterAddress){
+    public ShooterSubsystem(int masterShooterAddress, int slaveShooterAddress, int shooterLED){
+    	this.shooterLED = new DigitalOutput(shooterLED);
     	masterShooter = new CANTalon(masterShooterAddress);
     	slaveShooter = new CANTalon(slaveShooterAddress);
     	
@@ -37,8 +42,8 @@ public class ShooterSubsystem extends Subsystem {
     	slaveShooter.changeControlMode(TalonControlMode.Follower);
     	slaveShooter.set(0);
     	
-    	masterShooter.reverseOutput(false);
-    	masterShooter.reverseSensor(true);
+    	masterShooter.reverseOutput(true);
+    	masterShooter.reverseSensor(false);
     	slaveShooter.reverseOutput(true);
     	
     	masterShooter.enableControl();
@@ -57,6 +62,17 @@ public class ShooterSubsystem extends Subsystem {
     	slaveShooter.set(masterShooter.getDeviceID());
     	if(Math.abs(masterShooter.get() - Robot.targetRPM) < 50 && Robot.targetRPM != 0)Robot.shooterAtSpeed = true;
     	else Robot.shooterAtSpeed = false;
+    	
+    	if(Robot.targetRPM == 0)shooterLED.set(false);
+    	else if(Math.abs(Robot.targetRPM - masterShooter.get()) < 50)shooterLED.set(true);
+    	else {
+    		if(timer.get() == 0)timer.start();
+    		if(timer.get() > (Robot.targetRPM/masterShooter.get())/3325){
+    			shooterLED.set(!shooterLED.get());
+    			timer.stop();
+    			timer.reset();
+    		}
+    	}
     }
     
     public void enable(){

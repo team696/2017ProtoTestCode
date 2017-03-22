@@ -7,14 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetConveyor extends Command {
+public class OpenGearFlap extends Command {
 
-	double speed = 0;
-	
-    public SetConveyor(double speed) {
+    public OpenGearFlap() {
         // Use requires() here to declare subsystem dependencies
-    	requires(Robot.conveyorSubsystem);
-    	this.speed = speed;
+        requires(Robot.gearFlapSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -23,7 +20,7 @@ public class SetConveyor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.conveyorSubsystem.set(speed);
+    	Robot.gearFlapSubsystem.openPos();
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -4,6 +4,7 @@ import org.usfirst.frc.team696.robot.Robot;
 import org.usfirst.frc.team696.robot.utilities.PID;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  *
@@ -26,9 +27,12 @@ public class Drive extends Command {
 	PID directionPID = new PID(1, 0.0000, 0.00, 0.0);
 	
     public Drive(double distance, double direction) {
-//    	requires(Robot.driveTrainSubsystem);
     	targetDistance = distance;
 		Robot.targetDirection = direction;
+    }
+    
+    public Drive() {
+    	targetDistance = 0;
     }
 
     protected void initialize() {
@@ -61,15 +65,17 @@ public class Drive extends Command {
 		leftValue = speed + turn;
 		rightValue = speed - turn;
 		
-		if(Math.abs(distanceError) < 2 && Math.abs(directionError) < 2){
-			isFinished = true;
-			leftValue = 0;
-			rightValue = 0;
+		if(Robot.autonomousCommand.isRunning()){
+			if(Math.abs(distanceError) < 2 && Math.abs(directionError) < 2){
+				isFinished = true;
+				leftValue = 0;
+				rightValue = 0;
+			}
 		}
 
 		System.out.println(Robot.navX.getYaw() + "    " + Robot.targetDirection);
 		
-		Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
+		if(Robot.tracking)Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }
     
     public void finish(){

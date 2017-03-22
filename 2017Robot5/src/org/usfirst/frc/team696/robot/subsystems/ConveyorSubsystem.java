@@ -22,7 +22,7 @@ public class ConveyorSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void setSpeed(double speed){
+    public void set(double speed){
     	conveyorMotor.set(speed);
     }
 }

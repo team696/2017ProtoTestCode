@@ -7,14 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class SetConveyor extends Command {
+public class RunBeamBreak extends Command {
 
-	double speed = 0;
-	
-    public SetConveyor(double speed) {
+    public RunBeamBreak() {
         // Use requires() here to declare subsystem dependencies
-    	requires(Robot.conveyorSubsystem);
-    	this.speed = speed;
+    	requires(Robot.gearBeamBreakSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -23,12 +20,12 @@ public class SetConveyor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.conveyorSubsystem.set(speed);
+    	Robot.gearBeamBreakSubsystem.run();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

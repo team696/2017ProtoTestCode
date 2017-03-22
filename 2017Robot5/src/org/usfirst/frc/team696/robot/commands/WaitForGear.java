@@ -2,19 +2,22 @@ package org.usfirst.frc.team696.robot.commands;
 
 import org.usfirst.frc.team696.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class SetConveyor extends Command {
+public class WaitForGear extends Command {
 
-	double speed = 0;
+	boolean isFinished = false;
+	boolean oldBeamBreakState = false;
+	Timer timer = new Timer();
 	
-    public SetConveyor(double speed) {
+    public WaitForGear() {
         // Use requires() here to declare subsystem dependencies
-    	requires(Robot.conveyorSubsystem);
-    	this.speed = speed;
+        // eg. requires(chassis);
+    	requires(Robot.gearBeamBreakSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -23,12 +26,16 @@ public class SetConveyor extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.conveyorSubsystem.set(speed);
+    	if(!oldBeamBreakState && Robot.gearBeamBreakSubsystem.get())timer.start();
+    	if(timer.get() > 0.75){
+    		timer.stop();
+    		isFinished = true;
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return isFinished;
     }
 
     // Called once after isFinished returns true

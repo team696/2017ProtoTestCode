@@ -8,9 +8,8 @@ import edu.wpi.first.wpilibj.Joystick;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	public Joystick arduino = new Joystick(0);
+	public Joystick Psoc5 = new Joystick(0);
 	public Joystick wheel = new Joystick(1);
-	public Joystick gamePad = new Joystick(2);
 	
 	public OI(){
 	}
