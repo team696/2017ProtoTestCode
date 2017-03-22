@@ -65,17 +65,20 @@ public class Drive extends Command {
 		leftValue = speed + turn;
 		rightValue = speed - turn;
 		
-		if(Robot.autonomousCommand.isRunning()){
-			if(Math.abs(distanceError) < 2 && Math.abs(directionError) < 2){
+		if(Robot.tracking)Robot.redLEDSubsystem.set(false);
+		if(Math.abs(distanceError) < 2 && Math.abs(directionError) < 2){
+			if(Robot.autonomousCommand.isRunning()){
 				isFinished = true;
 				leftValue = 0;
 				rightValue = 0;
+			} else {
+				if(Robot.tracking)Robot.redLEDSubsystem.set(true);
 			}
 		}
 
 		System.out.println(Robot.navX.getYaw() + "    " + Robot.targetDirection);
 		
-		if(Robot.tracking)Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
+		if(Robot.tracking || Robot.autonomousCommand.isRunning())Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }
     
     public void finish(){

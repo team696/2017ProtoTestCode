@@ -17,7 +17,6 @@ public class ShooterSubsystem extends Subsystem {
 
 	CANTalon masterShooter;
 	CANTalon slaveShooter;
-	DigitalOutput shooterLED;
 	Timer timer = new Timer();
 	
 	double kP = 0.077, 
@@ -30,8 +29,7 @@ public class ShooterSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public ShooterSubsystem(int masterShooterAddress, int slaveShooterAddress, int shooterLED){
-    	this.shooterLED = new DigitalOutput(shooterLED);
+    public ShooterSubsystem(int masterShooterAddress, int slaveShooterAddress){
     	masterShooter = new CANTalon(masterShooterAddress);
     	slaveShooter = new CANTalon(slaveShooterAddress);
     	
@@ -63,12 +61,12 @@ public class ShooterSubsystem extends Subsystem {
     	if(Math.abs(masterShooter.get() - Robot.targetRPM) < 50 && Robot.targetRPM != 0)Robot.shooterAtSpeed = true;
     	else Robot.shooterAtSpeed = false;
     	
-    	if(Robot.targetRPM == 0)shooterLED.set(false);
-    	else if(Math.abs(Robot.targetRPM - masterShooter.get()) < 50)shooterLED.set(true);
+    	if(Robot.targetRPM == 0)Robot.greenLEDSubsystem.set(false);
+    	else if(Math.abs(Robot.targetRPM - masterShooter.get()) < 50)Robot.greenLEDSubsystem.set(true);
     	else {
     		if(timer.get() == 0)timer.start();
     		if(timer.get() > (Robot.targetRPM/masterShooter.get())/3325){
-    			shooterLED.set(!shooterLED.get());
+    			Robot.greenLEDSubsystem.set(!Robot.greenLEDSubsystem.get());
     			timer.stop();
     			timer.reset();
     		}

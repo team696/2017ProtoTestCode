@@ -28,9 +28,11 @@ import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GearBeamBreakSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GearFlapSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.GreenLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HoodSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team696.robot.utilities.ParsePIXY;
 import org.usfirst.frc.team696.robot.utilities.Util;
@@ -45,9 +47,11 @@ public class Robot extends IterativeRobot {
 	public static DriveTrainSubsystem driveTrainSubsystem;
 	public static GearBeamBreakSubsystem gearBeamBreakSubsystem;
 	public static GearFlapSubsystem gearFlapSubsystem;
+	public static GreenLEDSubsystem greenLEDSubsystem;
 	public static HoodSubsystem hoodSubsystem;
 	public static HopperSubsystem hopperSubsystem;
 	public static IntakeSubsystem intakeSubsystem;
+	public static RedLEDSubsystem redLEDSubsystem;
 	public static ShooterSubsystem shooterSubsystem;
 	
 	public static OI oi;
@@ -138,12 +142,14 @@ public class Robot extends IterativeRobot {
 		climberSubsystem = new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
 		conveyorSubsystem = new ConveyorSubsystem(RobotMap.conveyorMotor);
 		driveTrainSubsystem = new DriveTrainSubsystem(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
-		gearBeamBreakSubsystem = new GearBeamBreakSubsystem(RobotMap.beamBreak, RobotMap.gearLED);
+		gearBeamBreakSubsystem = new GearBeamBreakSubsystem(RobotMap.beamBreak);
 		gearFlapSubsystem = new GearFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
+		greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
 		hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
 		hopperSubsystem = new HopperSubsystem(RobotMap.rollerMotor, RobotMap.sideSwipeMotor);
 		intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
-		shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon, RobotMap.shooterLED);
+		redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
+		shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 		
 		/*
 		 * set off position of hood release

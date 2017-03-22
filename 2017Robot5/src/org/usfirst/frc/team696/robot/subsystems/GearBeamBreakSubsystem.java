@@ -16,13 +16,11 @@ public class GearBeamBreakSubsystem extends Subsystem {
     // here. Call these from Commands.
 
 	DigitalInput beamBreak;
-	DigitalOutput gearLED;
 	Timer timer = new Timer();
 	
-	public GearBeamBreakSubsystem(int beamBreak, int gearLED) {
+	public GearBeamBreakSubsystem(int beamBreak) {
 		// TODO Auto-generated constructor stub
 		this.beamBreak = new DigitalInput(beamBreak);
-		this.gearLED = new DigitalOutput(gearLED);
 	}
 	
     public void initDefaultCommand() {
@@ -30,31 +28,27 @@ public class GearBeamBreakSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void run(){
-    	if(!beamBreak.get()){
-    		Robot.oi.Psoc5.setOutput(5, true);
-    		gearLED.set(true);
-    		Robot.closeGearFlap = false;
-    	}
-    	else {
-    		Robot.oi.Psoc5.setOutput(5, false);
-    		if(Robot.closeGearFlap){
-    			if(timer.get() == 0)timer.start();
-    			if(timer.get() > 0.1){
-    				gearLED.set(!gearLED.get());
-    				timer.stop();
-    				timer.reset();
-    			}
-    		} else gearLED.set(false);
-    	}
-    }
+//    public void run(){
+//    	if(!beamBreak.get()){
+//    		Robot.oi.Psoc5.setOutput(5, true);
+//    		gearLED.set(true);
+//    		Robot.closeGearFlap = false;
+//    	}
+//    	else {
+//    		Robot.oi.Psoc5.setOutput(5, false);
+//    		if(Robot.closeGearFlap){
+//    			if(timer.get() == 0)timer.start();
+//    			if(timer.get() > 0.1){
+//    				gearLED.set(!gearLED.get());
+//    				timer.stop();
+//    				timer.reset();
+//    			}
+//    		} else gearLED.set(false);
+//    	}
+//    }
     
     public boolean get(){
     	return beamBreak.get();
-    }
-    
-    public void set(boolean value){
-    	gearLED.set(value);
     }
 }
 
