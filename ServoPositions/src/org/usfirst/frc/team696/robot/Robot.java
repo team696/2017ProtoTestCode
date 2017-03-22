@@ -32,10 +32,10 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		
-		SmartDashboard.putNumber("1-1", 0);
-		SmartDashboard.putNumber("1-2", 0);
-		SmartDashboard.putNumber("2-1", 0);
-		SmartDashboard.putNumber("2-2", 0);
+		SmartDashboard.putNumber("1-1", 1);
+		SmartDashboard.putNumber("1-2", 179);
+		SmartDashboard.putNumber("2-1", 120);
+		SmartDashboard.putNumber("2-2", 60);
 		SmartDashboard.putBoolean("pos1", false);
 	}
 
