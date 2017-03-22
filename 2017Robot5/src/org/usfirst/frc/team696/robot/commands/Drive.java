@@ -65,14 +65,20 @@ public class Drive extends Command {
 		leftValue = speed + turn;
 		rightValue = speed - turn;
 		
-		if(Robot.tracking)Robot.redLEDSubsystem.set(false);
+		if(Robot.tracking){
+			Robot.redLEDSubsystem.set(false);
+			Robot.oi.Psoc5.setOutput(6, false);
+		}
 		if(Math.abs(distanceError) < 2 && Math.abs(directionError) < 2){
 			if(Robot.autonomousCommand.isRunning()){
 				isFinished = true;
 				leftValue = 0;
 				rightValue = 0;
 			} else {
-				if(Robot.tracking)Robot.redLEDSubsystem.set(true);
+				if(Robot.tracking){
+					Robot.redLEDSubsystem.set(true);
+					Robot.oi.Psoc5.setOutput(6, true);
+				}
 			}
 		}
 

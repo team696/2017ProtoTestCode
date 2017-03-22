@@ -61,8 +61,16 @@ public class ShooterSubsystem extends Subsystem {
     	if(Math.abs(masterShooter.get() - Robot.targetRPM) < 50 && Robot.targetRPM != 0)Robot.shooterAtSpeed = true;
     	else Robot.shooterAtSpeed = false;
     	
-    	if(Robot.targetRPM == 0)Robot.greenLEDSubsystem.set(false);
-    	else if(Math.abs(Robot.targetRPM - masterShooter.get()) < 50)Robot.greenLEDSubsystem.set(true);
+    	if(Robot.targetRPM == 0){
+    		Robot.greenLEDSubsystem.set(false);
+    		Robot.oi.Psoc5.setOutput(8, false);
+    		Robot.oi.Psoc5.setOutput(7, false);
+    	}
+    	else if(Math.abs(Robot.targetRPM - masterShooter.get()) < 50){
+    		Robot.greenLEDSubsystem.set(true);
+    		Robot.oi.Psoc5.setOutput(8, true);
+    		Robot.oi.Psoc5.setOutput(7, false);
+    	}
     	else {
     		if(timer.get() == 0)timer.start();
     		if(timer.get() > (Robot.targetRPM/masterShooter.get())/3325){
@@ -70,6 +78,8 @@ public class ShooterSubsystem extends Subsystem {
     			timer.stop();
     			timer.reset();
     		}
+    		Robot.oi.Psoc5.setOutput(8, false);
+    		Robot.oi.Psoc5.setOutput(7, true);
     	}
     }
     

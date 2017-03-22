@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team696.robot.autonomousCommands.Test;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightGearShoot;
 import org.usfirst.frc.team696.robot.commands.Drive;
+import org.usfirst.frc.team696.robot.commands.AutoLightShow;
 import org.usfirst.frc.team696.robot.commands.PIXYAim;
 import org.usfirst.frc.team696.robot.commands.RunBeamBreak;
 import org.usfirst.frc.team696.robot.commands.RunShooter;
@@ -23,6 +24,7 @@ import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetHopper;
 import org.usfirst.frc.team696.robot.commands.SetIntake;
 import org.usfirst.frc.team696.robot.commands.SetShooter;
+import org.usfirst.frc.team696.robot.commands.TeleopLightShow;
 import org.usfirst.frc.team696.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
@@ -186,7 +188,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 		
-		Scheduler.getInstance().add(new RunBeamBreak());
+		Scheduler.getInstance().add(new AutoLightShow());
 		Scheduler.getInstance().add(new RunShooter());
 	}
 
@@ -208,7 +210,8 @@ public class Robot extends IterativeRobot {
 		
 		tracking = false;
 		
-		Scheduler.getInstance().add(new Drive(0, 0));
+		Scheduler.getInstance().add(new TeleopLightShow());
+		Scheduler.getInstance().add(new Drive());
 		Scheduler.getInstance().add(new PIXYAim());
 		Scheduler.getInstance().add(new RunBeamBreak());
 		Scheduler.getInstance().add(new RunShooter());
