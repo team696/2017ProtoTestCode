@@ -32,10 +32,10 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
 		
-		SmartDashboard.putNumber("1-1", 1);
-		SmartDashboard.putNumber("1-2", 179);
-		SmartDashboard.putNumber("2-1", 120);
-		SmartDashboard.putNumber("2-2", 60);
+		SmartDashboard.putNumber("1-1", 170);
+		SmartDashboard.putNumber("1-2", 40);
+		SmartDashboard.putNumber("2-1", 10);
+		SmartDashboard.putNumber("2-2", 130);
 		SmartDashboard.putBoolean("pos1", false);
 	}
 
@@ -87,7 +87,7 @@ public class Robot extends IterativeRobot {
 			servo2.setAngle(SmartDashboard.getNumber("2-2", 70)); //left servo open
 		}
 	}
-
+	
 	/**
 	 * This function is called periodically during test mode
 	 */
