@@ -26,6 +26,10 @@ public class HoodSubsystem extends Subsystem {
     	hoodServo.setAngle(angle);
     }
     
+    public double getAngle(){
+    	return hoodServo.getAngle();
+    }
+    
     public void disable(){
     	hoodServo.setDisabled();
     }

@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PIXYAim extends Command {
 
-	double targetAngle = 23.5;
+	double targetAngle = 27.5;
 	double error = 0;
 	double k = 1;
 	boolean isFinished = false;
@@ -22,13 +22,19 @@ public class PIXYAim extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.usePIXYAngle = true;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	error = targetAngle - Util.map(Robot.parsePIXY.getXs()[0], 0, 255, 0, 47);
-    	Robot.targetDirection = error;
-//    	if(Math.abs(error) < 1)isFinished = true;
+    	if(Robot.parsePIXY.getXs()[0] != 0){
+	    	error = targetAngle - Util.map(Robot.parsePIXY.getXs()[0], 0, 255, 0, 47);
+	    	Robot.targetDirection = -error;
+	    	System.out.println(error);
+	    	isFinished = true;
+    	} else {
+    		System.out.println("x equals 0");
+    	}
     }
 
 //    public void finish(){
@@ -37,8 +43,7 @@ public class PIXYAim extends Command {
     
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        if(Robot.autonomousCommand.isRunning())return true;
-        return false;
+        return isFinished;
     }
 
     // Called once after isFinished returns true

@@ -81,6 +81,7 @@ public class ShooterSubsystem extends Subsystem {
     		Robot.oi.Psoc5.setOutput(8, false);
     		Robot.oi.Psoc5.setOutput(7, true);
     	}
+    	
     }
     
     public void enable(){

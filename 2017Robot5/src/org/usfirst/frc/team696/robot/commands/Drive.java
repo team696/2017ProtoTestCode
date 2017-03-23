@@ -3,8 +3,8 @@ package org.usfirst.frc.team696.robot.commands;
 import org.usfirst.frc.team696.robot.Robot;
 import org.usfirst.frc.team696.robot.utilities.PID;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  *
@@ -15,6 +15,7 @@ public class Drive extends Command {
 	double distanceError = 0;
 	double currentDistance = 0;
 	double directionError = 0;
+	double tempTargetDirection = 0;
 
 	double speed = 0;
 	double turn = 0;
@@ -22,23 +23,27 @@ public class Drive extends Command {
 	double rightValue = 0;
 	boolean isFinished = false;
 	double maxSpeed = 1;
+	Timer timer = new Timer();
 	
-	PID distancePID = new PID(0.02, 0, 0, 0);
-	PID directionPID = new PID(1, 0.0000, 0.00, 0.0);
+	PID distancePID = new PID(0.013, 0, 0, 0);
+	PID directionPID = new PID(0.02525, 0.0000000000001, 0.000, 0.8);
 	
     public Drive(double distance, double direction) {
     	targetDistance = distance;
-		Robot.targetDirection = direction;
+		tempTargetDirection = direction;
     }
     
     public Drive() {
     	targetDistance = 0;
+//    	Robot.targetDirection = 0;
     }
 
     protected void initialize() {
     	Robot.leftDriveEncoder.reset();
     	Robot.rightDriveEncoder.reset();
-    	Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
+    	if(!Robot.usePIXYAngle)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
+    	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
+    	if(Robot.usePIXYAngle)directionPID.setPID(0.0725, 0.0225, 0, 0.8);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -65,26 +70,34 @@ public class Drive extends Command {
 		leftValue = speed + turn;
 		rightValue = speed - turn;
 		
-		if(Robot.tracking){
-			Robot.redLEDSubsystem.set(false);
-			Robot.oi.Psoc5.setOutput(6, false);
-		}
-		if(Math.abs(distanceError) < 2 && Math.abs(directionError) < 2){
-			if(Robot.autonomousCommand.isRunning()){
+//		if(Robot.tracking){
+//			Robot.redLEDSubsystem.set(false);
+//			Robot.oi.Psoc5.setOutput(6, false);
+//		}
+		
+		
+		if(Math.abs(distanceError) < 0.5 && Math.abs(directionError) < 4){
+//			if(Robot.autonomousCommand.isRunning()){
+			if(timer.get() == 0)timer.start();
+			if(timer.get() > 0.2){
 				isFinished = true;
 				leftValue = 0;
 				rightValue = 0;
-			} else {
-				if(Robot.tracking){
-					Robot.redLEDSubsystem.set(true);
-					Robot.oi.Psoc5.setOutput(6, true);
-				}
 			}
+//			} else {
+//				if(Robot.tracking){
+//					Robot.redLEDSubsystem.set(true);
+//					Robot.oi.Psoc5.setOutput(6, true);
+//				}
+//			}
+		} else {
+			timer.stop();
+			timer.reset();
 		}
-
-		System.out.println(Robot.navX.getYaw() + "    " + Robot.targetDirection);
 		
-		if(Robot.tracking || Robot.autonomousCommand.isRunning())Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
+		System.out.println("direction: " + Robot.targetDirection + "    " + Robot.navX.getYaw() + "/t distance: " + targetDistance + "    " + currentDistance);
+
+		/*if(Robot.tracking || Robot.autonomousCommand.isRunning())*/Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }
     
     public void finish(){

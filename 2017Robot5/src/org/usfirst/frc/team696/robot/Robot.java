@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.autonomousCommands.Test;
+import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightGearShoot;
 import org.usfirst.frc.team696.robot.commands.Drive;
 import org.usfirst.frc.team696.robot.commands.AutoLightShow;
@@ -24,7 +26,6 @@ import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetHopper;
 import org.usfirst.frc.team696.robot.commands.SetIntake;
 import org.usfirst.frc.team696.robot.commands.SetShooter;
-import org.usfirst.frc.team696.robot.commands.TeleopLightShow;
 import org.usfirst.frc.team696.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
@@ -44,17 +45,17 @@ import com.kauailabs.nav6.frc.IMUAdvanced;
 
 public class Robot extends IterativeRobot {
 	
-	public static ClimberSubsystem climberSubsystem;
-	public static ConveyorSubsystem conveyorSubsystem;
-	public static DriveTrainSubsystem driveTrainSubsystem;
-	public static GearBeamBreakSubsystem gearBeamBreakSubsystem;
-	public static GearFlapSubsystem gearFlapSubsystem;
-	public static GreenLEDSubsystem greenLEDSubsystem;
-	public static HoodSubsystem hoodSubsystem;
-	public static HopperSubsystem hopperSubsystem;
-	public static IntakeSubsystem intakeSubsystem;
-	public static RedLEDSubsystem redLEDSubsystem;
-	public static ShooterSubsystem shooterSubsystem;
+	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
+	public static ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem(RobotMap.conveyorMotor);
+	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
+	public static GearBeamBreakSubsystem gearBeamBreakSubsystem = new GearBeamBreakSubsystem(RobotMap.beamBreak);
+	public static GearFlapSubsystem gearFlapSubsystem = new GearFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
+	public static GreenLEDSubsystem greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
+	public static HoodSubsystem hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
+	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.rollerMotor, RobotMap.sideSwipeMotor);
+	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
+	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
+	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 	
 	public static OI oi;
 	
@@ -83,8 +84,9 @@ public class Robot extends IterativeRobot {
 	public static boolean runIntake = false;
 	public static boolean runShooter = false;
 	public static boolean runHopper = false;
-	public static boolean tracking = true;
+	public static boolean tracking = false;
 	public static boolean closeGearFlap = false;
+	public static boolean usePIXYAngle = false;
 	
 	public static double targetDirection = 0;
 	
@@ -134,24 +136,26 @@ public class Robot extends IterativeRobot {
 		
 		leftDriveEncoder.setReverseDirection(true);
 		
-		chooser.addDefault("trash", new Test());
+		chooser.addDefault("test", new Test());
+		chooser.addObject("left Peg", new LeftPeg());
 		chooser.addObject("rightGearShoot", new RightGearShoot());
+		chooser.addObject("middlePeg", new MiddlePeg());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		/*
 		 * Initialize all subsystems
 		 */
-		climberSubsystem = new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
-		conveyorSubsystem = new ConveyorSubsystem(RobotMap.conveyorMotor);
-		driveTrainSubsystem = new DriveTrainSubsystem(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
-		gearBeamBreakSubsystem = new GearBeamBreakSubsystem(RobotMap.beamBreak);
-		gearFlapSubsystem = new GearFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
-		greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
-		hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
-		hopperSubsystem = new HopperSubsystem(RobotMap.rollerMotor, RobotMap.sideSwipeMotor);
-		intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
-		redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
-		shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
+//		climberSubsystem = new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
+//		conveyorSubsystem = new ConveyorSubsystem(RobotMap.conveyorMotor);
+//		driveTrainSubsystem = new DriveTrainSubsystem(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
+//		gearBeamBreakSubsystem = new GearBeamBreakSubsystem(RobotMap.beamBreak);
+//		gearFlapSubsystem = new GearFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
+//		greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
+//		hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
+//		hopperSubsystem = new HopperSubsystem(RobotMap.rollerMotor, RobotMap.sideSwipeMotor);
+//		intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
+//		redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
+//		shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 		
 		/*
 		 * set off position of hood release
@@ -183,12 +187,10 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
 
-		tracking = true;
-		
 		if (autonomousCommand != null)
 			autonomousCommand.start();
 		
-		Scheduler.getInstance().add(new AutoLightShow());
+//		Scheduler.getInstance().add(new AutoLightShow());
 		Scheduler.getInstance().add(new RunShooter());
 	}
 
@@ -210,9 +212,9 @@ public class Robot extends IterativeRobot {
 		
 		tracking = false;
 		
-		Scheduler.getInstance().add(new TeleopLightShow());
-		Scheduler.getInstance().add(new Drive());
-		Scheduler.getInstance().add(new PIXYAim());
+//		Scheduler.getInstance().add(new TeleopLightShow());
+//		Scheduler.getInstance().add(new Drive());
+//		Scheduler.getInstance().add(new PIXYAim());
 		Scheduler.getInstance().add(new RunBeamBreak());
 		Scheduler.getInstance().add(new RunShooter());
 	}
@@ -278,7 +280,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set hopper values
 		 */
-		if(runHopper)hopperSubsystem.set(-0.5);
+		if(runHopper)hopperSubsystem.set(0.7);
 		else hopperSubsystem.set(0);
 		
 		/*

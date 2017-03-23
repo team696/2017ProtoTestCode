@@ -1,9 +1,6 @@
 package org.usfirst.frc.team696.robot.subsystems;
 
-import org.usfirst.frc.team696.robot.Robot;
-
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -19,7 +16,6 @@ public class GearBeamBreakSubsystem extends Subsystem {
 	Timer timer = new Timer();
 	
 	public GearBeamBreakSubsystem(int beamBreak) {
-		// TODO Auto-generated constructor stub
 		this.beamBreak = new DigitalInput(beamBreak);
 	}
 	
