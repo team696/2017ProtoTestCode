@@ -18,7 +18,7 @@ public class MiddlePeg extends CommandGroup {
 		addSequential(new WaitForGear(), 2);
 		addSequential(new Drive(-50, 0), 1);
 		addSequential(new Drive(0, 90), 1);
-		addSequential(new Drive(58, 0), 3);
+		addSequential(new Drive(58, 0), 2.5);
         addSequential(new PIXYAim());
         addSequential(new SetShooter(3325));
         addSequential(new Drive(0, 0), 1.5);

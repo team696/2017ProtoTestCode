@@ -16,6 +16,7 @@ import org.usfirst.frc.team696.robot.autonomousCommands.Test;
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightGearShoot;
+import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
 import org.usfirst.frc.team696.robot.commands.Drive;
 import org.usfirst.frc.team696.robot.commands.AutoLightShow;
 import org.usfirst.frc.team696.robot.commands.PIXYAim;
@@ -138,7 +139,7 @@ public class Robot extends IterativeRobot {
 		
 		chooser.addDefault("test", new Test());
 		chooser.addObject("left Peg", new LeftPeg());
-		chooser.addObject("rightGearShoot", new RightGearShoot());
+		chooser.addObject("rightPeg", new RightPeg());
 		chooser.addObject("middlePeg", new MiddlePeg());
 		SmartDashboard.putData("Auto mode", chooser);
 		
