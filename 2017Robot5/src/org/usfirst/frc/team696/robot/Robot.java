@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team696.robot.autonomousCommands.Test;
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightGearShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
 import org.usfirst.frc.team696.robot.commands.Drive;
@@ -139,8 +140,9 @@ public class Robot extends IterativeRobot {
 		
 		chooser.addDefault("test", new Test());
 		chooser.addObject("left Peg", new LeftPeg());
-		chooser.addObject("rightPeg", new RightPeg());
-		chooser.addObject("middlePeg", new MiddlePeg());
+//		chooser.addObject("rightPeg", new RightPeg());
+		chooser.addObject("middlePegShoot", new MiddlePegShoot());
+		chooser.addObject("middle peg", new MiddlePeg());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		/*
