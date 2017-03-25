@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team696.robot.autonomousCommands.Test;
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegShoot;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightGearShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
 import org.usfirst.frc.team696.robot.commands.Drive;
@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 	public static GearFlapSubsystem gearFlapSubsystem = new GearFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
 	public static GreenLEDSubsystem greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
 	public static HoodSubsystem hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
-	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.rollerMotor, RobotMap.sideSwipeMotor);
+	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(/*RobotMap.rollerMotor,*/ RobotMap.sideSwipeMotor);
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
@@ -136,12 +136,13 @@ public class Robot extends IterativeRobot {
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
 		
-		leftDriveEncoder.setReverseDirection(true);
+//		leftDriveEncoder.setReverseDirection(true);//practice
+		rightDriveEncoder.setReverseDirection(true);//competition
 		
 		chooser.addDefault("test", new Test());
 		chooser.addObject("left Peg", new LeftPeg());
 //		chooser.addObject("rightPeg", new RightPeg());
-		chooser.addObject("middlePegShoot", new MiddlePegShoot());
+		chooser.addObject("middlePegRightShoot", new MiddlePegRightShoot());
 		chooser.addObject("middle peg", new MiddlePeg());
 		SmartDashboard.putData("Auto mode", chooser);
 		
@@ -163,7 +164,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set off position of hood release
 		 */
-		hoodSubsystem.setAngle(50);
+		hoodSubsystem.setAngle(150);
 		
 		
 		/*
@@ -210,7 +211,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * moving to released position at start of teleop
 		 */
-		hoodSubsystem.setAngle(15);
+		hoodSubsystem.setAngle(100);
 		hoodTimer.start();
 		
 		tracking = false;
@@ -290,6 +291,7 @@ public class Robot extends IterativeRobot {
 		 * set shooter values
 		 */
 		if(runShooter)targetRPM = 3325;
+//		if(runShooter)targetRPM = 500;
 		else targetRPM = 0;
 		
 		/*

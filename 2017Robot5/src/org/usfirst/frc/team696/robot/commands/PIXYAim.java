@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PIXYAim extends Command {
 
-	double targetAngle = 27.5;
+	double targetAngle = 28;
 	double error = 0;
 	double k = 1;
 	boolean isFinished = false;

@@ -10,9 +10,9 @@ import org.usfirst.frc.team696.robot.commands.WaitForGear;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class MiddlePegShoot extends CommandGroup {
+public class MiddlePegRightShoot extends CommandGroup {
 
-	public MiddlePegShoot() {
+	public MiddlePegRightShoot() {
 		
 		addSequential(new Drive(83, 0), 3);
 		addSequential(new WaitForGear(), 2);

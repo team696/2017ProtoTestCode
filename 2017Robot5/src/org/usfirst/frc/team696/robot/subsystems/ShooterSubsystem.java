@@ -82,6 +82,8 @@ public class ShooterSubsystem extends Subsystem {
     		Robot.oi.Psoc5.setOutput(7, true);
     	}
     	
+    	System.out.println("RPM: " + masterShooter.get());
+    	
     }
     
     public void enable(){
