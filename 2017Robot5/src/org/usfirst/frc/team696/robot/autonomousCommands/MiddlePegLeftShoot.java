@@ -5,6 +5,7 @@ import org.usfirst.frc.team696.robot.commands.PIXYAim;
 import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetHopper;
 import org.usfirst.frc.team696.robot.commands.SetShooter;
+import org.usfirst.frc.team696.robot.commands.VoltageDrive;
 import org.usfirst.frc.team696.robot.commands.WaitForGear;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -16,10 +17,11 @@ public class MiddlePegLeftShoot extends CommandGroup {
 
     public MiddlePegLeftShoot() {
     	addSequential(new Drive(83, 0), 3);
-		addSequential(new WaitForGear(), 2);
+    	addParallel(new VoltageDrive(0.1, 3));
+		addSequential(new WaitForGear(), 10);
 		addSequential(new Drive(-50, 0), 1);
-		addSequential(new Drive(0, -100), 1);
-		addSequential(new Drive(58+48, 0), 2.5);
+		addSequential(new Drive(0, -95), 1);
+		addSequential(new Drive(58, 0), 2.5);
 //        addSequential(new PIXYAim(), 2.5);
         addSequential(new SetShooter(3325));
 //        addSequential(new Drive(0, 0), 1.5);

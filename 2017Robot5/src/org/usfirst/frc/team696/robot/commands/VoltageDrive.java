@@ -1,6 +1,7 @@
 package org.usfirst.frc.team696.robot.commands;
 
 import org.usfirst.frc.team696.robot.Robot;
+import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,33 +9,35 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class WaitForGear extends Command {
+public class VoltageDrive extends Command {
 
-	boolean isFinished = false;
-	boolean oldBeamBreakState = false;
+	double power = 0;
 	Timer timer = new Timer();
+	double time = 0;
+	boolean isFinished = false;
 	
-    public WaitForGear() {
+    public VoltageDrive(double power, double time) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.gearBeamBreakSubsystem);
+    	requires(Robot.driveTrainSubsystem);
+    	this.power = power;
+    	this.time = time;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	timer.start();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	if(!oldBeamBreakState && Robot.gearBeamBreakSubsystem.getTop())timer.start();
-    	if(!oldBeamBreakState && Robot.gearBeamBreakSubsystem.getBot())timer.start();
-    	if(timer.get() > 4){
-//    	if(timer.get() > 0.2){
+    	if(timer.get() < time)Robot.driveTrainSubsystem.tankDrive(power, power);
+    	else {
+    		Robot.driveTrainSubsystem.tankDrive(0, 0);
     		timer.stop();
     		isFinished = true;
     	}
-//    	oldBeamBreakState = Robot.gearBeamBreakSubsystem.getTop();
-    	oldBeamBreakState = Robot.gearBeamBreakSubsystem.getBot();
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

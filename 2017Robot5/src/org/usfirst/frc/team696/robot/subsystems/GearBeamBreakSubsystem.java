@@ -3,6 +3,7 @@ package org.usfirst.frc.team696.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -47,6 +48,7 @@ public class GearBeamBreakSubsystem extends Subsystem {
 //    }
     
     public boolean getTop(){
+//    	System.out.println(topBeamBreak.get());
     	return topBeamBreak.get();
     }
     

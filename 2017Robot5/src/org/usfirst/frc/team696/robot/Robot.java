@@ -203,6 +203,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		System.out.println(gearBeamBreakSubsystem.getTop());
 		Scheduler.getInstance().run();
 	}
 

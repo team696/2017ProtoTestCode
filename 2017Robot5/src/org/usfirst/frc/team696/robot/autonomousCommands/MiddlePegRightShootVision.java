@@ -5,6 +5,7 @@ import org.usfirst.frc.team696.robot.commands.PIXYAim;
 import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetHopper;
 import org.usfirst.frc.team696.robot.commands.SetShooter;
+import org.usfirst.frc.team696.robot.commands.VoltageDrive;
 import org.usfirst.frc.team696.robot.commands.Wait;
 import org.usfirst.frc.team696.robot.commands.WaitForGear;
 
@@ -15,7 +16,8 @@ public class MiddlePegRightShootVision extends CommandGroup {
 	public MiddlePegRightShootVision() {
 		
 		addSequential(new Drive(83, 0), 3);
-		addSequential(new WaitForGear());
+		addParallel(new VoltageDrive(0.1, 3));
+		addSequential(new WaitForGear(), 10);
 		addSequential(new Drive(-50, 0), 1);
 		addSequential(new Drive(0, 90), 1);
 		addSequential(new Drive(58, 0), 2.5);

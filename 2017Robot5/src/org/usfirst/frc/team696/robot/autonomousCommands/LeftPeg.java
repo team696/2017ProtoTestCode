@@ -1,6 +1,7 @@
 package org.usfirst.frc.team696.robot.autonomousCommands;
 
 import org.usfirst.frc.team696.robot.commands.Drive;
+import org.usfirst.frc.team696.robot.commands.VoltageDrive;
 import org.usfirst.frc.team696.robot.commands.Wait;
 import org.usfirst.frc.team696.robot.commands.WaitForGear;
 
@@ -16,7 +17,8 @@ public class LeftPeg extends CommandGroup {
 		addSequential(new Drive(0, 50), 0.5);
 		addSequential(new Wait(1.5));
 		addSequential(new Drive(50, 0), 0.2);
-		addSequential(new WaitForGear(), 5);
+		addParallel(new VoltageDrive(0.1, 3));
+		addSequential(new WaitForGear(), 10);
 		addSequential(new Drive(-60, 0), 1.5);
 		addSequential(new Drive(0, -50));
 		
