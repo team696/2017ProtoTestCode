@@ -24,7 +24,7 @@ public class RunBeamBreak extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.gearBeamBreakSubsystem.get()){
+    	if(!Robot.gearBeamBreakSubsystem.getBot()){
     		Robot.oi.Psoc5.setOutput(5, true);
     		Robot.redLEDSubsystem.set(true);
     		Robot.closeGearFlap = false;

@@ -13,7 +13,7 @@ public class LeftPeg extends CommandGroup {
 		 * WORKED!!!!!******
 		 */
 		addSequential(new Drive(95, 0), 2);
-		addSequential(new Drive(0, 58), 0.5);
+		addSequential(new Drive(0, 50), 0.5);
 		addSequential(new Wait(1.5));
 		addSequential(new Drive(50, 0), 0.2);
 		addSequential(new WaitForGear(), 5);

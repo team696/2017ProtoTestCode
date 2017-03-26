@@ -18,6 +18,7 @@ public class RobotMap {
 	public static int intakeMotor = 0;
 //	public static int rollerMotor = 10;
 //	public static int sideSwipeMotor = 12;
+	public static int agitatorMotor = 11;
 	public static int sideSwipeMotor = 7;
 	
 	public static int leftDriveEncoderA = 2;
@@ -40,5 +41,6 @@ public class RobotMap {
 	
 	public static int greenLED = 4;
 	public static int RedLED = 5;
-	public static int beamBreak = 6;
+	public static int botBeamBreak = 6;
+	public static int topBeamBreak = 7;
 }

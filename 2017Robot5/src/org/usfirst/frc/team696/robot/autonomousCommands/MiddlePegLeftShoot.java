@@ -12,18 +12,16 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class MiddlePegRightShoot extends CommandGroup {
+public class MiddlePegLeftShoot extends CommandGroup {
 
-    public MiddlePegRightShoot() {
+    public MiddlePegLeftShoot() {
     	addSequential(new Drive(83, 0), 3);
-		addSequential(new WaitForGear());
+		addSequential(new WaitForGear(), 2);
 		addSequential(new Drive(-50, 0), 1);
-		addSequential(new Drive(0, /*90*/98), 1);
-		addSequential(new Drive(58, 0), 2.5);
+		addSequential(new Drive(0, -100), 1);
+		addSequential(new Drive(58+48, 0), 2.5);
 //        addSequential(new PIXYAim(), 2.5);
         addSequential(new SetShooter(3325));
-//        addSequential(new Drive(0, 0), 1.5);
-//        addSequential(new PIXYAim(), 2.5);
 //        addSequential(new Drive(0, 0), 1.5);
         addSequential(new SetConveyor(0.8));
         addSequential(new SetHopper(0.7));

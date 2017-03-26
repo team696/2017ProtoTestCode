@@ -12,12 +12,13 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team696.robot.autonomousCommands.Test;
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShoot;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShootVision;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShoot;
-import org.usfirst.frc.team696.robot.autonomousCommands.RightGearShoot;
-import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShootVision;
+import org.usfirst.frc.team696.robot.autonomousCommands.PixyAimOnly;
 import org.usfirst.frc.team696.robot.commands.Drive;
 import org.usfirst.frc.team696.robot.commands.AutoLightShow;
 import org.usfirst.frc.team696.robot.commands.PIXYAim;
@@ -50,11 +51,11 @@ public class Robot extends IterativeRobot {
 	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
 	public static ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem(RobotMap.conveyorMotor);
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
-	public static GearBeamBreakSubsystem gearBeamBreakSubsystem = new GearBeamBreakSubsystem(RobotMap.beamBreak);
+	public static GearBeamBreakSubsystem gearBeamBreakSubsystem = new GearBeamBreakSubsystem(RobotMap.topBeamBreak, RobotMap.botBeamBreak);
 	public static GearFlapSubsystem gearFlapSubsystem = new GearFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
 	public static GreenLEDSubsystem greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
 	public static HoodSubsystem hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
-	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(/*RobotMap.rollerMotor,*/ RobotMap.sideSwipeMotor);
+	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.agitatorMotor, RobotMap.sideSwipeMotor);
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
@@ -139,11 +140,13 @@ public class Robot extends IterativeRobot {
 //		leftDriveEncoder.setReverseDirection(true);//practice
 		rightDriveEncoder.setReverseDirection(true);//competition
 		
-		chooser.addDefault("test", new Test());
+		chooser.addDefault("Middle Peg", new MiddlePeg());
+		chooser.addObject("Pixy Aim Only", new PixyAimOnly());
 		chooser.addObject("left Peg", new LeftPeg());
-//		chooser.addObject("rightPeg", new RightPeg());
-		chooser.addObject("middlePegRightShoot", new MiddlePegRightShoot());
-		chooser.addObject("middle peg", new MiddlePeg());
+		chooser.addObject("Middle Peg Left Shoot", new MiddlePegLeftShoot());
+		chooser.addObject("Middle Peg Right Shoot", new MiddlePegRightShoot());
+		chooser.addObject("Middle Peg Left Shoot Vision", new MiddlePegLeftShootVision());
+		chooser.addObject("Middle Peg Right Shoot Vision", new MiddlePegRightShootVision());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		/*

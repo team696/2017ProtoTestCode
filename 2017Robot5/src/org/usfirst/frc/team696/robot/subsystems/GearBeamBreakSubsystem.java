@@ -12,11 +12,14 @@ public class GearBeamBreakSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-	DigitalInput beamBreak;
+	DigitalInput botBeamBreak;
+	DigitalInput topBeamBreak;
+	
 	Timer timer = new Timer();
 	
-	public GearBeamBreakSubsystem(int beamBreak) {
-		this.beamBreak = new DigitalInput(beamBreak);
+	public GearBeamBreakSubsystem(int topBeamBreak, int botBeamBreak) {
+		this.botBeamBreak = new DigitalInput(botBeamBreak);
+		this.topBeamBreak = new DigitalInput(topBeamBreak);
 	}
 	
     public void initDefaultCommand() {
@@ -43,8 +46,12 @@ public class GearBeamBreakSubsystem extends Subsystem {
 //    	}
 //    }
     
-    public boolean get(){
-    	return beamBreak.get();
+    public boolean getTop(){
+    	return topBeamBreak.get();
+    }
+    
+    public boolean getBot(){
+    	return botBeamBreak.get();
     }
 }
 
