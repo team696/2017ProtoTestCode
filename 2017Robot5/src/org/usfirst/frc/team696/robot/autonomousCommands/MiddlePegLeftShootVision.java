@@ -18,7 +18,7 @@ public class MiddlePegLeftShootVision extends CommandGroup {
     public MiddlePegLeftShootVision() {
     	
     	addSequential(new Drive(83, 0), 3);
-    	addParallel(new VoltageDrive(0.15, 3));
+    	addParallel(new VoltageDrive(0.25, 3));
 		addSequential(new WaitForGear(), 10);
 		addSequential(new Drive(-50, 0), 1);
 		addSequential(new Drive(0, -90), 1);

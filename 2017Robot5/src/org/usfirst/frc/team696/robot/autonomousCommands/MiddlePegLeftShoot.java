@@ -17,7 +17,7 @@ public class MiddlePegLeftShoot extends CommandGroup {
 
     public MiddlePegLeftShoot() {
     	addSequential(new Drive(83, 0), 3);
-    	addParallel(new VoltageDrive(0.15, 3));
+    	addParallel(new VoltageDrive(0.25, 3));
 		addSequential(new WaitForGear(), 10);
 		addSequential(new Drive(-50, 0), 1);
 		addSequential(new Drive(0, -95), 1);
