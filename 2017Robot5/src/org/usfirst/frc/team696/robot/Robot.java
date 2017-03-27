@@ -1,5 +1,7 @@
 package org.usfirst.frc.team696.robot;
 
+//works at LAR
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.IterativeRobot;
