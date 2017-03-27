@@ -14,13 +14,18 @@ public class LeftPeg extends CommandGroup {
 		 * WORKED!!!!!******
 		 */
 		addSequential(new Drive(95, 0), 2);
-		addSequential(new Drive(0, 50), 0.5);
+		addSequential(new Drive(0, 40), 1);
 		addSequential(new Wait(1.5));
 		addSequential(new Drive(50, 0), 0.2);
-		addParallel(new VoltageDrive(0.25, 3));
+		addParallel(new VoltageDrive(0.4, 15));
 		addSequential(new WaitForGear(), 10);
-		addSequential(new Drive(-60, 0), 1.5);
-		addSequential(new Drive(0, -50));
+//		addSequential(new Drive(-60, 0), 1.5);
+//		addSequential(new Drive(0, -50));
+		
+		
+		
+		
+		
 		
 //		addSequential(new Drive(92, 0), 2);
 //		addSequential(new Drive(50, 58), 0.3);
