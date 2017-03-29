@@ -1,8 +1,12 @@
 package org.usfirst.frc.team696.robot;
 
+import com.kauailabs.nav6.frc.IMU;
+import com.kauailabs.nav6.frc.IMUAdvanced;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,9 +23,11 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	
-	int bufferLength = 1;
 	I2C pixy;
-	byte[] buffer = new byte[bufferLength];
+	ParsePIXY parsePIXY;
+	
+	public static IMU navX;
+	SerialPort port;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -34,6 +40,13 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", chooser);
 		
 		pixy = new I2C(Port.kOnboard, 0x54);
+		parsePIXY = new ParsePIXY(pixy);
+		
+		try {
+			byte UpdateRateHz = 50;
+			port = new SerialPort(57600, SerialPort.Port.kMXP);
+			navX = new IMUAdvanced(port, UpdateRateHz);
+		} catch(Exception ex){System.out.println("NavX not working");};
 	}
 
 	/**
@@ -74,16 +87,30 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during operator control
 	 */
+	
+	@Override
+	public void teleopInit() {
+		// TODO Auto-generated method stub
+		super.teleopInit();
+		try{
+			parsePIXY.start();
+		}catch(IllegalThreadStateException e){
+			System.out.println("failed to start thread");
+		}
+	}
+	
 	@Override
 	public void teleopPeriodic() {
-			pixy.readOnly(buffer, bufferLength);
-			
-			for(int i = 0; i < buffer.length; i++){
-				System.out.print(buffer[i] + "   ");
-			}
-			System.out.println();
+		System.out.println(parsePIXY.getXs()[0] + "   " + navX.getYaw());
 	}
-
+	
+	@Override
+	public void disabledInit() {
+		// TODO Auto-generated method stub
+		super.disabledInit();
+		parsePIXY.stop();
+	}
+	
 	/**
 	 * This function is called periodically during test mode
 	 */

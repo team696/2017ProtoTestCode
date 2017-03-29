@@ -1,16 +1,39 @@
 package org.usfirst.frc.team696.robot.autonomousCommands;
 
 import org.usfirst.frc.team696.robot.commands.Drive;
+import org.usfirst.frc.team696.robot.commands.VoltageDrive;
+import org.usfirst.frc.team696.robot.commands.Wait;
+import org.usfirst.frc.team696.robot.commands.WaitForGear;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class LeftPeg extends CommandGroup {
 	
 	public LeftPeg() {
-		addSequential(new Drive(187.3, 0));
-		addSequential(new Drive(0, 75));
-		addSequential(new Drive(5, 0));
-//		addSequential(new Drive(-10, 0));
+		/*
+		 * WORKED!!!!!******
+		 */
+		addSequential(new Drive(95, 0), 2);
+		addSequential(new Drive(0, 40), 1);
+		addSequential(new Wait(1.5));
+		addSequential(new Drive(50, 0), 0.2);
+		addParallel(new VoltageDrive(0.4, 15));
+		addSequential(new WaitForGear(), 10);
+//		addSequential(new Drive(-60, 0), 1.5);
+//		addSequential(new Drive(0, -50));
+		
+		
+		
+		
+		
+		
+//		addSequential(new Drive(92, 0), 2);
+//		addSequential(new Drive(50, 58), 0.3);
+////		addSequential(new Wait(1.5));
+////		addSequential(new Drive(50, 0), 0.2);
+//		addSequential(new WaitForGear(), 5);
+//		addSequential(new Drive(-60, 0), 1.5);
+//		addSequential(new Drive(0, -50));
 	}
 	
 

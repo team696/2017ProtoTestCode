@@ -13,7 +13,7 @@ public class SetShooter extends Command {
 	
     public SetShooter(double targetRPM) {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.shooterSubsystem);
+//        requires(Robot.shooterSubsystem);
         this.targetRPM = targetRPM;
     }
 
