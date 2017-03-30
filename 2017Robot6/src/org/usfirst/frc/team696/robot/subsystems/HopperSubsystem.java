@@ -26,6 +26,11 @@ public class HopperSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
+    public void set(double speed){
+    	Agitator.set(speed);
+    	sideSwipe.set(speed);
+    }
    
 }
 

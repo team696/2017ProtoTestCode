@@ -23,5 +23,12 @@ public class RedLEDSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
+    public void set(boolean choice){
+    	
+    	redLED.set(choice);
+    	
+    }
 }
+
 

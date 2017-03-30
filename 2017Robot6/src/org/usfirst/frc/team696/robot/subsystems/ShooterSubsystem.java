@@ -26,5 +26,19 @@ public class ShooterSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
+    public void set(double speed){
+    	
+    	masterShooterTalon.set(speed);
+    	slaveShooterTalon.set(speed);
+    	
+    }
+    
+    public void get(){
+    	
+    	masterShooterTalon.get();
+    	slaveShooterTalon.get();
+    	
+    }
 }
 

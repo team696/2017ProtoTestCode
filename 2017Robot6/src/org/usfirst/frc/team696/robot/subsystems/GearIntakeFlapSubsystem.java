@@ -24,5 +24,19 @@ public class GearIntakeFlapSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
+    public void openPos(){
+    	
+    	leftServo.setAngle(170);
+    	rightServo.setAngle(10);
+    	
+    }
+    
+    public void closePos(){
+    	
+    	leftServo.setAngle(40);
+    	rightServo.setAngle(130);
+    	
+    }
 }
 

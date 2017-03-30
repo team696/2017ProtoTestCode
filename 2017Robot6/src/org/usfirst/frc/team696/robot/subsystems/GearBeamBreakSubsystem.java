@@ -25,5 +25,14 @@ public class GearBeamBreakSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
+    public boolean getTop(){
+		return topBeamBreak.get();
+    	
+    }
+    
+    public boolean getBot(){
+    	return bottomBeamBreak.get();
+    }
 }
 

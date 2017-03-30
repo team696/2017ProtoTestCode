@@ -8,20 +8,26 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class HoodSubsystem extends Subsystem {
 	
-	Servo hoodMotor;
+	Servo hoodServo;
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	public HoodSubsystem(int hoodMotor){
+	public HoodSubsystem(int hoodServo){
 		
-		this.hoodMotor = new Servo(hoodMotor);
+		this.hoodServo = new Servo(hoodServo);
 		
 	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    }
+    
+    public void set(int angle){
+    	
+    	hoodServo.setAngle(angle);
+    	
     }
 }
 

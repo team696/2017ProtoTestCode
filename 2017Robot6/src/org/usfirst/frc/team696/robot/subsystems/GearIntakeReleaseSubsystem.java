@@ -25,5 +25,12 @@ public class GearIntakeReleaseSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
+    public void set(int leftAngle, int rightAngle){
+    	
+    	leftServo.setAngle(leftAngle);
+    	rightServo.setAngle(rightAngle);
+    	
+    }
 }
 
