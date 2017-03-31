@@ -24,10 +24,12 @@ public class RedLEDSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void set(boolean choice){
-    	
-    	redLED.set(choice);
-    	
+    public void set(boolean state){
+    	redLED.set(state);
+    }
+    
+    public boolean get(){
+    	return redLED.get();
     }
 }
 

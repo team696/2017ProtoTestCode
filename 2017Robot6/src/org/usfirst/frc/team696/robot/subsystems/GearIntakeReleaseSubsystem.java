@@ -26,10 +26,17 @@ public class GearIntakeReleaseSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void set(int leftAngle, int rightAngle){
+    public void openPos(){
     	
-    	leftServo.setAngle(leftAngle);
-    	rightServo.setAngle(rightAngle);
+    	leftServo.setAngle(100);
+    	rightServo.setAngle(0);
+    	
+    }
+    
+    public void closePos(){
+    	
+    	leftServo.setAngle(0);
+    	rightServo.setAngle(10);
     	
     }
 }

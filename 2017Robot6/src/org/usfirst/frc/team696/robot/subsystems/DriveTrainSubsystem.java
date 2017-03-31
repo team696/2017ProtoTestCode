@@ -25,9 +25,9 @@ public class DriveTrainSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
     
-    public void tankDrive(int leftDrive, int rightDrive){
+    public void tankDrive(double leftValue, double rightValue){
     	
-    	drive.tankDrive(leftDrive, rightDrive);
+    	drive.tankDrive(leftValue, rightValue);
     	
     }
 }
