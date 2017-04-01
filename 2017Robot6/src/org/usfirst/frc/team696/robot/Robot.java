@@ -40,6 +40,7 @@ import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.VisionLEDSubsystem;
 import org.usfirst.frc.team696.robot.utilities.ParsePIXY;
 import org.usfirst.frc.team696.robot.utilities.Util;
 
@@ -59,6 +60,7 @@ public class Robot extends IterativeRobot {
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
+	public static VisionLEDSubsystem visionLEDSubsystem = new VisionLEDSubsystem(RobotMap.visionLED);
 	
 	public static OI oi;
 	
@@ -96,6 +98,11 @@ public class Robot extends IterativeRobot {
 	double distancePerPulse = (4*Math.PI)/200;
 	
 	Timer hoodTimer = new Timer();
+	
+	int toggleIntake = 8;
+	int shooterRun = 9;
+	int hopperRun = 10;
+	int conveyorRun = 11;
 	
 	/*
 	 * set up oldButton[] arrays for different Joysticks
@@ -276,6 +283,8 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set intake values
 		 */
+		if (oi.Psoc5.getRawButton(8))runIntake = true;
+		
 		if(runIntake)intakeSubsystem.set(0.7);
 		else intakeSubsystem.set(0);
 		
@@ -288,6 +297,10 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set hopper values
 		 */
+		
+		if(oi.Psoc5.getRawButton(6))runHopper = true;
+		else runHopper = false;
+		
 		if(runHopper)hopperSubsystem.set(0.7);
 		else hopperSubsystem.set(0);
 		
