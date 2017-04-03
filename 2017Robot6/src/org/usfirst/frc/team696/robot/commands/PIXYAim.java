@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class PIXYAim extends Command {
 
-	double targetAngle = 28;
+	double targetAngle = /*34*/28.3;
 	double error = 0;
 	double k = 1;
 	boolean isFinished = false;
@@ -31,6 +31,7 @@ public class PIXYAim extends Command {
 	    	error = targetAngle - Util.map(Robot.parsePIXY.getXs()[0], 0, 255, 0, 47);
 	    	Robot.targetDirection = -error;
 	    	System.out.println(error);
+//	    	System.out.println(Util.map(Robot.parsePIXY.getXs()[0], 0, 255, 0, 47));
 	    	isFinished = true;
     	} else {
     		System.out.println("x equals 0");

@@ -43,7 +43,7 @@ public class Drive extends Command {
     	Robot.rightDriveEncoder.reset();
     	if(!Robot.usePIXYAngle)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
     	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
-    	if(Robot.usePIXYAngle)directionPID.setPID(0.055, 0.05, 0.1, 0.009);
+    	if(Robot.usePIXYAngle)directionPID.setPID(0.03, 0.2, 0.1, 0.1);
     	Robot.usePIXYAngle = false;
     }
 
@@ -77,7 +77,7 @@ public class Drive extends Command {
 //		}
 		
 		
-		if(Math.abs(distanceError) < 1.5 && Math.abs(directionError) < 4){
+		if(Math.abs(distanceError) < 1.5 && Math.abs(directionError) < 1){
 //			if(Robot.autonomousCommand.isRunning()){
 			if(timer.get() == 0)timer.start();
 			if(timer.get() > 0.2){

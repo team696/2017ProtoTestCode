@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
     Joystick gamePad = new Joystick(2);
     Victor conveyor = new Victor(1);
 //    Victor hopper = new Victor(10);
-//    Victor sideSwipe = new Victor(12);
+    Victor sideSwipe = new Victor(12);
     CANTalon masterTalon = new CANTalon(2);
     CANTalon slaveTalon = new CANTalon(1);
     

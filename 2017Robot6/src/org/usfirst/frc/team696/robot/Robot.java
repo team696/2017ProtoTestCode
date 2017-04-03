@@ -189,7 +189,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledInit() {
-
+		visionLightSubsystem.set(false);
 	}
 
 	@Override
@@ -293,8 +293,8 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set shooter values
 		 */
-		if(runShooter)targetRPM = 3325;
-//		if(runShooter)targetRPM = 500;
+//		if(runShooter)targetRPM = 3325;
+		if(runShooter)targetRPM = 2900;
 		else targetRPM = 0;
 		
 		/*
