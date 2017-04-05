@@ -48,4 +48,8 @@ public class RobotMap {
 	public static int visionLight = 7;
 	public static int peltier = 8;
 	
+	public static int gearPivot = 3;
+	public static int gearIntake = 0;
+	public static int gearIntakePDPChannel = 5;
+	
 }

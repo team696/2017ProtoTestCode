@@ -5,6 +5,7 @@ package org.usfirst.frc.team696.robot;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -41,6 +42,7 @@ import org.usfirst.frc.team696.robot.subsystems.GreenLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HoodSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.PivotSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.VisionLightSubsystem;
@@ -61,9 +63,12 @@ public class Robot extends IterativeRobot {
 	public static HoodSubsystem hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
 	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.agitatorMotor, RobotMap.sideSwipeMotor);
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
+	public static PivotSubsystem pivotSubsystem = new PivotSubsystem(RobotMap.gearPivot);
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 	public static VisionLightSubsystem visionLightSubsystem = new VisionLightSubsystem(RobotMap.visionLight, RobotMap.peltier);
+	
+	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
 	public static OI oi;
 	
@@ -90,16 +95,26 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean runConveyor = false;
 	public static boolean runIntake = false;
+	public static boolean runOuttake = false;
 	public static boolean runShooter = false;
 	public static boolean runHopper = false;
-	public static boolean closeGearFlap = false;
+	public static boolean openGearFlap = false;
 	public static boolean usePIXYAngle = false;
 	
 	public static double targetDirection = 0;
+	public static double gearIntakeSpeed = 0;
+	public static final double gearIntakeSlowSpeed = 0.5;
+	public static double gearPivotTarget = 0;
+	public static final double gearPivotStowed = 0.87;
+	public static final double gearPivotOut = 0.38;
+	public static boolean firstRunIntake = true;
+	public static boolean firstRunOuttake = true;
+	public static boolean gearInGroundPickup = false;
 	
 	double distancePerPulse = (4*Math.PI)/200;
 	
 	Timer hoodTimer = new Timer();
+	Timer gearIntakeTimer = new Timer();
 	
 	/*
 	 * set up oldButton[] arrays for different Joysticks
@@ -206,6 +221,8 @@ public class Robot extends IterativeRobot {
 		
 		Scheduler.getInstance().add(new AutoLightShow());
 		Scheduler.getInstance().add(new RunShooter());
+		
+		gearPivotTarget = pivotSubsystem.getPosition();
 	}
 
 	@Override
@@ -244,13 +261,19 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set gear flap open
 		 */
-		if(oi.Psoc5.getRawButton(14))closeGearFlap = true;
-		if(oi.Psoc5.getRawButton(15))closeGearFlap = false;
+		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14] && !gearInGroundPickup)openGearFlap = true;
+		if(oi.Psoc5.getRawButton(14)){
+			runOuttake = true;
+		} else {
+			runOuttake = false;
+		}
+		if(oi.Psoc5.getRawButton(15))openGearFlap = false;
 		
 		/*
 		 * Run intake when button 1 is pushed on gamepad
 		 */
-		if(oi.Psoc5.getRawButton(13) && !oldPsoc5[13])runIntake = !runIntake;
+		if(oi.Psoc5.getRawButton(13) && !oldPsoc5[13])runIntake = true;
+		if(!oi.Psoc5.getRawButton(13) && oldPsoc5[13]) runIntake = false;
 		
 		/*
 		 * Run hopper and conveyor when button 6 is pushed on gamepad
@@ -269,14 +292,8 @@ public class Robot extends IterativeRobot {
 		if(oi.Psoc5.getRawButton(2))runShooter = true;
 		else runShooter = false;
 		
-		if(!closeGearFlap)gearFlapSubsystem.openPos();
+		if(openGearFlap)gearFlapSubsystem.openPos();
 		else gearFlapSubsystem.closePos();
-		
-		/*
-		 * set intake values
-		 */
-		if(runIntake)intakeSubsystem.set(0.7);
-		else intakeSubsystem.set(0);
 		
 		/*
 		 * set conveyor values
@@ -303,6 +320,58 @@ public class Robot extends IterativeRobot {
 		if(oi.Psoc5.getRawButton(12))climberSubsystem.set(-1);
 		else climberSubsystem.set(0);
 		
+		if(runIntake){
+			if(PDP.getCurrent(5) > 50){
+				gearIntakeTimer.start();
+				gearPivotTarget = gearPivotStowed;
+				gearIntakeSpeed = gearIntakeSlowSpeed;
+				gearInGroundPickup = true;
+			} else if(gearIntakeTimer.get() > 0.5){
+				gearIntakeTimer.stop();
+				gearIntakeSpeed-=0.01;
+				if(gearIntakeSpeed < 0.05){
+					runIntake = false;
+					gearIntakeTimer.stop();
+					gearIntakeTimer.reset();
+				}
+			} else {
+				if(firstRunIntake){
+					gearIntakeSpeed = 1;
+					pivotSubsystem.constrainOutput(12, -12);
+					gearPivotTarget = gearPivotOut;
+					firstRunIntake = false;
+				}
+			}
+		} else if(runOuttake){
+			if(firstRunIntake){
+				gearIntakeTimer.start();
+				firstRunIntake = false;
+				gearIntakeSpeed = -0.4;
+			}
+			if(gearIntakeTimer.get() > 0.5){
+				gearIntakeSpeed = -0.2;
+				pivotSubsystem.constrainOutput(3, -12);
+				gearPivotTarget = gearPivotOut;
+				gearIntakeTimer.stop();
+				gearIntakeTimer.reset();
+				gearInGroundPickup = false;
+			}
+		} else {
+			gearIntakeSpeed = 0;
+			pivotSubsystem.constrainOutput(12, -12);
+			gearPivotTarget = gearPivotStowed;
+			firstRunIntake = true;
+			gearIntakeTimer.stop();
+			gearIntakeTimer.reset();
+		}
+		
+		pivotSubsystem.setPID(SmartDashboard.getNumber("p", 0), SmartDashboard.getNumber("i", 0), SmartDashboard.getNumber("d", 0));
+		
+		pivotSubsystem.setSetpoint(gearPivotTarget);
+		pivotSubsystem.setIntake(gearIntakeSpeed);
+		
+		System.out.println(pivotSubsystem.getPosition());
+		
 		/*
 		 * drive control
 		 * speed: forward speed
@@ -318,7 +387,8 @@ public class Robot extends IterativeRobot {
     	leftValue = speed + turn;
     	rightValue = speed - turn;
     	
-    	Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
+//    	Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
+    	Robot.driveTrainSubsystem.tankDrive(0, 0);
     	
     	/*
     	 * get oldButtons 

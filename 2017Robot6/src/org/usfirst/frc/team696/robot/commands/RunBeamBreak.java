@@ -27,11 +27,11 @@ public class RunBeamBreak extends Command {
     	if(!Robot.gearBeamBreakSubsystem.getBot()){
     		Robot.oi.Psoc5.setOutput(5, true);
     		Robot.redLEDSubsystem.set(true);
-    		Robot.closeGearFlap = false;
+    		Robot.openGearFlap = false;
     	}
     	else {
     		Robot.oi.Psoc5.setOutput(5, false);
-    		if(Robot.closeGearFlap){
+    		if(Robot.openGearFlap){
     			if(timer.get() == 0)timer.start();
     			if(timer.get() > 0.1){
     				Robot.redLEDSubsystem.set(!Robot.redLEDSubsystem.get());
