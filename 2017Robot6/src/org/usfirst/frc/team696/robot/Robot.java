@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
 	public static GearIntakeFlapSubsystem gearFlapSubsystem = new GearIntakeFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
 	public static GreenLEDSubsystem greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
 	public static HoodSubsystem hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
-	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.agitatorMotor, RobotMap.sideSwipeMotor);
+	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.sideSwipeMotor);
 	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
 	public static PivotSubsystem pivotSubsystem = new PivotSubsystem(RobotMap.gearPivot);
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);

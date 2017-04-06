@@ -11,11 +11,9 @@ public class HopperSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	VictorSP agitator;
 	VictorSP sideSwipe;
 	
-	public HopperSubsystem(/*int rollerMotor,*/int agitaterMotor, int sideSwipeMotor){
-		agitator = new VictorSP(agitaterMotor);
+	public HopperSubsystem(int sideSwipeMotor){
 		sideSwipe = new VictorSP(sideSwipeMotor);
 	}
 
@@ -26,7 +24,6 @@ public class HopperSubsystem extends Subsystem {
     
     public void set(double speed){
     	sideSwipe.set(speed);
-    	agitator.set(-speed/speed * 0.4);
     }
 }
 
