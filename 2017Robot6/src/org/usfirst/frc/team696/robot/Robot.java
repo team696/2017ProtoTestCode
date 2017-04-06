@@ -31,7 +31,6 @@ import org.usfirst.frc.team696.robot.commands.RunShooter;
 import org.usfirst.frc.team696.robot.commands.SetClimber;
 import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetHopper;
-import org.usfirst.frc.team696.robot.commands.SetIntake;
 import org.usfirst.frc.team696.robot.commands.SetShooter;
 import org.usfirst.frc.team696.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
@@ -41,7 +40,6 @@ import org.usfirst.frc.team696.robot.subsystems.GearIntakeFlapSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GreenLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HoodSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
-import org.usfirst.frc.team696.robot.subsystems.IntakeSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.PivotSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
@@ -62,8 +60,7 @@ public class Robot extends IterativeRobot {
 	public static GreenLEDSubsystem greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
 	public static HoodSubsystem hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
 	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.sideSwipeMotor);
-	public static IntakeSubsystem intakeSubsystem = new IntakeSubsystem(RobotMap.intakeMotor);
-	public static PivotSubsystem pivotSubsystem = new PivotSubsystem(RobotMap.gearPivot);
+	public static PivotSubsystem pivotSubsystem = new PivotSubsystem(RobotMap.gearPivot, RobotMap.gearIntake);
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 	public static VisionLightSubsystem visionLightSubsystem = new VisionLightSubsystem(RobotMap.visionLight, RobotMap.peltier);
@@ -105,15 +102,14 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 0.87;
-	public static final double gearPivotOut = 0.38;
+	public static final double gearPivotStowed = 0.65;
+	public static final double gearPivotOut = 0.24;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
 	
 	double distancePerPulse = (4*Math.PI)/200;
 	
-	Timer hoodTimer = new Timer();
 	Timer gearIntakeTimer = new Timer();
 	
 	/*
@@ -239,9 +235,6 @@ public class Robot extends IterativeRobot {
 		/*
 		 * moving to released position at start of teleop
 		 */
-		hoodSubsystem.setAngle(100);
-		hoodTimer.start();
-		
 //		Scheduler.getInstance().add(new TeleopLightShow());
 //		Scheduler.getInstance().add(new Drive());
 //		Scheduler.getInstance().add(new PIXYAim());
@@ -252,10 +245,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		if(hoodTimer.get() > 1){
-			hoodSubsystem.disable();
-			hoodTimer.stop();
-			hoodTimer.reset();
+		if(oi.Psoc5.getRawButton(11)){
+			hoodSubsystem.setAngle(100);
 		}
 		
 		/*
@@ -321,7 +312,7 @@ public class Robot extends IterativeRobot {
 		else climberSubsystem.set(0);
 		
 		if(runIntake){
-			if(PDP.getCurrent(5) > 50){
+			if(PDP.getCurrent(RobotMap.gearIntakePDPChannel) > 50){
 				gearIntakeTimer.start();
 				gearPivotTarget = gearPivotStowed;
 				gearIntakeSpeed = gearIntakeSlowSpeed;
@@ -365,8 +356,6 @@ public class Robot extends IterativeRobot {
 			gearIntakeTimer.reset();
 		}
 		
-		pivotSubsystem.setPID(SmartDashboard.getNumber("p", 0), SmartDashboard.getNumber("i", 0), SmartDashboard.getNumber("d", 0));
-		
 		pivotSubsystem.setSetpoint(gearPivotTarget);
 		pivotSubsystem.setIntake(gearIntakeSpeed);
 		
@@ -387,8 +376,8 @@ public class Robot extends IterativeRobot {
     	leftValue = speed + turn;
     	rightValue = speed - turn;
     	
-//    	Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
-    	Robot.driveTrainSubsystem.tankDrive(0, 0);
+    	Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
+//    	Robot.driveTrainSubsystem.tankDrive(0, 0);
     	
     	/*
     	 * get oldButtons 

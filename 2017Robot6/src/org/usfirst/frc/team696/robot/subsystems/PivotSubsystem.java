@@ -18,18 +18,19 @@ public class PivotSubsystem extends Subsystem {
     // here. Call these from Commands.
 
 	CANTalon pivot;
-	VictorSP victor = new VictorSP(10);
+	VictorSP intakeRoller;
 	
-	public PivotSubsystem(int pivot) {
+	public PivotSubsystem(int pivot, int intakeRoller) {
 		// TODO Auto-generated constructor stub
 		this.pivot = new CANTalon(pivot);
+		this.intakeRoller = new VictorSP(intakeRoller);
 		
 		this.pivot.changeControlMode(TalonControlMode.Position);
 		this.pivot.reverseOutput(true);
 		this.pivot.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		this.pivot.set(0);
 		
-		this.pivot.setP(1);
+		this.pivot.setP(.5);
 		
 		this.pivot.enableControl();
 	}
@@ -41,6 +42,7 @@ public class PivotSubsystem extends Subsystem {
     
     public void setSetpoint(double setpoint){
     	pivot.setSetpoint(setpoint);
+    	System.out.println("setting set              " + setpoint);
     }
     
     public void constrainOutput(int forwardVoltage, int reverseVoltage){
@@ -56,7 +58,7 @@ public class PivotSubsystem extends Subsystem {
     }
     
     public void setIntake(double speed){
-    	victor.set(speed);
+    	intakeRoller.set(speed);
     }
 }
 

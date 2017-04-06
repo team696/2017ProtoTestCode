@@ -15,7 +15,6 @@ public class RobotMap {
 	public static int midRightMotor = 3;
 	public static int rearRightMotor = 4;
 	
-	public static int intakeMotor = 0;
 //	public static int rollerMotor = 10;
 //	public static int sideSwipeMotor = 12;
 	public static int sideSwipeMotor = 7;
@@ -48,7 +47,7 @@ public class RobotMap {
 	public static int peltier = 8;
 	
 	public static int gearPivot = 3;
-	public static int gearIntake = 0;
-	public static int gearIntakePDPChannel = 5;
+	public static int gearIntake = 11;
+	public static int gearIntakePDPChannel = 9;
 	
 }
