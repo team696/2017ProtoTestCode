@@ -29,7 +29,16 @@ public class RunBeamBreak extends Command {
     		Robot.redLEDSubsystem.set(true);
     		Robot.openGearFlap = false;
     	}
-    	else {
+    	else if(Robot.gearPivotTarget == Robot.gearPivotOut){
+    		if(timer.get() == 0)timer.start();
+			if(timer.get() > 0.1){
+				Robot.redLEDSubsystem.set(!Robot.redLEDSubsystem.get());
+				timer.stop();
+				timer.reset();
+			} 
+    	} else if(Robot.gearInGroundPickup){
+    		Robot.redLEDSubsystem.set(true);
+    	}else {
     		Robot.oi.Psoc5.setOutput(5, false);
     		if(Robot.openGearFlap){
     			if(timer.get() == 0)timer.start();
@@ -40,6 +49,16 @@ public class RunBeamBreak extends Command {
     			}
     		} else Robot.redLEDSubsystem.set(false);
     	}
+    	
+//    	if(Robot.gearPivotTarget == Robot.gearPivotOut){
+//    		if(timer.get() == 0)timer.start();
+//			if(timer.get() > 0.1){
+//				Robot.redLEDSubsystem.set(!Robot.redLEDSubsystem.get());
+//				timer.stop();
+//				timer.reset();
+//			} else if(Robot.gearInGroundPickup)Robot.redLEDSubsystem.set(true);
+//			else Robot.redLEDSubsystem.set(false);
+//    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

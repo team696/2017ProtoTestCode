@@ -25,8 +25,8 @@ public class GearIntakeFlapSubsystem extends Subsystem {
     }
     
     public void openPos(){
-    	leftServo.setAngle(170);
-    	rightServo.setAngle(10);
+    	leftServo.setAngle(175);
+    	rightServo.setAngle(5);
     }
     
     public void closePos(){

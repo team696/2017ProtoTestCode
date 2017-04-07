@@ -102,8 +102,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 0.65;
-	public static final double gearPivotOut = 0.24;
+	public static final double gearPivotStowed = 0.62;
+	public static final double gearPivotOut = 0.22;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -132,6 +132,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
+		pivotSubsystem.setSetpoint(gearPivotStowed);
 		visionLightSubsystem.set(false);
 		System.out.println(visionLightSubsystem.getLight() + "    " + visionLightSubsystem.getPeltier());
 		oi = new OI();
@@ -154,8 +155,8 @@ public class Robot extends IterativeRobot {
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
 		
-		leftDriveEncoder.setReverseDirection(true);//practice
-//		rightDriveEncoder.setReverseDirection(true);//competition
+//		leftDriveEncoder.setReverseDirection(true);//practice
+		rightDriveEncoder.setReverseDirection(true);//competition
 		
 		chooser.addObject("test", new test());
 		chooser.addDefault("Middle Peg", new MiddlePeg());
@@ -223,7 +224,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
-		System.out.println(gearBeamBreakSubsystem.getTop());
 		Scheduler.getInstance().run();
 	}
 
@@ -244,6 +244,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(navX.getYaw() + "     " + leftDriveEncoder.getDistance() + "    " + rightDriveEncoder.getDistance());
 		Scheduler.getInstance().run();
 		if(oi.Psoc5.getRawButton(11)){
 			hoodSubsystem.setAngle(100);
@@ -252,7 +253,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set gear flap open
 		 */
-		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14] && !gearInGroundPickup)openGearFlap = true;
+		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])openGearFlap = true;
 		if(oi.Psoc5.getRawButton(14)){
 			runOuttake = true;
 		} else {

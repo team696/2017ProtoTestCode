@@ -148,6 +148,7 @@ public class Robot extends IterativeRobot {
     	
     	masterTalon.setAllowableClosedLoopErr(10);
     	SmartDashboard.putNumber("currentRPM", masterTalon.get());
+    	System.out.println(masterTalon.get());
     	masterTalon.setP(SmartDashboard.getNumber("p", 0.077));
     	masterTalon.setI(SmartDashboard.getNumber("i", 0));
     	masterTalon.setD(SmartDashboard.getNumber("d", 0.0));

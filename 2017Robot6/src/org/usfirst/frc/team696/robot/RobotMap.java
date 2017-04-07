@@ -34,8 +34,8 @@ public class RobotMap {
 	
 	public static int hoodServo = 13; 
 	
-	public static int leftServo = 14;
-	public static int rightServo = 15;
+	public static int leftServo = 15;
+	public static int rightServo = 14;
 	
 	public static int greenLED = 4;
 	public static int RedLED = 5;

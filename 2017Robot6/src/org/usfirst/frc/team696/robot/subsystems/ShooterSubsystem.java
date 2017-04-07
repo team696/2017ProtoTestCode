@@ -19,7 +19,7 @@ public class ShooterSubsystem extends Subsystem {
 	CANTalon slaveShooter;
 	Timer timer = new Timer();
 	
-	double kP = 0.077, 
+	double kP = 0.075, 
 			kI = 0, 
 			kD = 0.0, 
 			kF = 0.03;
