@@ -1,7 +1,6 @@
 package org.usfirst.frc.team696.robot.autonomousCommands;
 
 import org.usfirst.frc.team696.robot.commands.Drive;
-import org.usfirst.frc.team696.robot.commands.PIXYAim;
 import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetHopper;
 import org.usfirst.frc.team696.robot.commands.SetShooter;
@@ -13,17 +12,16 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class MiddlePegRightShoot extends CommandGroup {
+public class MiddlePegLeaveRight extends CommandGroup {
 
-    public MiddlePegRightShoot() {
+    public MiddlePegLeaveRight() {
     	addSequential(new Drive(83, 0), 3);
-    	addSequential(new VoltageDrive(0.4, 3));
+    	addSequential(new VoltageDrive(0.4, 2));
 		addSequential(new WaitForGear(), 10);
 		addSequential(new Drive(-50, 0), 1);
-		addSequential(new Drive(0, 96), 1);
-		addSequential(new Drive(58, 0), 2.5);
-        addSequential(new SetShooter(3325));
-        addSequential(new SetConveyor(0.8));
-        addSequential(new SetHopper(0.7));
+		addSequential(new Drive(0, 90), 1);
+		addSequential(new Drive(80, 0), 2.5);
+		addSequential(new Drive(0, -90), 2);
+		addSequential(new Drive(83, 0), 4);
     }
 }

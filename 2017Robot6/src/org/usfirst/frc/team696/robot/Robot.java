@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeaveLeft;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeaveRight;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShootVision;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShoot;
@@ -134,7 +136,6 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		pivotSubsystem.setSetpoint(gearPivotStowed);
 		visionLightSubsystem.set(false);
-		System.out.println(visionLightSubsystem.getLight() + "    " + visionLightSubsystem.getPeltier());
 		oi = new OI();
 		
 		/*
@@ -159,6 +160,8 @@ public class Robot extends IterativeRobot {
 		rightDriveEncoder.setReverseDirection(true);//competition
 		
 		chooser.addObject("test", new test());
+		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
+		chooser.addObject("Middle Peg Leave Right", new MiddlePegLeaveRight());
 		chooser.addDefault("Middle Peg", new MiddlePeg());
 		chooser.addObject("Pixy Aim Only", new PixyAimOnly());
 		chooser.addObject("left Peg", new LeftPeg());
@@ -244,7 +247,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(gearBeamBreakSubsystem.getTop() + "    " + gearBeamBreakSubsystem.getBot());
 		Scheduler.getInstance().run();
 		if(oi.Psoc5.getRawButton(11)){
 			hoodSubsystem.setAngle(100);

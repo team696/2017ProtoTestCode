@@ -42,7 +42,6 @@ public class PivotSubsystem extends Subsystem {
     
     public void setSetpoint(double setpoint){
     	pivot.setSetpoint(setpoint);
-    	System.out.println("setting set              " + setpoint);
     }
     
     public void constrainOutput(int forwardVoltage, int reverseVoltage){
