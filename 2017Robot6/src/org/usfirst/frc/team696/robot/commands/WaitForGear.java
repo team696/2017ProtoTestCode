@@ -26,15 +26,15 @@ public class WaitForGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	if(!oldBeamBreakState && Robot.gearBeamBreakSubsystem.getTop())timer.start();
-    	if(!oldBeamBreakState && Robot.gearBeamBreakSubsystem.getBot())timer.start();
-    	if(timer.get() > 4){
+    	if(!oldBeamBreakState && Robot.gearBeamBreakSubsystem.getTop())timer.start();
+//    	if(!oldBeamBreakState && Robot.gearBeamBreakSubsystem.getBot())timer.start();
+    	if(timer.get() > 1.5){
 //    	if(timer.get() > 0.2){
     		timer.stop();
     		isFinished = true;
     	}
-//    	oldBeamBreakState = Robot.gearBeamBreakSubsystem.getTop();
-    	oldBeamBreakState = Robot.gearBeamBreakSubsystem.getBot();
+    	oldBeamBreakState = Robot.gearBeamBreakSubsystem.getTop();
+//    	oldBeamBreakState = Robot.gearBeamBreakSubsystem.getBot();
     }
 
     // Make this return true when this Command no longer needs to run execute()

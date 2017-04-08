@@ -17,7 +17,7 @@ public class LeftPeg extends CommandGroup {
 		addSequential(new Drive(0, 40), 1);
 		addSequential(new Wait(1.5));
 		addSequential(new Drive(50, 0), 0.2);
-		addParallel(new VoltageDrive(0.4, 15));
+		addSequential(new VoltageDrive(0.4, 15));
 		addSequential(new WaitForGear(), 10);
 //		addSequential(new Drive(-60, 0), 1.5);
 //		addSequential(new Drive(0, -50));

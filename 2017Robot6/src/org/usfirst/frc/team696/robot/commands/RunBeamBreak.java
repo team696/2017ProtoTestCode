@@ -24,21 +24,14 @@ public class RunBeamBreak extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(!Robot.gearBeamBreakSubsystem.getBot()){
+    	if(!Robot.gearBeamBreakSubsystem.getTop()){
     		Robot.oi.Psoc5.setOutput(5, true);
     		Robot.redLEDSubsystem.set(true);
     		Robot.openGearFlap = false;
-    	}
-    	else if(Robot.gearPivotTarget == Robot.gearPivotOut){
-    		if(timer.get() == 0)timer.start();
-			if(timer.get() > 0.1){
-				Robot.redLEDSubsystem.set(!Robot.redLEDSubsystem.get());
-				timer.stop();
-				timer.reset();
-			} 
-    	} else if(Robot.gearInGroundPickup){
+    	} else if(Robot.gearInGroundPickup) {
     		Robot.redLEDSubsystem.set(true);
-    	}else {
+    		Robot.openGearFlap = false;
+    	} else {
     		Robot.oi.Psoc5.setOutput(5, false);
     		if(Robot.openGearFlap){
     			if(timer.get() == 0)timer.start();

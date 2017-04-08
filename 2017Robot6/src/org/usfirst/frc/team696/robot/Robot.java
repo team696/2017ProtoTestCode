@@ -102,8 +102,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 0.62;
-	public static final double gearPivotOut = 0.22;
+	public static final double gearPivotStowed = 1.02;
+	public static final double gearPivotOut = 0.615;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -244,7 +244,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(navX.getYaw() + "     " + leftDriveEncoder.getDistance() + "    " + rightDriveEncoder.getDistance());
+		System.out.println(gearBeamBreakSubsystem.getTop() + "    " + gearBeamBreakSubsystem.getBot());
 		Scheduler.getInstance().run();
 		if(oi.Psoc5.getRawButton(11)){
 			hoodSubsystem.setAngle(100);
@@ -313,7 +313,7 @@ public class Robot extends IterativeRobot {
 		else climberSubsystem.set(0);
 		
 		if(runIntake){
-			if(PDP.getCurrent(RobotMap.gearIntakePDPChannel) > 50){
+			if(PDP.getCurrent(RobotMap.gearIntakePDPChannel) > 55){
 				gearIntakeTimer.start();
 				gearPivotTarget = gearPivotStowed;
 				gearIntakeSpeed = gearIntakeSlowSpeed;
@@ -335,6 +335,7 @@ public class Robot extends IterativeRobot {
 				}
 			}
 		} else if(runOuttake){
+			gearInGroundPickup = false;
 			if(firstRunIntake){
 				gearIntakeTimer.start();
 				firstRunIntake = false;
@@ -346,7 +347,6 @@ public class Robot extends IterativeRobot {
 				gearPivotTarget = gearPivotOut;
 				gearIntakeTimer.stop();
 				gearIntakeTimer.reset();
-				gearInGroundPickup = false;
 			}
 		} else {
 			gearIntakeSpeed = 0;
@@ -359,8 +359,6 @@ public class Robot extends IterativeRobot {
 		
 		pivotSubsystem.setSetpoint(gearPivotTarget);
 		pivotSubsystem.setIntake(gearIntakeSpeed);
-		
-		System.out.println(pivotSubsystem.getPosition());
 		
 		/*
 		 * drive control
