@@ -156,8 +156,8 @@ public class Robot extends IterativeRobot {
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
 		
-//		leftDriveEncoder.setReverseDirection(true);//practice
-		rightDriveEncoder.setReverseDirection(true);//competition
+		leftDriveEncoder.setReverseDirection(true);//practice
+//		rightDriveEncoder.setReverseDirection(true);//competition
 		
 		chooser.addObject("test", new test());
 		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
