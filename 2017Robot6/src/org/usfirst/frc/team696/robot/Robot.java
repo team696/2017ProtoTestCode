@@ -104,8 +104,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 1.02;
-	public static final double gearPivotOut = 0.615;
+	public static final double gearPivotStowed = 1.1;
+	public static final double gearPivotOut = 0.69;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
