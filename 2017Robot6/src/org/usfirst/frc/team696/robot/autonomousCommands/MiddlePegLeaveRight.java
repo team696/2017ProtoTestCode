@@ -22,6 +22,6 @@ public class MiddlePegLeaveRight extends CommandGroup {
 		addSequential(new Drive(0, 90), 1);
 		addSequential(new Drive(80, 0), 2.5);
 		addSequential(new Drive(0, -90), 2);
-		addSequential(new Drive(83, 0), 4);
+		addSequential(new Drive(200, 0), 4);
     }
 }

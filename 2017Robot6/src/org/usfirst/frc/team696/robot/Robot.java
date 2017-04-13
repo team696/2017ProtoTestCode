@@ -105,7 +105,7 @@ public class Robot extends IterativeRobot {
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
 	public static final double gearPivotStowed = 1.02;
-	public static final double gearPivotOut = 0.615;
+	public static final double gearPivotOut = 0.57;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -247,6 +247,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(navX.getYaw() + "    " + leftDriveEncoder.getDistance() + "     " + rightDriveEncoder.getDistance());
+		
 		Scheduler.getInstance().run();
 		if(oi.Psoc5.getRawButton(11)){
 			hoodSubsystem.setAngle(100);

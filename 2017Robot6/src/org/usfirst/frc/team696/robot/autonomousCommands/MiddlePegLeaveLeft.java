@@ -17,8 +17,8 @@ public class MiddlePegLeaveLeft extends CommandGroup {
 		addSequential(new WaitForGear(), 10);
 		addSequential(new Drive(-50, 0), 1);
 		addSequential(new Drive(0, -90), 1);
-		addSequential(new Drive(80, 0), 2.5);
-		addSequential(new Drive(0, 90), 1);
-		addSequential(new Drive(83, 0), 3);
+		addSequential(new Drive(100, 0), 2.5);
+		addSequential(new Drive(0, 85), 1);
+		addSequential(new Drive(200, 0), 3);
     }
 }
