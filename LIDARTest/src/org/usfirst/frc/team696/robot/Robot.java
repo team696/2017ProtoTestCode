@@ -1,101 +1,105 @@
 package org.usfirst.frc.team696.robot;
 
+import java.util.Timer;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import java.util.TimerTask;
 
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.SensorBase;
- 
-public class Robot extends Subsystem{
-	private I2C i2c;
-	private static byte[] distance;
-	private java.util.Timer updater;
-	private LIDARUpdater task;
+/**
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to each mode, as described in the IterativeRobot
+ * documentation. If you change the name of this class or the package after
+ * creating this project, you must also update the manifest file in the resource
+ * directory.
+ */
+public class Robot extends IterativeRobot {
+	final String defaultAuto = "Default";
+	final String customAuto = "My Auto";
+	String autoSelected;
+	SendableChooser<String> chooser = new SendableChooser<>();
 	
-	private final int LIDAR_ADDR = 0x62;
-	private final int LIDAR_CONFIG_REGISTER = 0x00;
-	private final int LIDAR_DISTANCE_REGISTER = 0x8f;
+//	int x;
+//	DigitalInput LIDAR = new DigitalInput(x);
+//	public static I2C LIDAR = new I2C(Port.kOnboard, 0x62);
+//	byte[] distance = new byte[2];
+//	Timer updater = new Timer();
+
+//	Port port = new Port
 	
-	public Robot(Port port) {
-		i2c = new I2C(Port.kOnboard, LIDAR_ADDR);
-		
-		distance = new byte[2];
- 
-		task = new LIDARUpdater();
-		updater = new java.util.Timer();
+	LIDAR lidar = new LIDAR(Port.kOnboard);
+	
+	/**
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	@Override
+	public void robotInit() {
+		chooser.addDefault("Default Auto", defaultAuto);
+		chooser.addObject("My Auto", customAuto);
+		SmartDashboard.putData("Auto choices", chooser);
 	}
-	
-	// Distance in cm
-	public static int getDistance() {
-		return (int)Integer.toUnsignedLong(distance[0] << 8) + Byte.toUnsignedInt(distance[1]);
+
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable
+	 * chooser code works with the Java SmartDashboard. If you prefer the
+	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	 * getString line to get the auto name from the text box below the Gyro
+	 *
+	 * You can add additional auto modes by adding additional comparisons to the
+	 * switch structure below with additional strings. If using the
+	 * SendableChooser make sure to add them to the chooser code above as well.
+	 */
+	@Override
+	public void autonomousInit() {
+		autoSelected = chooser.getSelected();
+		// autoSelected = SmartDashboard.getString("Auto Selector",
+		// defaultAuto);
+		System.out.println("Auto selected: " + autoSelected);
 	}
- 
-	public double pidGet() {
-		return getDistance();
-	}
-	
-	// Start 10Hz polling
-	public void start() {
-		updater.scheduleAtFixedRate(task, 0, 20);
-	}
-	
-	// Start polling for period in milliseconds
-	public void start(int period) {
-		updater.scheduleAtFixedRate(task, 0, period);
-	}
-	
-	public void stop() {
-		updater.cancel();
-	}
-	
-	// Update distance variable
-	public void update() {
-		i2c.write(LIDAR_CONFIG_REGISTER, 0x04); // Initiate measurement
-		Timer.delay(0.04); // Delay for measurement to be taken
-		i2c.read(LIDAR_DISTANCE_REGISTER, 2, distance); // Read in measurement
-		Timer.delay(0.01); // Delay to prevent over polling
-	}
-	
-	// Timer task to keep distance updated
-	private class LIDARUpdater extends TimerTask {
-		public void run() {
-			while(true) {
-				update();
-				if(getDistance() < 90 && getDistance() > 84){
-					SmartDashboard.putBoolean("Correct distance from human feeder", true);
-				}
-				else{
-					SmartDashboard.putBoolean("Correct distance from human feeder", false);
-				}
-				
-				if(getDistance() < 80 && getDistance() > 70){
-					SmartDashboard.putBoolean("Correct distance to stacks", true);
-				}
-				else{
-					SmartDashboard.putBoolean("Correct distance to stacks", false);
-				}
-				SmartDashboard.putNumber("LIDAR distance Inches", (getDistance() / 2.54));
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
+
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	@Override
+	public void autonomousPeriodic() {
+		switch (autoSelected) {
+		case customAuto:
+			// Put custom auto code here
+			break;
+		case defaultAuto:
+		default:
+			// Put default auto code here
+			break;
 		}
 	}
 
 	@Override
-	protected void initDefaultCommand() {
+	public void teleopInit() {
 		// TODO Auto-generated method stub
+		super.teleopInit();
+		lidar.start();
+	}
+	
+	/**
+	 * This function is called periodically during operator control
+	 */
+	@Override
+	public void teleopPeriodic() {
 
+		System.out.println(lidar.getDistance());
+		
+	}
+
+	/**
+	 * This function is called periodically during test mode
+	 */
+	@Override
+	public void testPeriodic() {
 	}
 }
+
