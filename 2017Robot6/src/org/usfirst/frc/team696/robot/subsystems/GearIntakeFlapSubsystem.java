@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class GearFlapSubsystem extends Subsystem {
+public class GearIntakeFlapSubsystem extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -14,7 +14,7 @@ public class GearFlapSubsystem extends Subsystem {
 	Servo leftServo;
 	Servo rightServo;
 	
-	public GearFlapSubsystem(int leftServo, int rightServo){
+	public GearIntakeFlapSubsystem(int leftServo, int rightServo){
 		this.leftServo = new Servo(leftServo);
 		this.rightServo = new Servo(rightServo);
 	}
@@ -25,8 +25,8 @@ public class GearFlapSubsystem extends Subsystem {
     }
     
     public void openPos(){
-    	leftServo.setAngle(170);
-    	rightServo.setAngle(10);
+    	leftServo.setAngle(175);
+    	rightServo.setAngle(5);
     }
     
     public void closePos(){

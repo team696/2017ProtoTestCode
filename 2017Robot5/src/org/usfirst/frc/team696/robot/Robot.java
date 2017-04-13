@@ -35,7 +35,7 @@ import org.usfirst.frc.team696.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GearBeamBreakSubsystem;
-import org.usfirst.frc.team696.robot.subsystems.GearFlapSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.GearIntakeFlapSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GreenLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HoodSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 	public static ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem(RobotMap.conveyorMotor);
 	public static DriveTrainSubsystem driveTrainSubsystem = new DriveTrainSubsystem(RobotMap.frontLeftMotor, RobotMap.midLeftMotor, RobotMap.rearLeftMotor, RobotMap.frontRightMotor, RobotMap.midRightMotor, RobotMap.rearRightMotor);
 	public static GearBeamBreakSubsystem gearBeamBreakSubsystem = new GearBeamBreakSubsystem(RobotMap.topBeamBreak, RobotMap.botBeamBreak);
-	public static GearFlapSubsystem gearFlapSubsystem = new GearFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
+	public static GearIntakeFlapSubsystem gearFlapSubsystem = new GearIntakeFlapSubsystem(RobotMap.leftServo, RobotMap.rightServo);
 	public static GreenLEDSubsystem greenLEDSubsystem = new GreenLEDSubsystem(RobotMap.greenLED);
 	public static HoodSubsystem hoodSubsystem = new HoodSubsystem(RobotMap.hoodServo);
 	public static HopperSubsystem hopperSubsystem = new HopperSubsystem(RobotMap.agitatorMotor, RobotMap.sideSwipeMotor);

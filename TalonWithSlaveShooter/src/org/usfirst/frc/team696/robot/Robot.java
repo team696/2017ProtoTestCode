@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
     Joystick gamePad = new Joystick(2);
     Victor conveyor = new Victor(1);
 //    Victor hopper = new Victor(10);
-//    Victor sideSwipe = new Victor(12);
+    Victor sideSwipe = new Victor(12);
     CANTalon masterTalon = new CANTalon(2);
     CANTalon slaveTalon = new CANTalon(1);
     
@@ -148,6 +148,7 @@ public class Robot extends IterativeRobot {
     	
     	masterTalon.setAllowableClosedLoopErr(10);
     	SmartDashboard.putNumber("currentRPM", masterTalon.get());
+    	System.out.println(masterTalon.get());
     	masterTalon.setP(SmartDashboard.getNumber("p", 0.077));
     	masterTalon.setI(SmartDashboard.getNumber("i", 0));
     	masterTalon.setD(SmartDashboard.getNumber("d", 0.0));
