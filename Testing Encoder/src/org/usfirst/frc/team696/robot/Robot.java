@@ -1,10 +1,7 @@
 package org.usfirst.frc.team696.robot;
 
-import java.util.Timer;
+import com.ctre.CANTalon;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,16 +19,8 @@ public class Robot extends IterativeRobot {
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
 	
-//	int x;
-//	DigitalInput LIDAR = new DigitalInput(x);
-//	public static I2C LIDAR = new I2C(Port.kOnboard, 0x62);
-//	byte[] distance = new byte[2];
-//	Timer updater = new Timer();
+	CANTalon talon = new CANTalon(3);
 
-//	Port port = new Port
-	
-	LIDAR lidar = new LIDAR(Port.kOnboard);
-	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -78,21 +67,11 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
-	@Override
-	public void teleopInit() {
-		// TODO Auto-generated method stub
-		super.teleopInit();
-		lidar.start();
-	}
-	
 	/**
 	 * This function is called periodically during operator control
 	 */
 	@Override
 	public void teleopPeriodic() {
-
-		System.out.println(lidar.getDistance());
-		
 	}
 
 	/**
