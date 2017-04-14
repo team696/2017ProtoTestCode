@@ -161,8 +161,8 @@ public class Robot extends IterativeRobot {
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
 		
-//		leftDriveEncoder.setReverseDirection(true);//practice
-		rightDriveEncoder.setReverseDirection(true);//competition
+		leftDriveEncoder.setReverseDirection(true);//practice
+//		rightDriveEncoder.setReverseDirection(true);//competition
 		
 		chooser.addObject("test", new test());
 		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
@@ -252,6 +252,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(navX.getYaw() + "    " + leftDriveEncoder.getDistance() + "     " + rightDriveEncoder.getDistance());
+		
 		Scheduler.getInstance().run();
 		if(oi.Psoc5.getRawButton(11)){
 			hoodSubsystem.setAngle(100);
