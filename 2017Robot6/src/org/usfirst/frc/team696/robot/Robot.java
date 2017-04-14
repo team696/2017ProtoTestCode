@@ -1,5 +1,7 @@
 package org.usfirst.frc.team696.robot;
 
+import edu.wpi.first.wpilibj.CameraServer;
+
 //works at LAR
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -113,6 +115,7 @@ public class Robot extends IterativeRobot {
 	double distancePerPulse = (4*Math.PI)/200;
 	
 	Timer gearIntakeTimer = new Timer();
+	Timer gearJamIntake = new Timer();
 	
 	/*
 	 * set up oldButton[] arrays for different Joysticks
@@ -134,6 +137,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
+		CameraServer.getInstance().addAxisCamera("live feed", "10.6.96.66");
+		
 		pivotSubsystem.setSetpoint(gearPivotStowed);
 		visionLightSubsystem.set(false);
 		oi = new OI();
@@ -315,12 +320,18 @@ public class Robot extends IterativeRobot {
 		else climberSubsystem.set(0);
 		
 		if(runIntake){
-			if(PDP.getCurrent(RobotMap.gearIntakePDPChannel) > 55){
+			if(PDP.getCurrent(RobotMap.gearIntakePDPChannel) > 55 && gearJamIntake.get() == 0)gearJamIntake.start();
+			if(gearJamIntake.get() > 0.25 && !gearInGroundPickup){
+				gearJamIntake.stop();
+				gearJamIntake.reset();
+			}else if(PDP.getCurrent(RobotMap.gearIntakePDPChannel) > 40 && gearJamIntake.get() > 0.2){
+				gearJamIntake.stop();
+				gearJamIntake.reset();
 				gearIntakeTimer.start();
 				gearPivotTarget = gearPivotStowed;
 				gearIntakeSpeed = gearIntakeSlowSpeed;
 				gearInGroundPickup = true;
-			} else if(gearIntakeTimer.get() > 0.5){
+			} else if(gearIntakeTimer.get() > 0.5 && gearInGroundPickup){
 				gearIntakeTimer.stop();
 				gearIntakeSpeed-=0.01;
 				if(gearIntakeSpeed < 0.05){
@@ -330,7 +341,7 @@ public class Robot extends IterativeRobot {
 				}
 			} else {
 				if(firstRunIntake){
-					gearIntakeSpeed = 1;
+					gearIntakeSpeed = 0.9;
 					pivotSubsystem.constrainOutput(12, -12);
 					gearPivotTarget = gearPivotOut;
 					firstRunIntake = false;
