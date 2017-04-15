@@ -10,13 +10,16 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class MiddlePegActive extends CommandGroup {
+public class RightPegActive extends CommandGroup {
 
-    public MiddlePegActive() {
+    public RightPegActive() {
     	addSequential(new GroundIntakeClose());
-        addSequential(new Drive(-70, 0), 2.5);
+        addSequential(new Drive(-66, 0), 2.5);
+        addSequential(new Wait(0.3));
+        addSequential(new Drive(0, -55), 1);
+        addSequential(new Drive(-60, 0));
         addSequential(new Wait(0.1));
-        addParallel(new GroundIntakeOuttake());
+        addSequential(new GroundIntakeOuttake());
         addSequential(new Wait(1.3));
         addSequential(new Drive(50, 0), 1.5);
         addSequential(new GroundIntakeClose());

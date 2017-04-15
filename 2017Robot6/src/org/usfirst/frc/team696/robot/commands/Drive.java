@@ -53,7 +53,11 @@ public class Drive extends Command {
     	Robot.rightDriveEncoder.reset();
     	if(!Robot.useCamera)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
     	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
-//    	if(Robot.useCamera)directionPID.setPID(0.03, 0.2, 0.1, 0.1);
+    	maxSpeed = 0.75;
+    	if(Robot.useCamera){
+    		directionPID.setPID(0.08, 0.004, 0.0, 0.2);
+    		maxSpeed = 0.3;
+    	}
     	Robot.useCamera = false;
     }
 

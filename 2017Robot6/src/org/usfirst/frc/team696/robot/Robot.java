@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
+import org.usfirst.frc.team696.robot.autonomousCommands.LeftPegActive;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegActive;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeaveLeft;
@@ -27,8 +28,10 @@ import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShootVision;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShootVision;
+import org.usfirst.frc.team696.robot.autonomousCommands.RightPegActive;
 import org.usfirst.frc.team696.robot.autonomousCommands.test;
 import org.usfirst.frc.team696.robot.commands.Drive;
+import org.usfirst.frc.team696.robot.commands.Aim;
 import org.usfirst.frc.team696.robot.commands.AutoLightShow;
 import org.usfirst.frc.team696.robot.commands.RunBeamBreak;
 import org.usfirst.frc.team696.robot.commands.RunShooter;
@@ -104,8 +107,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 1.235;
-	public static final double gearPivotOut = 0.79;
+	public static final double gearPivotStowed = 1.019;
+	public static final double gearPivotOut = 0.614;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -175,6 +178,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Middle Peg Left Shoot Vision", new MiddlePegLeftShootVision());
 		chooser.addObject("Middle Peg Right Shoot Vision", new MiddlePegRightShootVision());
 		chooser.addObject("Middle Peg Active", new MiddlePegActive());
+		chooser.addObject("Right Peg Active", new RightPegActive());
+		chooser.addObject("Left Peg Active", new LeftPegActive());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		/*
@@ -250,6 +255,7 @@ public class Robot extends IterativeRobot {
 //		Scheduler.getInstance().add(new TeleopLightShow());
 //		Scheduler.getInstance().add(new Drive());
 //		Scheduler.getInstance().add(new PIXYAim());
+		Scheduler.getInstance().add(new Aim());
 		Scheduler.getInstance().add(new RunBeamBreak());
 		Scheduler.getInstance().add(new RunShooter());
 	}
