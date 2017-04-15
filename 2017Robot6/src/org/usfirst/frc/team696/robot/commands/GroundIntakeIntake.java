@@ -8,13 +8,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class IntakeGroundIntake extends Command {
+public class GroundIntakeIntake extends Command {
 
 	boolean isFinished = false;
 	
-    public IntakeGroundIntake() {
+    public GroundIntakeIntake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.pivotSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -51,6 +52,9 @@ public class IntakeGroundIntake extends Command {
 				Robot.firstRunIntake = false;
 			}
 		}
+		
+		Robot.pivotSubsystem.setIntake(Robot.gearIntakeSpeed);
+		Robot.pivotSubsystem.setSetpoint(Robot.gearPivotTarget);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -60,6 +64,7 @@ public class IntakeGroundIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.gearIntakeSpeed = 0;
     }
 
     // Called when another command which requires one or more of the same

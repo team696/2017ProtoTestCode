@@ -22,11 +22,21 @@ public class Drive extends Command {
 	double leftValue = 0;
 	double rightValue = 0;
 	boolean isFinished = false;
-	double maxSpeed = 1;
-	Timer timer = new Timer();
+	double maxSpeed = 0.75;
+	Timer isFinishedTimer = new Timer();
 	
-	PID distancePID = new PID(0.013, 0, 0, 0);
-	PID directionPID = new PID(0.02525, 0.0000000000001, 0.000, 0.8);
+	double kPB = 0.0185;
+	double kIB = 0.0001;
+	double kDB = 0;
+	double alphaB = 0.5;
+	
+	double kPF = 0.013;
+	double kIF = 0.0001;
+	double kDF = 0;
+	double alphaF = 0.5;
+	
+	PID distancePID = new PID(kPB, kIB, kDB, alphaB);
+	PID directionPID = new PID(0.03, 0.0, 0.00, 0.2);
 	
     public Drive(double distance, double direction) {
     	targetDistance = distance;
@@ -43,7 +53,7 @@ public class Drive extends Command {
     	Robot.rightDriveEncoder.reset();
     	if(!Robot.useCamera)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
     	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
-    	if(Robot.useCamera)directionPID.setPID(0.03, 0.2, 0.1, 0.1);
+//    	if(Robot.useCamera)directionPID.setPID(0.03, 0.2, 0.1, 0.1);
     	Robot.useCamera = false;
     }
 
@@ -53,6 +63,9 @@ public class Drive extends Command {
 		distanceError = targetDistance - currentDistance;
 		
 		directionError = Robot.targetDirection - Robot.navX.getYaw();
+		
+		if(distanceError > 0)distancePID.setPID(kPF, kIF, kDF, alphaF);
+		if(distanceError < 0)distancePID.setPID(kPB, kIB, kDB, alphaB);
 
 		if(Robot.targetDirection > 180)Robot.targetDirection = Robot.targetDirection - 360;
 		if(Robot.targetDirection < -180)Robot.targetDirection = Robot.targetDirection + 360;
@@ -76,15 +89,14 @@ public class Drive extends Command {
 //			Robot.oi.Psoc5.setOutput(6, false);
 //		}
 		
-		
-		if(Math.abs(distanceError) < 1.5 && Math.abs(directionError) < 1){
+		if(Math.abs(distanceError) < 2 && Math.abs(directionError) < 2){
 //			if(Robot.autonomousCommand.isRunning()){
-			if(timer.get() == 0)timer.start();
-			if(timer.get() > 0.2){
+//			if(isFinishedTimer.get() == 0)isFinishedTimer.start();
+//			if(isFinishedTimer.get() > 0.2){
 				isFinished = true;
 				leftValue = 0;
 				rightValue = 0;
-			}
+//			}
 //			} else {
 //				if(Robot.tracking){
 //					Robot.redLEDSubsystem.set(true);
@@ -92,11 +104,11 @@ public class Drive extends Command {
 //				}
 //			}
 		} else {
-			timer.stop();
-			timer.reset();
+			isFinishedTimer.stop();
+			isFinishedTimer.reset();
 		}
 		
-		System.out.println("direction: " + Robot.targetDirection + "    " + Robot.navX.getYaw() + "/t distance: " + targetDistance + "    " + currentDistance);
+		System.out.println("direction: " + Robot.targetDirection + "    " + Robot.navX.getYaw() + "\t distance: " + targetDistance + "    " + currentDistance + "\t left: " + leftValue + "    right: " + rightValue);
 
 		/*if(Robot.tracking || Robot.autonomousCommand.isRunning())*/Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }

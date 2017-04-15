@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team696.robot.utilities;
 
+import edu.wpi.first.wpilibj.Timer;
+
 public class Util {
     public static double deadZone(double val, double lowVal, double highVal, double returnVal) {//y
         if ((val > lowVal)&&(val < highVal)) { 

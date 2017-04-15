@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
+import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegActive;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeaveLeft;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeaveRight;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShoot;
@@ -135,6 +136,8 @@ public class Robot extends IterativeRobot {
 	public static NetworkTable table;
 	public final double targetX = 0;
 	
+	double[] PDPCurrents = new double[16];
+	
 	@Override
 	public void robotInit() {
 		table = NetworkTable.getTable("SmartDashboard");
@@ -171,6 +174,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Middle Peg Right Shoot", new MiddlePegRightShoot());
 		chooser.addObject("Middle Peg Left Shoot Vision", new MiddlePegLeftShootVision());
 		chooser.addObject("Middle Peg Right Shoot Vision", new MiddlePegRightShootVision());
+		chooser.addObject("Middle Peg Active", new MiddlePegActive());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		/*
@@ -228,6 +232,10 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		for(int i = 0; i < 16; i++){
+			PDPCurrents[i] = PDP.getCurrent(i);
+		}
+		table.putNumberArray("PDPCurrents", PDPCurrents);
 		Scheduler.getInstance().run();
 	}
 
@@ -248,7 +256,10 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(navX.getYaw() + "    " + leftDriveEncoder.getDistance() + "     " + rightDriveEncoder.getDistance());
+		for(int i = 0; i < 16; i++){
+			PDPCurrents[i] = PDP.getCurrent(i);
+		}
+		table.putNumberArray("PDPCurrents", PDPCurrents);
 		
 		Scheduler.getInstance().run();
 		if(oi.Psoc5.getRawButton(11)){

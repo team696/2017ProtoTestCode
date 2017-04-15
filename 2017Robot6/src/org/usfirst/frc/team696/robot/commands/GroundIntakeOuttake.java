@@ -7,13 +7,14 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OuttakeGroundIntake extends Command {
+public class GroundIntakeOuttake extends Command {
 
 	boolean isFinished = false;
 	
-    public OuttakeGroundIntake() {
+    public GroundIntakeOuttake() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
+    	requires(Robot.pivotSubsystem);
     }
 
     // Called just before this Command runs the first time
@@ -37,6 +38,9 @@ public class OuttakeGroundIntake extends Command {
 			Robot.gearIntakeTimer.reset();
 			isFinished = true;
 		}
+		
+		Robot.pivotSubsystem.setIntake(Robot.gearIntakeSpeed);
+		Robot.pivotSubsystem.setSetpoint(Robot.gearPivotTarget);
     }
 
     // Make this return true when this Command no longer needs to run execute()
