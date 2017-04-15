@@ -1,7 +1,6 @@
 package org.usfirst.frc.team696.robot.autonomousCommands;
 
 import org.usfirst.frc.team696.robot.commands.Drive;
-import org.usfirst.frc.team696.robot.commands.PIXYAim;
 import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetHopper;
 import org.usfirst.frc.team696.robot.commands.SetShooter;
@@ -26,12 +25,12 @@ public class MiddlePegLeftShootVision extends CommandGroup {
 		addSequential(new Drive(0, -90), 1);
 		addSequential(new Drive(58, 0), 2.5);
 		addSequential(new SetVisionLight(true));
-        addSequential(new PIXYAim(), 2.5);
+//        addSequential(new PIXYAim(), 2.5);
         addSequential(new Wait(1));
         addSequential(new SetVisionLight(false));
         addSequential(new Drive(0, 0));
         addSequential(new SetVisionLight(true));
-        addSequential(new PIXYAim(), 2.5);
+//        addSequential(new PIXYAim(), 2.5);
         addSequential(new Wait(1));
         addSequential(new SetVisionLight(false));
         addSequential(new SetShooter(3325));

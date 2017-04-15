@@ -41,10 +41,10 @@ public class Drive extends Command {
     protected void initialize() {
     	Robot.leftDriveEncoder.reset();
     	Robot.rightDriveEncoder.reset();
-    	if(!Robot.usePIXYAngle)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
+    	if(!Robot.useCamera)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
     	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
-    	if(Robot.usePIXYAngle)directionPID.setPID(0.03, 0.2, 0.1, 0.1);
-    	Robot.usePIXYAngle = false;
+    	if(Robot.useCamera)directionPID.setPID(0.03, 0.2, 0.1, 0.1);
+    	Robot.useCamera = false;
     }
 
     // Called repeatedly when this Command is scheduled to run

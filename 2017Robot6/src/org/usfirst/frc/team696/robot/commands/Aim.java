@@ -8,43 +8,33 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class PIXYAim extends Command {
+public class Aim extends Command {
 
-	double targetAngle = /*34*/28.3;
+	final double targetAngle = 31;
+	double currentAngle = 0;
 	double error = 0;
-	double k = 1;
-	boolean isFinished = false;
 	
-    public PIXYAim() {
+    public Aim() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.usePIXYAngle = true;
+    	Robot.useCamera = true;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(Robot.parsePIXY.getXs()[0] != 0){
-	    	error = targetAngle - Util.map(Robot.parsePIXY.getXs()[0], 0, 255, 0, 47);
-	    	Robot.targetDirection = -error;
-	    	System.out.println(error);
-//	    	System.out.println(Util.map(Robot.parsePIXY.getXs()[0], 0, 255, 0, 47));
-	    	isFinished = true;
-    	} else {
-    		System.out.println("x equals 0");
-    	}
+    	currentAngle = Robot.table.getNumber("Vision Target Azimuth", 0);
+    	error = targetAngle - currentAngle;
+    	error = Util.map(error, -160, 160, -23.5, 23.5);
+    	Robot.targetDirection = Robot.navX.getYaw() + error;
     }
 
-//    public void finish(){
-//    	isFinished = true;
-//    }
-    
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return isFinished;
+        return true;
     }
 
     // Called once after isFinished returns true

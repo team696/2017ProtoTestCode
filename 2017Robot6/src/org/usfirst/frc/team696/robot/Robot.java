@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,11 +26,9 @@ import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShootVision;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShootVision;
-import org.usfirst.frc.team696.robot.autonomousCommands.PixyAimOnly;
 import org.usfirst.frc.team696.robot.autonomousCommands.test;
 import org.usfirst.frc.team696.robot.commands.Drive;
 import org.usfirst.frc.team696.robot.commands.AutoLightShow;
-import org.usfirst.frc.team696.robot.commands.PIXYAim;
 import org.usfirst.frc.team696.robot.commands.RunBeamBreak;
 import org.usfirst.frc.team696.robot.commands.RunShooter;
 import org.usfirst.frc.team696.robot.commands.SetClimber;
@@ -48,7 +47,6 @@ import org.usfirst.frc.team696.robot.subsystems.PivotSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.VisionLightSubsystem;
-import org.usfirst.frc.team696.robot.utilities.ParsePIXY;
 import org.usfirst.frc.team696.robot.utilities.Util;
 
 import com.kauailabs.nav6.frc.IMU;
@@ -83,7 +81,6 @@ public class Robot extends IterativeRobot {
 	 * set up pixy cam
 	 */
 	I2C pixy;
-	public static ParsePIXY parsePIXY;
 	
 	public static Encoder leftDriveEncoder = new Encoder(RobotMap.leftDriveEncoderA, RobotMap.leftDriveEncoderB);
 	public static Encoder rightDriveEncoder = new Encoder(RobotMap.rightDriveEncoderA, RobotMap.rightDriveEncoderB);
@@ -100,22 +97,22 @@ public class Robot extends IterativeRobot {
 	public static boolean runShooter = false;
 	public static boolean runHopper = false;
 	public static boolean openGearFlap = false;
-	public static boolean usePIXYAngle = false;
+	public static boolean useCamera = false;
 	
 	public static double targetDirection = 0;
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 1.1;
-	public static final double gearPivotOut = 0.69;
+	public static final double gearPivotStowed = 1.235;
+	public static final double gearPivotOut = 0.79;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
 	
 	double distancePerPulse = (4*Math.PI)/200;
 	
-	Timer gearIntakeTimer = new Timer();
-	Timer gearJamIntake = new Timer();
+	public static Timer gearIntakeTimer = new Timer();
+	public static Timer gearJamIntake = new Timer();
 	
 	/*
 	 * set up oldButton[] arrays for different Joysticks
@@ -135,10 +132,12 @@ public class Robot extends IterativeRobot {
 	
 	Drive drive;
 	
+	public static NetworkTable table;
+	public final double targetX = 0;
+	
 	@Override
 	public void robotInit() {
-		CameraServer.getInstance().addAxisCamera("live feed", "10.6.96.66");
-		
+		table = NetworkTable.getTable("SmartDashboard");
 		pivotSubsystem.setSetpoint(gearPivotStowed);
 		visionLightSubsystem.set(false);
 		oi = new OI();
@@ -156,7 +155,6 @@ public class Robot extends IterativeRobot {
 		 * initialize pixycam
 		 */
 		pixy = new I2C(Port.kOnboard, 0x54);
-		parsePIXY = new ParsePIXY(pixy);
 		
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
@@ -164,11 +162,10 @@ public class Robot extends IterativeRobot {
 		leftDriveEncoder.setReverseDirection(true);//practice
 //		rightDriveEncoder.setReverseDirection(true);//competition
 		
-		chooser.addObject("test", new test());
+		chooser.addDefault("test", new test());
 		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
 		chooser.addObject("Middle Peg Leave Right", new MiddlePegLeaveRight());
-		chooser.addDefault("Middle Peg", new MiddlePeg());
-		chooser.addObject("Pixy Aim Only", new PixyAimOnly());
+		chooser.addObject("Middle Peg", new MiddlePeg());
 		chooser.addObject("left Peg", new LeftPeg());
 		chooser.addObject("Middle Peg Left Shoot", new MiddlePegLeftShoot());
 		chooser.addObject("Middle Peg Right Shoot", new MiddlePegRightShoot());
@@ -204,7 +201,6 @@ public class Robot extends IterativeRobot {
 		for(int i = 0; i < oldWheel.length; i++)oldWheel[i] = false;
 		
 		targetDirection = navX.getYaw();
-		parsePIXY.start();
 	}
 
 	@Override
@@ -384,11 +380,15 @@ public class Robot extends IterativeRobot {
 		speed = -oi.Psoc5.getRawAxis(0);
     	turn = oi.wheel.getRawAxis(0);
     	speed = Util.smoothDeadZone(speed, -0.1, 0.1, -1, 1, 0);
+//    	speed = Util.deadZone(speed, -0.1, 0.1, 0);
     	speedTurnScale = 1/(Math.abs(speed)*2 + 1);
     	turn = Util.smoothDeadZone(turn, -0.2, 0.2, -1, 1, 0) * Math.abs((speedTurnScale));
+//    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
+    	
+    	System.out.println(leftValue + "     " + rightValue + "     " + speed);
     	
     	Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
 //    	Robot.driveTrainSubsystem.tankDrive(0, 0);

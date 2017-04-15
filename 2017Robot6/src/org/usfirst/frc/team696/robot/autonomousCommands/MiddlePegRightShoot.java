@@ -1,7 +1,6 @@
 package org.usfirst.frc.team696.robot.autonomousCommands;
 
 import org.usfirst.frc.team696.robot.commands.Drive;
-import org.usfirst.frc.team696.robot.commands.PIXYAim;
 import org.usfirst.frc.team696.robot.commands.SetConveyor;
 import org.usfirst.frc.team696.robot.commands.SetHopper;
 import org.usfirst.frc.team696.robot.commands.SetShooter;
