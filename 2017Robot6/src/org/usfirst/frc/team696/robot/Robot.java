@@ -107,8 +107,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 1.019;
-	public static final double gearPivotOut = 0.614;
+	public static final double gearPivotStowed = 0.94;
+	public static final double gearPivotOut = 0.515;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -143,6 +143,7 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
+		CameraServer.getInstance().addAxisCamera("ground pickup", "10.0.1.65");
 		table = NetworkTable.getTable("SmartDashboard");
 		pivotSubsystem.setSetpoint(gearPivotStowed);
 		visionLightSubsystem.set(false);
@@ -165,8 +166,8 @@ public class Robot extends IterativeRobot {
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
 		
-		leftDriveEncoder.setReverseDirection(true);//practice
-//		rightDriveEncoder.setReverseDirection(true);//competition
+//		leftDriveEncoder.setReverseDirection(true);//practice
+		rightDriveEncoder.setReverseDirection(true);//competition
 		
 		chooser.addDefault("test", new test());
 		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
