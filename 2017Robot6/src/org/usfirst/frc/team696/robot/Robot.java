@@ -143,7 +143,6 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void robotInit() {
-		CameraServer.getInstance().addAxisCamera("ground pickup", "10.0.1.65");
 		table = NetworkTable.getTable("SmartDashboard");
 		pivotSubsystem.setSetpoint(gearPivotStowed);
 		visionLightSubsystem.set(false);
@@ -201,7 +200,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set off position of hood release
 		 */
-		hoodSubsystem.setAngle(150);
+		hoodSubsystem.setAngle(139);
 		
 		
 		/*
@@ -263,6 +262,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		System.out.println(navX.getYaw() + "     " + leftDriveEncoder.getDistance() + "     " + rightDriveEncoder.getDistance());
+		
 		for(int i = 0; i < 16; i++){
 			PDPCurrents[i] = PDP.getCurrent(i);
 		}
@@ -405,8 +406,6 @@ public class Robot extends IterativeRobot {
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
-    	
-    	System.out.println(leftValue + "     " + rightValue + "     " + speed);
     	
     	Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
 //    	Robot.driveTrainSubsystem.tankDrive(0, 0);
