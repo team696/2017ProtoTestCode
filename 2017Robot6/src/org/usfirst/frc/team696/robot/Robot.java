@@ -1,5 +1,7 @@
 package org.usfirst.frc.team696.robot;
 
+import edu.wpi.cscore.AxisCamera;
+import edu.wpi.cscore.CameraServerJNI;
 import edu.wpi.first.wpilibj.CameraServer;
 
 //works at LAR
@@ -107,8 +109,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 0.94;
-	public static final double gearPivotOut = 0.515;
+	public static final double gearPivotStowed = 0.86;
+	public static final double gearPivotOut = 0.451;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -140,6 +142,7 @@ public class Robot extends IterativeRobot {
 	public final double targetX = 0;
 	
 	double[] PDPCurrents = new double[16];
+	
 	
 	@Override
 	public void robotInit() {
