@@ -30,6 +30,7 @@ import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShootVision;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShootVision;
+import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightPegActive;
 import org.usfirst.frc.team696.robot.autonomousCommands.test;
 import org.usfirst.frc.team696.robot.commands.Drive;
@@ -110,7 +111,7 @@ public class Robot extends IterativeRobot {
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
 	public static final double gearPivotStowed = 0.86;
-	public static final double gearPivotOut = 0.451;
+	public static final double gearPivotOut = 0.411;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -183,6 +184,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Middle Peg Active", new MiddlePegActive());
 		chooser.addObject("Right Peg Active", new RightPegActive());
 		chooser.addObject("Left Peg Active", new LeftPegActive());
+		chooser.addObject("Right Peg", new RightPeg());
 		SmartDashboard.putData("Auto mode", chooser);
 		
 		/*
