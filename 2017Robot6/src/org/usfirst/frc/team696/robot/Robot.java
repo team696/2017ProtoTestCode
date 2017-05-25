@@ -34,6 +34,7 @@ import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightPegActive;
 import org.usfirst.frc.team696.robot.autonomousCommands.test;
 import org.usfirst.frc.team696.robot.commands.Drive;
+import org.usfirst.frc.team696.robot.commands.HopperServoRun;
 import org.usfirst.frc.team696.robot.commands.Aim;
 import org.usfirst.frc.team696.robot.commands.AutoLightShow;
 import org.usfirst.frc.team696.robot.commands.RunBeamBreak;
@@ -49,6 +50,7 @@ import org.usfirst.frc.team696.robot.subsystems.GearBeamBreakSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GearIntakeFlapSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GreenLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HoodSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.HopperServoSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.PivotSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
@@ -73,6 +75,7 @@ public class Robot extends IterativeRobot {
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 	public static VisionLightSubsystem visionLightSubsystem = new VisionLightSubsystem(RobotMap.visionLight, RobotMap.peltier);
+	public static HopperServoSubsystem hopperServoSubsystem = new HopperServoSubsystem(RobotMap.hopperServo1, RobotMap.hopperServo2);
 	
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
@@ -115,6 +118,7 @@ public class Robot extends IterativeRobot {
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
+	public static boolean servoHopper = false;
 	
 	double distancePerPulse = (4*Math.PI)/200;
 	
@@ -302,6 +306,7 @@ public class Robot extends IterativeRobot {
 		if(oi.Psoc5.getRawButton(1)){
 			runConveyor = true;
 			runHopper = true;
+			
 		} else {
 			runConveyor = false;
 			runHopper = false;
@@ -315,6 +320,23 @@ public class Robot extends IterativeRobot {
 		
 		if(openGearFlap)gearFlapSubsystem.openPos();
 		else gearFlapSubsystem.closePos();
+		
+		/*
+		 * Run Hopper Servo
+		 */
+		
+		if(oi.Psoc5.getRawButton(1)){
+			servoHopper = true;
+		}else{
+			servoHopper = false;
+		}
+		
+		
+		if(servoHopper){
+			hopperServoSubsystem.spin();
+		}else{
+			hopperServoSubsystem.stop();
+		}
 		
 		/*
 		 * set conveyor values
@@ -331,8 +353,14 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set shooter values
 		 */
+<<<<<<< HEAD
 	//	if(runShooter)targetRPM = 3325;
     	if(runShooter)targetRPM = 2900;  
+=======
+//		if(runShooter)targetRPM = 3325;
+//		if(runShooter)targetRPM = 2900;
+		if(runShooter)targetRPM = 892.5;
+>>>>>>> refs/remotes/origin/master
 		else targetRPM = 0;
 		
 		/*
