@@ -72,8 +72,8 @@ public class ShooterSubsystem extends Subsystem {
     		Robot.oi.Psoc5.setOutput(7, false);
     	}
     	else {
-    		if(timer.get() == 0)timer.start();
-    		if(timer.get() > (Robot.targetRPM/masterShooter.get())/3325){
+    		if(timer.get() == 0)timer.start(); 
+    		if(timer.get() > (Robot.targetRPM/masterShooter.get())/3325){   
     			Robot.greenLEDSubsystem.set(!Robot.greenLEDSubsystem.get());
     			timer.stop();
     			timer.reset();

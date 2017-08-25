@@ -170,8 +170,8 @@ public class Robot extends IterativeRobot {
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
 		
-//		leftDriveEncoder.setReverseDirection(true);//practice
-		rightDriveEncoder.setReverseDirection(true);//competition
+    	leftDriveEncoder.setReverseDirection(true);//practice
+//		rightDriveEncoder.setReverseDirection(true);//competition
 		
 		chooser.addDefault("test", new test());
 		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
@@ -345,9 +345,18 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set shooter values
 		 */
+<<<<<<< HEAD
+	//	if(runShooter)targetRPM = 3325;
+    	if(runShooter)targetRPM = 2900;  
+=======
 //		if(runShooter)targetRPM = 3325;
 //		if(runShooter)targetRPM = 2900;
+<<<<<<< HEAD
 		if(runShooter)targetRPM = 4000;
+=======
+		if(runShooter)targetRPM = 892.5;
+>>>>>>> refs/remotes/origin/master
+>>>>>>> branch 'master' of https://github.com/team696/2017ProtoTestCode
 		else targetRPM = 0;
 		
 		/*
