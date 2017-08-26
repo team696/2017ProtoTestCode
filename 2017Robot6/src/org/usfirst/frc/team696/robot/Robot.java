@@ -345,18 +345,12 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set shooter values
 		 */
-<<<<<<< HEAD
 	//	if(runShooter)targetRPM = 3325;
     	if(runShooter)targetRPM = 2900;  
-=======
 //		if(runShooter)targetRPM = 3325;
 //		if(runShooter)targetRPM = 2900;
-<<<<<<< HEAD
 		if(runShooter)targetRPM = 4000;
-=======
 		if(runShooter)targetRPM = 892.5;
->>>>>>> refs/remotes/origin/master
->>>>>>> branch 'master' of https://github.com/team696/2017ProtoTestCode
 		else targetRPM = 0;
 		
 		/*

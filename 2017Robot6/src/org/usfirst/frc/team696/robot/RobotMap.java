@@ -9,33 +9,15 @@ package org.usfirst.frc.team696.robot;
 public class RobotMap {
 	public static int frontLeftMotor = 9;
 	public static int midLeftMotor = 8;
-<<<<<<< HEAD
 //	public static int rearLeftMotor = 7;
 	public static int rearLeftMotor = 10;
-=======
-<<<<<<< HEAD
-	public static int rearLeftMotor = 7; // switch 
-=======
-	public static int rearLeftMotor = 7;
->>>>>>> refs/remotes/origin/master
-//	public static int rearLeftMotor = 10;
->>>>>>> branch 'master' of https://github.com/team696/2017ProtoTestCode
 	public static int frontRightMotor = 2;
 	public static int midRightMotor = 3;
 	public static int rearRightMotor = 4;
 	
 //	public static int rollerMotor = 10;
-<<<<<<< HEAD
 //	public static int sideSwipeMotor = 12;
 	public static int sideSwipeMotor = 7;
-=======
-	public static int sideSwipeMotor = 12;
-<<<<<<< HEAD
-//	public static int sideSwipeMotor = 7; //switch 
-=======
-//	public static int sideSwipeMotor = 7;
->>>>>>> refs/remotes/origin/master
->>>>>>> branch 'master' of https://github.com/team696/2017ProtoTestCode
 	
 	public static int leftDriveEncoderA = 2;
 	public static int leftDriveEncoderB = 3;
