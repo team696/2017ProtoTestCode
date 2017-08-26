@@ -219,6 +219,9 @@ public class Robot extends IterativeRobot {
 		for(int i = 0; i < oldWheel.length; i++)oldWheel[i] = false;
 		
 		targetDirection = navX.getYaw();
+		
+		CameraServer.getInstance().addAxisCamera("10.6.96.3");
+		
 	}
 
 	@Override
@@ -272,6 +275,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		System.out.println(navX.getYaw() + "     " + leftDriveEncoder.getDistance() + "     " + rightDriveEncoder.getDistance());
+		System.out.println(GearBeamBreakSubsystem.topBeamBreak.get());
 		
 		for(int i = 0; i < 16; i++){
 			PDPCurrents[i] = PDP.getCurrent(i);
@@ -353,14 +357,14 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set shooter values
 		 */
-<<<<<<< HEAD
-	//	if(runShooter)targetRPM = 3325;
-    	if(runShooter)targetRPM = 2900;  
-=======
+
+		if(runShooter)targetRPM = 3325;
+    //	if(runShooter)targetRPM = 2900;  
+
 //		if(runShooter)targetRPM = 3325;
 //		if(runShooter)targetRPM = 2900;
-		if(runShooter)targetRPM = 892.5;
->>>>>>> refs/remotes/origin/master
+// 		if(runShooter)targetRPM = 892.5;
+
 		else targetRPM = 0;
 		
 		/*

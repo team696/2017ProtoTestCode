@@ -9,23 +9,22 @@ package org.usfirst.frc.team696.robot;
 public class RobotMap {
 	public static int frontLeftMotor = 9;
 	public static int midLeftMotor = 8;
-<<<<<<< HEAD
-	public static int rearLeftMotor = 7; // switch 
-=======
-	public static int rearLeftMotor = 7;
->>>>>>> refs/remotes/origin/master
-//	public static int rearLeftMotor = 10;
+
+//	public static int rearLeftMotor = 7;
+
+	public static int rearLeftMotor = 10; // true 
+	
 	public static int frontRightMotor = 2;
 	public static int midRightMotor = 3;
 	public static int rearRightMotor = 4;
 	
 //	public static int rollerMotor = 10;
-	public static int sideSwipeMotor = 12;
-<<<<<<< HEAD
-//	public static int sideSwipeMotor = 7; //switch 
-=======
+//	public static int sideSwipeMotor = 12;
+//
+	public static int sideSwipeMotor = 7; //true
+
 //	public static int sideSwipeMotor = 7;
->>>>>>> refs/remotes/origin/master
+
 	
 	public static int leftDriveEncoderA = 2;
 	public static int leftDriveEncoderB = 3;
@@ -55,10 +54,10 @@ public class RobotMap {
 	public static int peltier = 8;
 	
 	public static int gearPivot = 3;
-//	public static int gearIntake = 11;
-	public static int gearIntake = 10;
-//	public static int gearIntakePDPChannel = 9;
-	public static int gearIntakePDPChannel = 5;
+	public static int gearIntake = 11;
+//	public static int gearIntake = 10;
+	public static int gearIntakePDPChannel = 9;
+//	public static int gearIntakePDPChannel = 5;
 	public static int hopperServo1 = 19;
 	public static int hopperServo2 = 18;
 	

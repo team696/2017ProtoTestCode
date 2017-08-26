@@ -13,8 +13,8 @@ public class GearBeamBreakSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-	DigitalInput botBeamBreak;
-	DigitalInput topBeamBreak;
+	public static DigitalInput botBeamBreak;
+	public static DigitalInput topBeamBreak;
 	
 	Timer timer = new Timer();
 	
