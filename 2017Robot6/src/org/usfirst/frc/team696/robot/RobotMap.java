@@ -23,8 +23,6 @@ public class RobotMap {
 //
 	public static int sideSwipeMotor = 7; //true
 
-//	public static int sideSwipeMotor = 7;
-
 	
 	public static int leftDriveEncoderA = 2;
 	public static int leftDriveEncoderB = 3;
@@ -59,6 +57,6 @@ public class RobotMap {
 	public static int gearIntakePDPChannel = 9;
 //	public static int gearIntakePDPChannel = 5;
 	public static int hopperServo1 = 19;
-	public static int hopperServo2 = 18;
+//	public static int hopperServo2 = 18;
 	
 }
