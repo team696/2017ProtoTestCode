@@ -430,10 +430,12 @@ public class Robot extends IterativeRobot {
 		speed = -oi.Psoc5.getRawAxis(0);
     	turn = oi.wheel.getRawAxis(0);
     	speed = Util.smoothDeadZone(speed, -0.1, 0.1, -1, 1, 0);
-//    	speed = Util.deadZone(speed, -0.1, 0.1, 0);
-    	speedTurnScale = 1/(Math.abs(speed)*2 + 1);
-    	turn = Util.smoothDeadZone(turn, -0.2, 0.2, -1, 1, 0) * Math.abs((speedTurnScale));
+    	speed = Util.deadZone(speed, -0.1, 0.1, 0);
+    	speedTurnScale = 1/(Math.abs(speed)*1.2 + 1.2);
+    	turn = Util.smoothDeadZone(turn, -0.15, 0.15, -1, 1, 0) * Math.abs(speedTurnScale);
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
+    	
+    	System.out.println("      " + speedTurnScale + "          " + turn + "           " + leftValue + "           " + "         " + rightValue);
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
