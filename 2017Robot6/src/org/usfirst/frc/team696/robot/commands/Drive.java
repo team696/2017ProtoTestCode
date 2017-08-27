@@ -63,7 +63,7 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentDistance = (Robot.leftDriveEncoder.getDistance() + Robot.rightDriveEncoder.getDistance()) / 2;
+    	currentDistance = -((Robot.leftDriveEncoder.getDistance() + Robot.rightDriveEncoder.getDistance()) / 2);
 		distanceError = targetDistance - currentDistance;
 		
 		directionError = Robot.targetDirection - Robot.navX.getYaw();
@@ -112,7 +112,7 @@ public class Drive extends Command {
 			isFinishedTimer.reset();
 		}
 		
-		System.out.println("direction: " + Robot.targetDirection + "    " + Robot.navX.getYaw() + "\t distance: " + targetDistance + "    " + currentDistance + "\t left: " + leftValue + "    right: " + rightValue);
+		System.out.println("Current Distance " + currentDistance + "Distance Error: " + distanceError + "Target Distance: " + targetDistance);
 
 		/*if(Robot.tracking || Robot.autonomousCommand.isRunning())*/Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }

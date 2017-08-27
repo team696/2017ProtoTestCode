@@ -11,8 +11,8 @@ public class GearIntakeFlapSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	Servo leftServo;
-	Servo rightServo;
+	public static Servo leftServo;
+	public static Servo rightServo;
 	
 	public GearIntakeFlapSubsystem(int leftServo, int rightServo){
 		this.leftServo = new Servo(leftServo);

@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class MiddlePeg extends CommandGroup {
 
     public MiddlePeg() {
-    	addSequential(new Drive(83, 0), 3);
-    	addSequential(new VoltageDrive(0.4, 3));
+    	addSequential(new Drive(83, 0), 0.4);
+//    	addSequential(new VoltageDrive(0.5, 2.5));
 		addSequential(new WaitForGear(), 10);
-		addSequential(new Drive(-50, 0), 1);
-		addSequential(new Drive(0, 90), 1);
+		addSequential(new Drive(-50, 0), 0.5);
+		addSequential(new Drive(0, 90), 0.5);
     }
 }

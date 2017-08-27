@@ -272,8 +272,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		System.out.println(navX.getYaw() + "     " + leftDriveEncoder.getDistance() + "     " + rightDriveEncoder.getDistance());
-		System.out.println(GearBeamBreakSubsystem.topBeamBreak.get());
 		
 		for(int i = 0; i < 16; i++){
 			PDPCurrents[i] = PDP.getCurrent(i);
@@ -320,8 +318,9 @@ public class Robot extends IterativeRobot {
 		if(oi.Psoc5.getRawButton(2))runShooter = true;
 		else runShooter = false;
 		
-		if(openGearFlap)gearFlapSubsystem.openPos();
-		else gearFlapSubsystem.closePos();
+		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.openPos();
+		if(oi.Psoc5.getRawButton(15)) gearFlapSubsystem.closePos();
+
 		
 		/*
 		 * Run Hopper Servo
@@ -431,11 +430,11 @@ public class Robot extends IterativeRobot {
     	turn = oi.wheel.getRawAxis(0);
     	speed = Util.smoothDeadZone(speed, -0.1, 0.1, -1, 1, 0);
     	speed = Util.deadZone(speed, -0.1, 0.1, 0);
-    	speedTurnScale = 1/(Math.abs(speed)*1.2 + 1.2);
+    	speedTurnScale = 1/(Math.abs(speed)*1.2 + 0.8);
     	turn = Util.smoothDeadZone(turn, -0.15, 0.15, -1, 1, 0) * Math.abs(speedTurnScale);
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
-    	System.out.println("      " + speedTurnScale + "          " + turn + "           " + leftValue + "           " + "         " + rightValue);
+    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
