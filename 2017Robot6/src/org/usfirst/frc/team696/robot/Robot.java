@@ -110,8 +110,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 0.86;
-	public static final double gearPivotOut = 0.411;
+	public static final double gearPivotStowed = 0.53;
+	public static final double gearPivotOut = 0.082;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -173,9 +173,9 @@ public class Robot extends IterativeRobot {
     	leftDriveEncoder.setReverseDirection(true);//practice
 //		rightDriveEncoder.setReverseDirection(true);//competition
 		
-		chooser.addDefault("test", new test());
 		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
 		chooser.addObject("Middle Peg Leave Right", new MiddlePegLeaveRight());
+		chooser.addObject("test", new test());
 		chooser.addObject("Middle Peg", new MiddlePeg());
 		chooser.addObject("left Peg", new LeftPeg());
 		chooser.addObject("Middle Peg Left Shoot", new MiddlePegLeftShoot());
@@ -187,7 +187,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Left Peg Active", new LeftPegActive());
 		chooser.addObject("Right Peg", new RightPeg());
 		SmartDashboard.putData("Auto mode", chooser);
-		CameraServer.getInstance().addAxisCamera("10.6.96.3");
+//		CameraServer.getInstance().addAxisCamera("10.6.96.3");
 		
 		/*
 		 * Initialize all subsystems
@@ -218,7 +218,7 @@ public class Robot extends IterativeRobot {
 		
 		targetDirection = navX.getYaw();
 		
-		CameraServer.getInstance().addAxisCamera("10.6.96.3");
+//		CameraServer.getInstance().addAxisCamera("10.6.96.3");
 		
 	}
 
@@ -430,11 +430,12 @@ public class Robot extends IterativeRobot {
     	turn = oi.wheel.getRawAxis(0);
     	speed = Util.smoothDeadZone(speed, -0.1, 0.1, -1, 1, 0);
     	speed = Util.deadZone(speed, -0.1, 0.1, 0);
-    	speedTurnScale = 1/(Math.abs(speed)*1.2 + 0.8);
+    	speedTurnScale = 1/(Math.abs(speed)*1.2 + 1.5);
     	turn = Util.smoothDeadZone(turn, -0.15, 0.15, -1, 1, 0) * Math.abs(speedTurnScale);
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
-    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
+//    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
+    	System.out.println(PivotSubsystem.pivot.get());
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;

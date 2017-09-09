@@ -17,7 +17,7 @@ public class PivotSubsystem extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
-	CANTalon pivot;
+	public static CANTalon pivot;
 	VictorSP intakeRoller;
 	
 	public PivotSubsystem(int pivot, int intakeRoller) {
@@ -30,7 +30,7 @@ public class PivotSubsystem extends Subsystem {
 		this.pivot.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		this.pivot.set(0);
 		
-		this.pivot.setP(.5);
+		this.pivot.setP(0.5);
 		
 		this.pivot.enableControl();
 	}

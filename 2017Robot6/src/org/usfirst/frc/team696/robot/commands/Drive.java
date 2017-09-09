@@ -112,7 +112,7 @@ public class Drive extends Command {
 			isFinishedTimer.reset();
 		}
 		
-		System.out.println("Current Distance " + currentDistance + "Distance Error: " + distanceError + "Target Distance: " + targetDistance);
+		System.out.println("Direction Error: " + directionError + "Target Direction: " + tempTargetDirection);
 
 		/*if(Robot.tracking || Robot.autonomousCommand.isRunning())*/Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }

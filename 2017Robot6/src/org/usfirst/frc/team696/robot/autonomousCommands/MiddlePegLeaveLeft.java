@@ -15,15 +15,15 @@ public class MiddlePegLeaveLeft extends CommandGroup {
     public MiddlePegLeaveLeft() {
     	addSequential(new Drive(83, 0), 0.7);
 //    	addSequential(new VoltageDrive(0.4, 2));
-		addSequential(new WaitForGear(), 10);
+		addSequential(new WaitForGear(), 5);
 		addSequential(new Drive(-50, 0), 0.4);
-		addSequential(new Wait(0.2));
+		addSequential(new Wait(0.5));
 		addSequential(new Drive(0, -90), 1);
-		addSequential(new Wait(0.2));
-		addSequential(new Drive(100, 0), 0.5);
-		addSequential(new Wait(0.2));
-		addSequential(new Drive(0, 90), 0.3);
-		addSequential(new Wait(0.2));
-		addSequential(new Drive(200, 0), 2);
+		addSequential(new Wait(0.5));
+		addSequential(new Drive(50, 0), 0.5);
+		addSequential(new Wait(0.5));
+		addSequential(new Drive(0, 90), 1);
+		addSequential(new Wait(0.5));
+		addSequential(new Drive(100, 0), 2);
     }
 }
