@@ -30,7 +30,7 @@ public class PivotSubsystem extends Subsystem {
 		this.pivot.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		this.pivot.set(0);
 		
-		this.pivot.setP(0);
+		this.pivot.setP(0.5);
 		
 		this.pivot.enableControl();
 	}
