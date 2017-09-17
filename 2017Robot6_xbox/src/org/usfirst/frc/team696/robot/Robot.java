@@ -105,6 +105,7 @@ public class Robot extends IterativeRobot {
 	public static boolean runHopper = false;
 	public static boolean openGearFlap = false;
 	public static boolean useCamera = false;
+	public static boolean stopMotion = false;
 	
 	public static double targetDirection = 0;
 	public static double gearIntakeSpeed = 0;
@@ -315,11 +316,17 @@ public class Robot extends IterativeRobot {
 		/*
 		 * run shooter when button 5 is pushed on gamepad
 		 */
-		if(oi.Psoc5.getRawButton(2))runShooter = true;
-		else runShooter = false;
+//		if(oi.Psoc5.getRawButton(2))runShooter = true;
+//		else runShooter = false;
+//		
+		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.closePos();
+		if(oi.Psoc5.getRawButton(15)) gearFlapSubsystem.openPos();
 		
-		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.openPos();
-		if(oi.Psoc5.getRawButton(15)) gearFlapSubsystem.closePos();
+		/*
+		 * Break active gear motion
+		 */
+		
+		if(oi.Psoc5.getRawButton(2))stopMotion = true;
 
 		
 		/*
@@ -419,6 +426,10 @@ public class Robot extends IterativeRobot {
 		
 		pivotSubsystem.setSetpoint(gearPivotTarget);
 		pivotSubsystem.setIntake(gearIntakeSpeed);
+		
+		if(stopMotion){
+			PivotSubsystem.stopMotion();
+		}
 		
 		/*
 		 * drive control

@@ -100,7 +100,7 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean runConveyor = false;
 	public static boolean runIntake = false;
-	public static boolean runOuttake = false;
+	public static boolean runOu+ttake = false;
 	public static boolean runShooter = false;
 	public static boolean runHopper = false;
 	public static boolean openGearFlap = false;

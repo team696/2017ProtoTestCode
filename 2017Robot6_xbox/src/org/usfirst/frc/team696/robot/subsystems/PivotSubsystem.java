@@ -56,6 +56,10 @@ public class PivotSubsystem extends Subsystem {
     	pivot.setPID(p, i, d);
     }
     
+    public static void stopMotion() {
+    	pivot.setP(0);
+    }
+    
     public void setIntake(double speed){
     	intakeRoller.set(speed);
     }
