@@ -30,6 +30,7 @@ import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShootVision;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShoot;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShootVision;
+import org.usfirst.frc.team696.robot.autonomousCommands.NoEncResetTest;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightPegActive;
 import org.usfirst.frc.team696.robot.autonomousCommands.test;
@@ -187,6 +188,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Right Peg Active", new RightPegActive());
 		chooser.addObject("Left Peg Active", new LeftPegActive());
 		chooser.addObject("Right Peg", new RightPeg());
+		chooser.addObject("No Enc Reset Test", new NoEncResetTest());
 		SmartDashboard.putData("Auto mode", chooser);
 //		CameraServer.getInstance().addAxisCamera("10.6.96.3");
 		
@@ -446,7 +448,7 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println(PivotSubsystem.pivot.get());
+    	System.out.println(Robot.navX.getYaw());
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;

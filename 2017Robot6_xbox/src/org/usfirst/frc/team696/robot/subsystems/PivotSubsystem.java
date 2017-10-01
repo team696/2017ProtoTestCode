@@ -32,7 +32,8 @@ public class PivotSubsystem extends Subsystem {
 		
 		this.pivot.setP(0.5);
 		
-		this.pivot.enableControl();
+//		this.pivot.enableControl();
+		this.pivot.disableControl();
 	}
 	
     public void initDefaultCommand() {
@@ -59,7 +60,7 @@ public class PivotSubsystem extends Subsystem {
     public static void stopMotion() {
     	pivot.setP(0);
     	pivot.disableControl();
-    }
+    }//
     
     public void setIntake(double speed){
     	intakeRoller.set(speed);

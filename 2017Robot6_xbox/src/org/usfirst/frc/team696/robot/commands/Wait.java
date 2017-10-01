@@ -1,5 +1,7 @@
 package org.usfirst.frc.team696.robot.commands;
 
+import org.usfirst.frc.team696.robot.Robot;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -25,7 +27,11 @@ public class Wait extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(timer.get() > time)isFinished = true;
+    	if(timer.get() > time) {
+    		isFinished = true;
+    	}
+    	System.out.println(Robot.navX.getYaw());
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

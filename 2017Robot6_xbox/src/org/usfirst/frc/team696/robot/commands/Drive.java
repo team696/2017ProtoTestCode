@@ -51,7 +51,8 @@ public class Drive extends Command {
     protected void initialize() {
     	Robot.leftDriveEncoder.reset();
     	Robot.rightDriveEncoder.reset();
-    	if(!Robot.useCamera)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
+//    	if(!Robot.useCamera)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
+    	if(!Robot.useCamera)Robot.targetDirection = tempTargetDirection;
     	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
     	maxSpeed = 0.75;
     	if(Robot.useCamera){
@@ -112,7 +113,8 @@ public class Drive extends Command {
 			isFinishedTimer.reset();
 		}
 		
-		System.out.println("Direction Error: " + directionError + "Target Direction: " + tempTargetDirection);
+//		System.out.println("Direction Error: " + directionError + "Target Direction: " + tempTargetDirection);
+		System.out.println(Robot.navX.getYaw());
 
 		/*if(Robot.tracking || Robot.autonomousCommand.isRunning())*/Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }
