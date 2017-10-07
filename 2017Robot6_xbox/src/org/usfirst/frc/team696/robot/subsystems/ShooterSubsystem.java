@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class ShooterSubsystem extends Subsystem {
 
-	CANTalon masterShooter;
-	CANTalon slaveShooter;
+	public static CANTalon masterShooter;
+	public static CANTalon slaveShooter;
 	Timer timer = new Timer();
 	
 	double kP = 0.075, 

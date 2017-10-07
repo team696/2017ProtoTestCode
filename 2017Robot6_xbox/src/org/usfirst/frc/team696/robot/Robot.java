@@ -118,6 +118,7 @@ public class Robot extends IterativeRobot {
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
 	public static boolean servoHopper = false;
+
 	
 	double distancePerPulse = (4*Math.PI)/200;
 	
@@ -448,7 +449,7 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println(Robot.navX.getYaw());
+    	System.out.println(ShooterSubsystem.masterShooter.get());
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
