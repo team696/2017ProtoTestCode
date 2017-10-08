@@ -15,10 +15,10 @@ public class RightPegLeave extends CommandGroup {
 		addSequential(new Drive(0, -60), 1);
 		addSequential(new Wait(0.5));
 		addSequential(new Drive(50, -60), 1);
-		addSequential(new VoltageDrive(0.4, 15));
-		addSequential(new WaitForGear(), 5);
-		addSequential(new Drive(-50, -60), 2);
-		addSequential(new Drive(100, 0), 3);
+		addSequential(new VoltageDrive(0.4, 1));
+		addSequential(new WaitForGear(), 6);
+		addSequential(new Drive(-30, -60), 2);
+		addSequential(new Drive(100, 0), 2);
 		
 	}
 	
