@@ -11,7 +11,7 @@ public class LeftPegLeave extends CommandGroup {
 	
 	public LeftPegLeave() {
 		
-		addSequential(new Drive(95, 0), 2);
+		addSequential(new Drive(100, 0), 2);
 		addSequential(new Drive(0, 60), 1);
 		addSequential(new Wait(0.5));
 		addSequential(new Drive(50, 60), 1);
