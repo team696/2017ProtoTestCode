@@ -49,6 +49,7 @@ import org.usfirst.frc.team696.robot.subsystems.GearBeamBreakSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GearIntakeFlapSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GreenLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HoodSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.HopperServoSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.PivotSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
@@ -73,6 +74,7 @@ public class Robot extends IterativeRobot {
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 	public static VisionLightSubsystem visionLightSubsystem = new VisionLightSubsystem(RobotMap.visionLight, RobotMap.peltier);
+	public static HopperServoSubsystem hopperServoSubsystem = new HopperServoSubsystem(RobotMap.hopperServo1, RobotMap.hopperServo2);
 	
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
@@ -110,8 +112,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = 0.53;
-	public static final double gearPivotOut = 0.082;
+	public static final double gearPivotStowed = PivotSubsystem.pivot.get();
+	public static final double gearPivotOut = PivotSubsystem.pivot.get() - 0.46;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -303,6 +305,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * Run hopper and conveyor when button 6 is pushed on gamepad
 		 */
+		
 		if(oi.Psoc5.getRawButton(1)){
 			runConveyor = true;
 			runHopper = true;
@@ -327,9 +330,9 @@ public class Robot extends IterativeRobot {
 		 */
 		
 		if(oi.Psoc5.getRawButton(1)){
-			servoHopper = true;
+			hopperServoSubsystem.spin();
 		}else{
-			servoHopper = false;
+			hopperServoSubsystem.stop();
 		}
 		
 		
@@ -356,7 +359,7 @@ public class Robot extends IterativeRobot {
 //		if(runShooter)targetRPM = 2900;
 // 		if(runShooter)targetRPM = 892.5;
 
-		if(runShooter)targetRPM = 4000;
+		if(runShooter)targetRPM = 2000;
 		else targetRPM = 0;
 		
 		/*
@@ -435,7 +438,7 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println(PivotSubsystem.pivot.get());
+    	System.out.println(ShooterSubsystem.masterShooter.get());
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
@@ -444,6 +447,7 @@ public class Robot extends IterativeRobot {
 //    	Robot.driveTrainSubsystem.tankDrive(0, 0);
     	
     	/*
+    	 * 
     	 * get oldButtons 
     	 */
 		for(int i = 1; i < oldPsoc5.length; i++)oldPsoc5[i] = oi.Psoc5.getRawButton(i);
