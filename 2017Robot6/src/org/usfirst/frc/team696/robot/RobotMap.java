@@ -1,4 +1,5 @@
 
+
 package org.usfirst.frc.team696.robot;
 
 /**
@@ -57,7 +58,7 @@ public class RobotMap {
 //	public static int gearIntake = 10;
 	public static int gearIntakePDPChannel = 9;
 //	public static int gearIntakePDPChannel = 5;
-	public static int hopperServo1 = 19;
-//	public static int hopperServo2 = 18;
+	public static int hopperServo1 = 16;
+	public static int hopperServo2 = 17;
 	
 }
