@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.LeftPegActive;
+import org.usfirst.frc.team696.robot.autonomousCommands.LeftPegLeave;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegActive;
 import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeaveLeft;
@@ -33,6 +34,7 @@ import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShootVisio
 import org.usfirst.frc.team696.robot.autonomousCommands.NoEncResetTest;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
 import org.usfirst.frc.team696.robot.autonomousCommands.RightPegActive;
+import org.usfirst.frc.team696.robot.autonomousCommands.RightPegLeave;
 import org.usfirst.frc.team696.robot.autonomousCommands.test;
 import org.usfirst.frc.team696.robot.commands.Drive;
 import org.usfirst.frc.team696.robot.commands.Aim;
@@ -176,20 +178,20 @@ public class Robot extends IterativeRobot {
     	leftDriveEncoder.setReverseDirection(true);//practice
 //		rightDriveEncoder.setReverseDirection(true);//competition
 		
-		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
+		chooser.addObject("Middle Peg Leave Left", new MiddlePegLeaveLeft());
 		chooser.addObject("Middle Peg Leave Right", new MiddlePegLeaveRight());
-		chooser.addObject("test", new test());
-		chooser.addObject("Middle Peg", new MiddlePeg());
-		chooser.addObject("left Peg", new LeftPeg());
-		chooser.addObject("Middle Peg Left Shoot", new MiddlePegLeftShoot());
-		chooser.addObject("Middle Peg Right Shoot", new MiddlePegRightShoot());
-		chooser.addObject("Middle Peg Left Shoot Vision", new MiddlePegLeftShootVision());
-		chooser.addObject("Middle Peg Right Shoot Vision", new MiddlePegRightShootVision());
-		chooser.addObject("Middle Peg Active", new MiddlePegActive());
-		chooser.addObject("Right Peg Active", new RightPegActive());
-		chooser.addObject("Left Peg Active", new LeftPegActive());
+//		chooser.addObject("Middle Peg Left Shoot", new MiddlePegLeftShoot());
+//		chooser.addObject("Middle Peg Right Shoot", new MiddlePegRightShoot());
+//		chooser.addObject("Middle Peg Left Shoot Vision", new MiddlePegLeftShootVision());
+//		chooser.addObject("Middle Peg Right Shoot Vision", new MiddlePegRightShootVision());
+//		chooser.addObject("Middle Peg Active", new MiddlePegActive());
+		chooser.addObject("Left Peg", new LeftPeg());
+//		chooser.addObject("Left Peg Active", new LeftPegActive());
+		chooser.addObject("Left Peg Leave", new LeftPegLeave());
 		chooser.addObject("Right Peg", new RightPeg());
-		chooser.addObject("No Enc Reset Test", new NoEncResetTest());
+//		chooser.addObject("Right Peg Active", new RightPegActive());
+		chooser.addObject("Right Peg Leave", new RightPegLeave());
+		chooser.addDefault("Middle Peg", new MiddlePeg());
 		SmartDashboard.putData("Auto mode", chooser);
 //		CameraServer.getInstance().addAxisCamera("10.6.96.3");
 		
@@ -239,6 +241,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
+		Robot.navX.zeroYaw();
+		
 
 		if (autonomousCommand != null)
 			autonomousCommand.start();
