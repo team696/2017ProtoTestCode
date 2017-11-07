@@ -32,7 +32,7 @@ public class PivotSubsystem extends Subsystem {
 		
 		this.pivot.setP(0.5);
 		
-		this.pivot.disableControl();
+		this.pivot.enableControl();
 	}
 	
     public void initDefaultCommand() {

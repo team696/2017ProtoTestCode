@@ -112,8 +112,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = PivotSubsystem.pivot.get();
-	public static final double gearPivotOut = PivotSubsystem.pivot.get() - 0.46;
+	public static final double gearPivotStowed = PivotSubsystem.pivot.get() + 0.46;
+	public static final double gearPivotOut = PivotSubsystem.pivot.get();
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -321,8 +321,8 @@ public class Robot extends IterativeRobot {
 		if(oi.Psoc5.getRawButton(2))runShooter = true;
 		else runShooter = false;
 		
-		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.openPos();
-		if(oi.Psoc5.getRawButton(15)) gearFlapSubsystem.closePos();
+		if(oi.Psoc5.getRawButton(15) && !oldPsoc5[14])gearFlapSubsystem.openPos();
+		if(oi.Psoc5.getRawButton(14)) gearFlapSubsystem.closePos();
 
 		
 		/*
@@ -438,7 +438,7 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println(ShooterSubsystem.masterShooter.get());
+    	System.out.println(PivotSubsystem.pivot.get());
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
