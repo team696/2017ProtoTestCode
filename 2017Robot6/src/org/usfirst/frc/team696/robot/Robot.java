@@ -429,8 +429,8 @@ public class Robot extends IterativeRobot {
 		 * turn: turn rate
 		 * speedTurnScael: scale to change turn rate based on speed
 		 */
-		speed = -oi.Psoc5.getRawAxis(0);
-    	turn = oi.wheel.getRawAxis(0);
+		speed = -oi.Psoc5.getRawAxis(0) *.35;
+    	turn = oi.wheel.getRawAxis(0) * .75;
     	speed = Util.smoothDeadZone(speed, -0.1, 0.1, -1, 1, 0);
     	speed = Util.deadZone(speed, -0.1, 0.1, 0);
     	speedTurnScale = 1/(Math.abs(speed)*1.2 + 1.5);
