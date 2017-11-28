@@ -304,8 +304,8 @@ public class Robot extends IterativeRobot {
 		/*
 		 * Run intake when button 1 is pushed on gamepad
 		 */
-		if(oi.Psoc5.getRawButton(13) && !oldPsoc5[13])runIntake = true;
-		if(!oi.Psoc5.getRawButton(13) && oldPsoc5[13]) runIntake = false;
+		if(oi.xbox.getRawButton(4) && !oldWheel[4])runIntake = true;
+		if(!oi.xbox.getRawButton(4) && oldWheel[4]) runIntake = false;
 		
 		/*
 		 * Run hopper and conveyor when button 6 is pushed on gamepad
@@ -322,8 +322,8 @@ public class Robot extends IterativeRobot {
 		/*
 		 * run shooter when button 5 is pushed on gamepad
 		 */
-//		if(oi.Psoc5.getRawButton(2))runShooter = true;
-//		else runShooter = false;
+		if(oi.xbox.getRawButton(2))runShooter = true;
+		else runShooter = false;
 //		
 		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.closePos();
 		if(oi.Psoc5.getRawButton(15)) gearFlapSubsystem.openPos();
@@ -332,7 +332,7 @@ public class Robot extends IterativeRobot {
 		 * Break active gear motion
 		 */
 		
-		if(oi.Psoc5.getRawButton(2))stopMotion = true;
+//		if(oi.Psoc5.getRawButton(2))stopMotion = true;
 
 		
 		/*
@@ -375,7 +375,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set climber values
 		 */
-		if(oi.Psoc5.getRawButton(12))climberSubsystem.set(-1);
+		if(oi.xbox.getRawButton(6))climberSubsystem.set(-1);
 		else climberSubsystem.set(0);
 		
 		if(runIntake){
@@ -433,9 +433,9 @@ public class Robot extends IterativeRobot {
 		pivotSubsystem.setSetpoint(gearPivotTarget);
 		pivotSubsystem.setIntake(gearIntakeSpeed);
 		
-		if(stopMotion){
-			PivotSubsystem.stopMotion();
-		}
+//		if(stopMotion){
+//			PivotSubsystem.stopMotion();
+//		}
 		
 		/*
 		 * drive control
