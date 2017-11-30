@@ -25,5 +25,9 @@ public class ConveyorSubsystem extends Subsystem {
     public void set(double speed){
     	conveyorMotor.set(speed);
     }
+    
+    public void kill() {
+    	conveyorMotor.disable();
+    }
 }
 

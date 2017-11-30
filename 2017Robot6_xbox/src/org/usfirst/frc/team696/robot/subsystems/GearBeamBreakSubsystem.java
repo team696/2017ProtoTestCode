@@ -55,5 +55,7 @@ public class GearBeamBreakSubsystem extends Subsystem {
     public boolean getBot(){
     	return botBeamBreak.get();
     }
+    
+    
 }
 

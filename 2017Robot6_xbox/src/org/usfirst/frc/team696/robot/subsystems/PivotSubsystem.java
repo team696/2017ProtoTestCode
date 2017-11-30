@@ -57,7 +57,7 @@ public class PivotSubsystem extends Subsystem {
     	pivot.setPID(p, i, d);
     }
     
-    public static void stopMotion() {
+    public void kill() {
     	pivot.setP(0);
     	pivot.disableControl();
     }//

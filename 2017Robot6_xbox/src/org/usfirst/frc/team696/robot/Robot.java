@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -52,6 +53,7 @@ import org.usfirst.frc.team696.robot.subsystems.GearBeamBreakSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GearIntakeFlapSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.GreenLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HoodSubsystem;
+import org.usfirst.frc.team696.robot.subsystems.HopperServoSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.HopperSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.PivotSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
@@ -76,6 +78,7 @@ public class Robot extends IterativeRobot {
 	public static RedLEDSubsystem redLEDSubsystem = new RedLEDSubsystem(RobotMap.RedLED);
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 	public static VisionLightSubsystem visionLightSubsystem = new VisionLightSubsystem(RobotMap.visionLight, RobotMap.peltier);
+	public static HopperServoSubsystem hopperServoSubsystem = new HopperServoSubsystem(RobotMap.hopperServo1, RobotMap.hopperServo2);
 	
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
@@ -310,7 +313,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * Run hopper and conveyor when button 6 is pushed on gamepad
 		 */
-		if(oi.Psoc5.getRawButton(1)){
+		if(oi.xbox.getRawButton(1)){
 			runConveyor = true;
 			runHopper = true;
 			
@@ -339,12 +342,18 @@ public class Robot extends IterativeRobot {
 		 * Run Hopper Servo
 		 */
 		
-		if(oi.Psoc5.getRawButton(1)){
+		if(oi.xbox.getRawButton(1)){
 			servoHopper = true;
 		}else{
 			servoHopper = false;
 		}
 		
+		
+		if(servoHopper) {
+			hopperServoSubsystem.spin();
+		}else {
+			hopperServoSubsystem.stop();
+		}
 		
 		/*
 		 * set conveyor values
@@ -367,10 +376,17 @@ public class Robot extends IterativeRobot {
 	//	if(runShooter)targetRPM = 3325;
 //		if(runShooter)targetRPM = 3325;
 //		if(runShooter)targetRPM = 2900;
-// 		if(runShooter)targetRPM = 892.5;
+ 		if(runShooter) {
+ 			targetRPM = 2000;
+ 			shooterSubsystem.enable();
+ 			shooterSubsystem.run();
+ 		}
 
-		if(runShooter)targetRPM = 4000;
-		else targetRPM = 0;
+//		if(runShooter)targetRPM = 4000;
+ 		else {
+ 			targetRPM = 0;
+ 			shooterSubsystem.disable();
+ 		}
 		
 		/*
 		 * set climber values
@@ -438,6 +454,23 @@ public class Robot extends IterativeRobot {
 //		}
 		
 		/*
+		 * estop
+		 */
+		
+		if(oi.xbox.getRawButton(8) && isEnabled()) {
+			climberSubsystem.kill();
+			conveyorSubsystem.kill();
+			driveTrainSubsystem.kill();
+			gearFlapSubsystem.kill();
+			hoodSubsystem.kill();
+			hopperServoSubsystem.kill();
+			hopperSubsystem.kill();
+			pivotSubsystem.kill();
+			shooterSubsystem.disable();
+			
+		}
+		
+		/*
 		 * drive control
 		 * speed: forward speed
 		 * turn: turn rate
@@ -452,7 +485,7 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println(Robot.navX.getYaw());
+    	System.out.println(ShooterSubsystem.masterShooter.get());
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;

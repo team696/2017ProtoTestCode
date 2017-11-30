@@ -33,5 +33,9 @@ public class HoodSubsystem extends Subsystem {
     public void disable(){
     	hoodServo.setDisabled();
     }
+    
+    public void kill() {
+    	hoodServo.setDisabled();
+    }
 }
 

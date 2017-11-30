@@ -32,5 +32,10 @@ public class DriveTrainSubsystem extends Subsystem {
 		driveA.tankDrive(leftValue, rightValue);
 		driveB.tankDrive(leftValue, rightValue);
 	}
+	
+	public void kill() {
+		driveA.stopMotor();
+		driveB.stopMotor();
+	}
 }
 

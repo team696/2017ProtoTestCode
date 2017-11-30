@@ -28,5 +28,10 @@ public class ClimberSubsystem extends Subsystem {
     	motorA.set(speed);
     	motorB.set(speed);
     }
+    
+    public void kill() {
+    	motorA.disable();
+    	motorB.disable();
+    }
 }
 

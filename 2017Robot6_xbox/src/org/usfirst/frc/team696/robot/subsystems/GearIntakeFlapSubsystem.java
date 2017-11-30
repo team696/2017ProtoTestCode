@@ -34,5 +34,12 @@ public class GearIntakeFlapSubsystem extends Subsystem {
     	rightServo.setAngle(150);
 //    	rightServo.setAngle(130);
     }
+    
+    public void kill() {
+    	
+    	leftServo.setDisabled();
+    	rightServo.setDisabled();
+    	
+    }
 }
 

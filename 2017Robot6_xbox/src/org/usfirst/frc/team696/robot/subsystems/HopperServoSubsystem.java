@@ -38,5 +38,13 @@ public class HopperServoSubsystem extends Subsystem {
     	hopperServo1.set(0);
     	hopperServo2.setAngle(0);
     }
+    
+    public void kill() {
+    	
+    	hopperServo1.setDisabled();
+    	hopperServo2.setDisabled();
+
+    	
+    }
 }
 

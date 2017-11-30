@@ -15,8 +15,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class ShooterSubsystem extends Subsystem {
 
-	CANTalon masterShooter;
-	CANTalon slaveShooter;
+	public static CANTalon masterShooter;
+	public static CANTalon slaveShooter;
 	Timer timer = new Timer();
 	
 	double kP = 0.075, 
@@ -61,26 +61,26 @@ public class ShooterSubsystem extends Subsystem {
     	if(Math.abs(masterShooter.get() - Robot.targetRPM) < 50 && Robot.targetRPM != 0)Robot.shooterAtSpeed = true;
     	else Robot.shooterAtSpeed = false;
     	
-    	if(Robot.targetRPM == 0){
-    		Robot.greenLEDSubsystem.set(false);
-    		Robot.oi.Psoc5.setOutput(8, false);
-    		Robot.oi.Psoc5.setOutput(7, false);
-    	} 	
-    	else if(Math.abs(Robot.targetRPM - masterShooter.get()) < 50){
-    		Robot.greenLEDSubsystem.set(true);
-    		Robot.oi.Psoc5.setOutput(8, true);
-    		Robot.oi.Psoc5.setOutput(7, false);
-    	}
-    	else {
-    		if(timer.get() == 0)timer.start(); 
-    		if(timer.get() > (Robot.targetRPM/masterShooter.get())/3325){   
-    			Robot.greenLEDSubsystem.set(!Robot.greenLEDSubsystem.get());
-    			timer.stop();
-    			timer.reset();
-    		}
-    		Robot.oi.Psoc5.setOutput(8, false);
-    		Robot.oi.Psoc5.setOutput(7, true);
-    	}
+//    	if(Robot.targetRPM == 0){
+//    		Robot.greenLEDSubsystem.set(false);
+//    		Robot.oi.Psoc5.setOutput(8, false);
+//    		Robot.oi.Psoc5.setOutput(7, false);
+//    	} 	
+//    	else if(Math.abs(Robot.targetRPM - masterShooter.get()) < 50){
+//    		Robot.greenLEDSubsystem.set(true);
+//    		Robot.oi.Psoc5.setOutput(8, true);
+//    		Robot.oi.Psoc5.setOutput(7, false);
+//    	}
+//    	else {
+//    		if(timer.get() == 0)timer.start(); 
+//    		if(timer.get() > (Robot.targetRPM/masterShooter.get())/3325){   
+//    			Robot.greenLEDSubsystem.set(!Robot.greenLEDSubsystem.get());
+//    			timer.stop();
+//    			timer.reset();
+//    		}
+//    		Robot.oi.Psoc5.setOutput(8, false);
+//    		Robot.oi.Psoc5.setOutput(7, true);
+//    	}
     }
     
     public void enable(){
