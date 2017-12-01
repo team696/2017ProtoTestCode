@@ -29,13 +29,14 @@ public class DriveTrainSubsystem extends Subsystem {
 	}
 
 	public void tankDrive(double leftValue, double rightValue){
-		driveA.tankDrive(leftValue, rightValue);
-		driveB.tankDrive(leftValue, rightValue);
+		driveA.tankDrive(leftValue * 0.75, rightValue * 0.75);
+		driveB.tankDrive(leftValue * 0.75, rightValue * 0.75);
+		
 	}
 	
 	public void kill() {
-		driveA.stopMotor();
-		driveB.stopMotor();
+		driveA.tankDrive(0, 0);
+		driveB.tankDrive(0, 0);
 	}
 }
 

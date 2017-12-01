@@ -27,7 +27,7 @@ public class ConveyorSubsystem extends Subsystem {
     }
     
     public void kill() {
-    	conveyorMotor.disable();
+    	conveyorMotor.setDisabled();
     }
 }
 

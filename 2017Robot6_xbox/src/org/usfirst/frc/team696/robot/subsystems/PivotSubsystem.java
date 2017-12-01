@@ -60,7 +60,8 @@ public class PivotSubsystem extends Subsystem {
     public void kill() {
     	pivot.setP(0);
     	pivot.disableControl();
-    }//
+    	intakeRoller.set(0);
+    }
     
     public void setIntake(double speed){
     	intakeRoller.set(speed);

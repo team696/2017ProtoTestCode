@@ -112,6 +112,7 @@ public class Robot extends IterativeRobot {
 	public static boolean openGearFlap = false;
 	public static boolean useCamera = false;
 	public static boolean stopMotion = false;
+	public static boolean kill = false;
 	
 	public static double targetDirection = 0;
 	public static double gearIntakeSpeed = 0;
@@ -283,6 +284,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		
+		
+		/*
+		 * E Stop
+		 */
+		
+		if(oi.xbox.getRawButton(8) && !oldWheel[8]) {
+			kill = true;
+			
+		}
+		
+		
 		for(int i = 0; i < 16; i++){
 			PDPCurrents[i] = PDP.getCurrent(i);
 		}
@@ -307,8 +319,17 @@ public class Robot extends IterativeRobot {
 		/*
 		 * Run intake when button 1 is pushed on gamepad
 		 */
-		if(oi.xbox.getRawButton(4) && !oldWheel[4])runIntake = true;
-		if(!oi.xbox.getRawButton(4) && oldWheel[4]) runIntake = false;
+		if(oi.xbox.getRawButton(4) && !oldWheel[4]) {
+			runIntake = true;
+		}
+		if(!oi.xbox.getRawButton(4) && oldWheel[4]) {
+			runIntake = false;
+		}
+		
+		if(kill) {
+			pivotSubsystem.kill();
+			pivotSubsystem.setIntake(0);
+		}
 		
 		/*
 		 * Run hopper and conveyor when button 6 is pushed on gamepad
@@ -317,7 +338,11 @@ public class Robot extends IterativeRobot {
 			runConveyor = true;
 			runHopper = true;
 			
-		} else {
+		} else if(oi.xbox.getRawButton(1) && kill) {
+			runConveyor = false;
+			runHopper = false;
+		}
+		else {
 			runConveyor = false;
 			runHopper = false;
 		}
@@ -325,7 +350,11 @@ public class Robot extends IterativeRobot {
 		/*
 		 * run shooter when button 5 is pushed on gamepad
 		 */
-		if(oi.xbox.getRawButton(2))runShooter = true;
+		if(oi.xbox.getRawButton(2)) {
+			runShooter = true;
+		}else if(oi.xbox.getRawButton(2) && kill) {
+			runShooter = false;
+		}
 		else runShooter = false;
 //		
 		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.closePos();
@@ -349,22 +378,34 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
-		if(servoHopper) {
+		if(servoHopper && kill) {
+			hopperServoSubsystem.stop();
+		} 
+		else if(servoHopper){
 			hopperServoSubsystem.spin();
-		}else {
+		}
+		else {
 			hopperServoSubsystem.stop();
 		}
 		
 		/*
 		 * set conveyor values
 		 */
-		if(runConveyor)conveyorSubsystem.set(0.8);
+		if(runConveyor && kill) {
+			conveyorSubsystem.set(0);
+		}else if(runConveyor) {
+			conveyorSubsystem.set(0.8);
+		}
 		else conveyorSubsystem.set(0);
 		
 		/*
 		 * set hopper values
 		 */
-		if(runHopper)hopperSubsystem.set(0.7);
+		if(runHopper && kill) {
+			hopperSubsystem.set(0);
+		}else if(runHopper) {
+			hopperSubsystem.set(0.7);
+		}
 		else hopperSubsystem.set(0);
 		
 		/*
@@ -376,7 +417,10 @@ public class Robot extends IterativeRobot {
 	//	if(runShooter)targetRPM = 3325;
 //		if(runShooter)targetRPM = 3325;
 //		if(runShooter)targetRPM = 2900;
- 		if(runShooter) {
+ 		if(runShooter & kill) {
+ 			shooterSubsystem.disable();
+ 			targetRPM = 0;
+ 		}else if(runShooter) {
  			targetRPM = 2000;
  			shooterSubsystem.enable();
  			shooterSubsystem.run();
@@ -391,7 +435,11 @@ public class Robot extends IterativeRobot {
 		/*
 		 * set climber values
 		 */
-		if(oi.xbox.getRawButton(6))climberSubsystem.set(-1);
+		if(kill && oi.xbox.getRawButton(6)) {
+			climberSubsystem.set(0);
+		}else if(oi.xbox.getRawButton(6)) {
+			climberSubsystem.set(-1);
+		}
 		else climberSubsystem.set(0);
 		
 		if(runIntake){
@@ -453,22 +501,6 @@ public class Robot extends IterativeRobot {
 //			PivotSubsystem.stopMotion();
 //		}
 		
-		/*
-		 * estop
-		 */
-		
-		if(oi.xbox.getRawButton(8) && isEnabled()) {
-			climberSubsystem.kill();
-			conveyorSubsystem.kill();
-			driveTrainSubsystem.kill();
-			gearFlapSubsystem.kill();
-			hoodSubsystem.kill();
-			hopperServoSubsystem.kill();
-			hopperSubsystem.kill();
-			pivotSubsystem.kill();
-			shooterSubsystem.disable();
-			
-		}
 		
 		/*
 		 * drive control
@@ -478,6 +510,10 @@ public class Robot extends IterativeRobot {
 		 */
 		speed = -oi.xbox.getRawAxis(1);
     	turn = oi.xbox.getRawAxis(4) *0.75;
+    	if(kill) {
+    		speed = 0;
+    		turn = 0;
+    	}
     	speed = Util.smoothDeadZone(speed, -0.1, 0.1, -1, 1, 0);
     	speed = Util.deadZone(speed, -0.1, 0.1, 0);
 //    	speedTurnScale = 1/(Math.abs(speed)*1.2 + 1.5);
@@ -485,7 +521,7 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println(ShooterSubsystem.masterShooter.get());
+    	System.out.println(pivotSubsystem.pivot.get());
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
