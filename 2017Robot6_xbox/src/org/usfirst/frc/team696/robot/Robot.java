@@ -114,8 +114,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = PivotSubsystem.pivot.get() + 0.46;
-	public static final double gearPivotOut = PivotSubsystem.pivot.get();
+	public static final double gearPivotStowed = PivotSubsystem.pivot.get();
+	public static final double gearPivotOut = PivotSubsystem.pivot.get() - 0.4;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -441,7 +441,7 @@ public class Robot extends IterativeRobot {
 		 * drive control
 		 * speed: forward speed
 		 * turn: turn rate
-		 * speedTurnScael: scale to change turn rate based on speed
+		 * speedTurnScale: scale to change turn rate based on speed
 		 */
 		speed = -oi.xbox.getRawAxis(1);
     	turn = oi.xbox.getRawAxis(4) *0.75;
