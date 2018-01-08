@@ -19,8 +19,8 @@ public class GearBeamBreakSubsystem extends Subsystem {
 	Timer timer = new Timer();
 	
 	public GearBeamBreakSubsystem(int topBeamBreak, int botBeamBreak) {
-		this.botBeamBreak = new DigitalInput(botBeamBreak);
-		this.topBeamBreak = new DigitalInput(topBeamBreak);
+		GearBeamBreakSubsystem.botBeamBreak = new DigitalInput(botBeamBreak);
+		GearBeamBreakSubsystem.topBeamBreak = new DigitalInput(topBeamBreak);
 	}
 	
     public void initDefaultCommand() {

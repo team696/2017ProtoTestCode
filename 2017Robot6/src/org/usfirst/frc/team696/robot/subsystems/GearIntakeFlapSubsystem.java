@@ -15,8 +15,8 @@ public class GearIntakeFlapSubsystem extends Subsystem {
 	public static Servo rightServo;
 	
 	public GearIntakeFlapSubsystem(int leftServo, int rightServo){
-		this.leftServo = new Servo(leftServo);
-		this.rightServo = new Servo(rightServo);
+		GearIntakeFlapSubsystem.leftServo = new Servo(leftServo);
+		GearIntakeFlapSubsystem.rightServo = new Servo(rightServo);
 	}
 
     public void initDefaultCommand() {
