@@ -113,8 +113,8 @@ public class Robot extends IterativeRobot {
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = PivotSubsystem.pivot.get() + 0.46;
-	public static final double gearPivotOut = PivotSubsystem.pivot.get();
+	public static final double gearPivotStowed = PivotSubsystem.pivot.getSelectedSensorPosition(1) + 0.46;
+	public static final double gearPivotOut = PivotSubsystem.pivot.getSelectedSensorPosition(1);
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -449,7 +449,7 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println(ShooterSubsystem.masterShooter.get());
+    	System.out.println(ShooterSubsystem.masterShooter.getSelectedSensorVelocity(1));
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;
