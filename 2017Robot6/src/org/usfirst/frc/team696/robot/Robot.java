@@ -1,5 +1,6 @@
 package org.usfirst.frc.team696.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.cscore.AxisCamera;
 import edu.wpi.cscore.CameraServerJNI;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -112,9 +113,13 @@ public class Robot extends IterativeRobot {
 	public static double targetDirection = 0;
 	public static double gearIntakeSpeed = 0;
 	public static final double gearIntakeSlowSpeed = 0.5;
-	public static double gearPivotTarget = 0;
-	public static final double gearPivotStowed = PivotSubsystem.pivot.getSelectedSensorPosition(1) + 0.46;
-	public static final double gearPivotOut = PivotSubsystem.pivot.getSelectedSensorPosition(1);
+	public static int gearPivotTarget = 0;
+	public static int gearPivotStowed = PivotSubsystem.pivot.getSelectedSensorPosition(0);
+	public static int gearPivotOut = PivotSubsystem.pivot.getSelectedSensorPosition(0) + 1670;
+	public static final int gearInitialEncValue = PivotSubsystem.pivot.getSelectedSensorPosition(0);
+	public static int gearTargetEncValue;
+//	public static double gearPivotStowed = gearTargetEncValue;
+//	public static double gearPivotOut = gearTargetEncValue + 50;
 	public static boolean firstRunIntake = true;
 	public static boolean firstRunOuttake = true;
 	public static boolean gearInGroundPickup = false;
@@ -152,6 +157,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		table = NetworkTable.getTable("SmartDashboard");
+//		table = edu.wpi.first.networktables.NetworkTable.
 		pivotSubsystem.setSetpoint(gearPivotStowed);
 		visionLightSubsystem.set(false);
 		oi = new OI();
@@ -261,6 +267,10 @@ public class Robot extends IterativeRobot {
 	public void teleopInit() {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+
+		pivotSubsystem.setSetpoint(gearPivotStowed);
+
+
 		
 		/*
 		 * moving to released position at start of teleop
@@ -280,11 +290,16 @@ public class Robot extends IterativeRobot {
 			PDPCurrents[i] = PDP.getCurrent(i);
 		}
 		table.putNumberArray("PDPCurrents", PDPCurrents);
+//		table.putNumberArray("Encoder Value", PivotSubsystem.pivot.getSelectedSensorPosition(1))
+		table.putNumber("encoder", PivotSubsystem.pivot.getSelectedSensorPosition(0));
 		
 		Scheduler.getInstance().run();
 		if(oi.Psoc5.getRawButton(11)){
 			hoodSubsystem.setAngle(100);
 		}
+
+//		pivotSubsystem.getPosition() = PivotSubsystem.pivot.getSelectedSensorPosition(0) - gearInitialEncValue;
+		gearTargetEncValue = (int) pivotSubsystem.getPosition() - gearInitialEncValue;
 		
 		/*
 		 * set gear flap open
@@ -298,7 +313,12 @@ public class Robot extends IterativeRobot {
 		 */
 		if(oi.Psoc5.getRawButton(13) && !oldPsoc5[13])runIntake = true;
 		if(!oi.Psoc5.getRawButton(13) && oldPsoc5[13]) runIntake = false;
-		
+//        if(oi.Psoc5.getRawButton(13)){
+//            runIntake = true;
+//        }else{
+//            runIntake = false;
+//        }
+
 		/*
 		 * Run hopper and conveyor when button 6 is pushed on gamepad
 		 */
@@ -315,8 +335,8 @@ public class Robot extends IterativeRobot {
 		/*
 		 * run shooter when button 5 is pushed on gamepad
 		 */
-//		if(oi.Psoc5.getRawButton(2))runShooter = true;
-//		else runShooter = false;
+		if(oi.Psoc5.getRawButton(2))runShooter = true;
+		else runShooter = false;
 		
 		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.openPos();
 		if(oi.Psoc5.getRawButton(15)) gearFlapSubsystem.closePos();
@@ -325,7 +345,7 @@ public class Robot extends IterativeRobot {
 		 * Break active gear motion
 		 */
 		
-		if(oi.Psoc5.getRawButton(2))stopMotion = true;
+//		if(oi.Psoc5.getRawButton(2))stopMotion = true;
 
 		
 		/*
@@ -395,7 +415,7 @@ public class Robot extends IterativeRobot {
 			} else {
 				if(firstRunIntake){
 					gearIntakeSpeed = 0.9;
-					pivotSubsystem.constrainOutput(12, -12);
+					pivotSubsystem.constrainOutput(100, -100);
 					gearPivotTarget = gearPivotOut;
 					firstRunIntake = false;
 				}
@@ -409,21 +429,22 @@ public class Robot extends IterativeRobot {
 			}
 			if(gearIntakeTimer.get() > 0.5){
 				gearIntakeSpeed = -0.2;
-				pivotSubsystem.constrainOutput(3, -12);
+				pivotSubsystem.constrainOutput(25, 100);
 				gearPivotTarget = gearPivotOut;
 				gearIntakeTimer.stop();
 				gearIntakeTimer.reset();
 			}
 		} else {
 			gearIntakeSpeed = 0;
-			pivotSubsystem.constrainOutput(12, -12);
+			pivotSubsystem.constrainOutput(100, 100);
 			gearPivotTarget = gearPivotStowed;
 			firstRunIntake = true;
 			gearIntakeTimer.stop();
 			gearIntakeTimer.reset();
 		}
 		
-		pivotSubsystem.setSetpoint(gearPivotTarget);
+//		pivotSubsystem.setSetpoint(gearPivotStowed);
+		PivotSubsystem.pivot.set(ControlMode.Position, gearPivotTarget);
 		pivotSubsystem.setIntake(gearIntakeSpeed);
 		
 		if(stopMotion) {
@@ -445,7 +466,7 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println(ShooterSubsystem.masterShooter.getSelectedSensorVelocity(1));
+    	System.out.println("GearPivotOut: " + gearPivotOut + "            GearPivotStowed: " + gearPivotStowed + "            GetPosition: " + pivotSubsystem.getPosition() + "           Target: " + gearPivotTarget);
     	
     	leftValue = speed + turn;
     	rightValue = speed - turn;

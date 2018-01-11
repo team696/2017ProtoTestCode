@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team696.robot.Robot;
 
 /**
  *
@@ -18,8 +19,8 @@ public class PivotSubsystem extends Subsystem {
 
 	public static TalonSRX pivot;
 	VictorSP intakeRoller;
-	double kP = 0.5;
-	int pidIdx = 1;
+	double kP = 0.2;
+	int pidIdx = 0;
 	
 	public PivotSubsystem(int pivot, int intakeRoller) {
 		// TODO Auto-generated constructor stub
@@ -27,14 +28,19 @@ public class PivotSubsystem extends Subsystem {
 		this.intakeRoller = new VictorSP(intakeRoller);
 		
 //		this.pivot.changeControlMode(TalonControlMode.Position);
-		PivotSubsystem.pivot.set(ControlMode.Position, 0);
+		PivotSubsystem.pivot.set(ControlMode.Position, Robot.gearPivotTarget);
 
 //		this.pivot.reverseOutput(true);
+//		this.pivot.configReverseSoftLimitEnable(false, 20);
+//		this.pivot.configNominalOutputReverse(100, 20);
+//		this.pivot.configPeakOutputReverse(100, 20);
 //		this.pivot.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		PivotSubsystem.pivot.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, pidIdx, 500);
+		this.pivot.setSensorPhase(true);
+		PivotSubsystem.pivot.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, pidIdx, 20);
+		this.pivot.setInverted(true);
 //		this.pivot.set(0);
 		
-		PivotSubsystem.pivot.config_kP(1, kP, 500);
+		PivotSubsystem.pivot.config_kP(0, kP, 20);
 		
 //		this.pivot.disableControl();
 	}
@@ -47,14 +53,17 @@ public class PivotSubsystem extends Subsystem {
     public void setSetpoint(double setpoint){
 
 //		pivot.setSetpoint(setpoint);
-		pivot.set(ControlMode.Position, setpoint);
+//		pivot.set(ControlMode.Position, setpoint);
+		this.pivot.set(ControlMode.Position, setpoint);
     }
     
     public void constrainOutput(int forwardVoltage, int reverseVoltage){
 //    	pivot.configPeakOutputVoltage(forwardVoltage, reverseVoltage);
+		pivot.configPeakOutputForward(forwardVoltage, 20);
+		pivot.configPeakOutputReverse(reverseVoltage, 20);
     }
     
-    public double getPosition(){
+    public int getPosition(){
 
 //		return pivot.get();
 		return pivot.getSelectedSensorPosition(pidIdx);
@@ -63,14 +72,14 @@ public class PivotSubsystem extends Subsystem {
     public void setPID(double p, double i, double d){
 
 //		pivot.setPID(p, i, d);
-		pivot.config_kP(0, p, 500);
-		pivot.config_kI(0, i, 500);
-		pivot.config_kD(0, d, 500);
+		pivot.config_kP(0, p, 20);
+		pivot.config_kI(0, i, 20);
+		pivot.config_kD(0, d, 20);
     }
     
     public static void stopMotion() {
 //    	pivot.setP(0);
-		pivot.config_kP(0, 0, 500);
+		pivot.config_kP(0, 0, 20);
 //    	pivot.disableControl();
 		pivot.set(ControlMode.Disabled, 0);
     }

@@ -34,9 +34,9 @@ public class ShooterSubsystem extends Subsystem {
     	slaveShooter = new TalonSRX(slaveShooterAddress);
     	
 //    	masterShooter.changeControlMode(TalonControlMode.Speed);
-		masterShooter.set(ControlMode.Velocity, 0);
+		masterShooter.set(ControlMode.Velocity, Robot.targetRPM);
 //    	masterShooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
-		masterShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 1, 500);
+		masterShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 20);
 //    	masterShooter.set(0);
     	
 //    	slaveShooter.changeControlMode(TalonControlMode.Follower);
@@ -50,10 +50,10 @@ public class ShooterSubsystem extends Subsystem {
 //    	masterShooter.enableControl();
 //    	slaveShooter.enableControl();
     	
-    	masterShooter.config_kP(1, kP, 500);
-    	masterShooter.config_kI(1, kI, 500);
-    	masterShooter.config_kD(1, kD, 500);
-    	masterShooter.config_kF(1, kF, 500);
+    	masterShooter.config_kP(0, kP, 20);
+    	masterShooter.config_kI(0, kI, 20);
+    	masterShooter.config_kD(0, kD, 20);
+    	masterShooter.config_kF(0, kF, 20);
     }
     
     public void run(){
@@ -61,21 +61,21 @@ public class ShooterSubsystem extends Subsystem {
     	else enable();
     	masterShooter.set(ControlMode.Velocity, Robot.targetRPM);
     	slaveShooter.set(ControlMode.Follower, masterShooter.getDeviceID());
-        Robot.shooterAtSpeed = Math.abs(masterShooter.getSelectedSensorVelocity(1) - Robot.targetRPM) < 50 && Robot.targetRPM != 0;
+        Robot.shooterAtSpeed = Math.abs(masterShooter.getSelectedSensorVelocity(0) - Robot.targetRPM) < 50 && Robot.targetRPM != 0;
     	
     	if(Robot.targetRPM == 0){
     		Robot.greenLEDSubsystem.set(false);
     		Robot.oi.Psoc5.setOutput(8, false);
     		Robot.oi.Psoc5.setOutput(7, false);
     	} 	
-    	else if(Math.abs(Robot.targetRPM - masterShooter.getSelectedSensorVelocity(1)) < 50){
+    	else if(Math.abs(Robot.targetRPM - masterShooter.getSelectedSensorVelocity(0)) < 50){
     		Robot.greenLEDSubsystem.set(true);
     		Robot.oi.Psoc5.setOutput(8, true);
     		Robot.oi.Psoc5.setOutput(7, false);
     	}
     	else {
     		if(timer.get() == 0)timer.start(); 
-    		if(timer.get() > (Robot.targetRPM/masterShooter.getSelectedSensorVelocity(1))/3325){
+    		if(timer.get() > (Robot.targetRPM/masterShooter.getSelectedSensorVelocity(0))/3325){
     			Robot.greenLEDSubsystem.set(!Robot.greenLEDSubsystem.get());
     			timer.stop();
     			timer.reset();
