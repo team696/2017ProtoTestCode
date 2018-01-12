@@ -19,7 +19,7 @@ public class PivotSubsystem extends Subsystem {
 
 	public static TalonSRX pivot;
 	VictorSP intakeRoller;
-	double kP = 0.2;
+	double kP = 0.5;
 	int pidIdx = 0;
 	
 	public PivotSubsystem(int pivot, int intakeRoller) {

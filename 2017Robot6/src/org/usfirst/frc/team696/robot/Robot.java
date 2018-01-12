@@ -100,6 +100,7 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean shooterAtSpeed = false;
 	public static double targetRPM = 0;
+	public static double shootersTarget;
 	
 	public static boolean runConveyor = false;
 	public static boolean runIntake = false;
@@ -115,7 +116,7 @@ public class Robot extends IterativeRobot {
 	public static final double gearIntakeSlowSpeed = 0.5;
 	public static int gearPivotTarget = 0;
 	public static int gearPivotStowed = PivotSubsystem.pivot.getSelectedSensorPosition(0);
-	public static int gearPivotOut = PivotSubsystem.pivot.getSelectedSensorPosition(0) + 1670;
+	public static int gearPivotOut = PivotSubsystem.pivot.getSelectedSensorPosition(0) - 1670;
 	public static final int gearInitialEncValue = PivotSubsystem.pivot.getSelectedSensorPosition(0);
 	public static int gearTargetEncValue;
 //	public static double gearPivotStowed = gearTargetEncValue;
@@ -292,8 +293,12 @@ public class Robot extends IterativeRobot {
 		table.putNumberArray("PDPCurrents", PDPCurrents);
 //		table.putNumberArray("Encoder Value", PivotSubsystem.pivot.getSelectedSensorPosition(1))
 		table.putNumber("encoder", PivotSubsystem.pivot.getSelectedSensorPosition(0));
+		table.putNumber("Target RPM", targetRPM);
 		
 		Scheduler.getInstance().run();
+
+		shootersTarget = ShooterSubsystem.masterShooter.getClosedLoopError(0) + ShooterSubsystem.masterShooter.getSelectedSensorVelocity(0);
+
 		if(oi.Psoc5.getRawButton(11)){
 			hoodSubsystem.setAngle(100);
 		}
@@ -378,11 +383,11 @@ public class Robot extends IterativeRobot {
     //	if(runShooter)targetRPM = 2900;  
 
 	//	if(runShooter)targetRPM = 3325;
-//		if(runShooter)targetRPM = 3325;
+		if(runShooter)targetRPM = 3800;
 //		if(runShooter)targetRPM = 2900;
 // 		if(runShooter)targetRPM = 892.5;
 
-		if(runShooter)targetRPM = 2000;
+//		if(runShooter)targetRPM = 2000;
 		else targetRPM = 0;
 		
 		/*
@@ -466,8 +471,11 @@ public class Robot extends IterativeRobot {
 //    	turn = Util.deadZone(turn, -0.2, 0.2, 0) * Math.abs((speedTurnScale));
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
-    	System.out.println("GearPivotOut: " + gearPivotOut + "            GearPivotStowed: " + gearPivotStowed + "            GetPosition: " + pivotSubsystem.getPosition() + "           Target: " + gearPivotTarget);
-    	
+//    	System.out.println("GearPivotOut: " + gearPivotOut + "            GearPivotStowed: " + gearPivotStowed + "            GetPosition: " + pivotSubsystem.getPosition() + "           Target: " + gearPivotTarget);
+		System.out.println("runShooter: " + runShooter + "              targetRPM: " + targetRPM + "               Encoder: " + ShooterSubsystem.masterShooter.getSelectedSensorVelocity(0) +
+				"               Shooter Target: " + shootersTarget);
+
+
     	leftValue = speed + turn;
     	rightValue = speed - turn;
     	

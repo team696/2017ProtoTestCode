@@ -19,10 +19,10 @@ public class ShooterSubsystem extends Subsystem {
 	public static TalonSRX slaveShooter;
 	Timer timer = new Timer();
 	
-	double kP = 0.075, 
-			kI = 0, 
-			kD = 0.0, 
-			kF = 0.03;
+	double kP = 0.11,  // was 0.075
+			kI = 0.00005,
+			kD = 5,
+			kF = 0.032; // 0.03
 	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
@@ -32,21 +32,25 @@ public class ShooterSubsystem extends Subsystem {
     public ShooterSubsystem(int masterShooterAddress, int slaveShooterAddress){
     	masterShooter = new TalonSRX(masterShooterAddress);
     	slaveShooter = new TalonSRX(slaveShooterAddress);
-    	
+
+		masterShooter.setSensorPhase(true);
+		masterShooter.setInverted(true);
+		slaveShooter.setSensorPhase(true);
+
 //    	masterShooter.changeControlMode(TalonControlMode.Speed);
-		masterShooter.set(ControlMode.Velocity, Robot.targetRPM);
+		masterShooter.set(ControlMode.Velocity, 0);
 //    	masterShooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Absolute);
 		masterShooter.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 20);
 //    	masterShooter.set(0);
     	
 //    	slaveShooter.changeControlMode(TalonControlMode.Follower);
 //    	slaveShooter.set(0);
-        slaveShooter.set(ControlMode.Follower, 0);
+        slaveShooter.set(ControlMode.Follower, masterShooter.getDeviceID());
     	
 //    	masterShooter.reverseOutput(true);
 //    	masterShooter.reverseSensor(false);
 //    	slaveShooter.reverseOutput(true);
-    	
+
 //    	masterShooter.enableControl();
 //    	slaveShooter.enableControl();
     	
@@ -63,26 +67,26 @@ public class ShooterSubsystem extends Subsystem {
     	slaveShooter.set(ControlMode.Follower, masterShooter.getDeviceID());
         Robot.shooterAtSpeed = Math.abs(masterShooter.getSelectedSensorVelocity(0) - Robot.targetRPM) < 50 && Robot.targetRPM != 0;
     	
-    	if(Robot.targetRPM == 0){
-    		Robot.greenLEDSubsystem.set(false);
-    		Robot.oi.Psoc5.setOutput(8, false);
-    		Robot.oi.Psoc5.setOutput(7, false);
-    	} 	
-    	else if(Math.abs(Robot.targetRPM - masterShooter.getSelectedSensorVelocity(0)) < 50){
-    		Robot.greenLEDSubsystem.set(true);
-    		Robot.oi.Psoc5.setOutput(8, true);
-    		Robot.oi.Psoc5.setOutput(7, false);
-    	}
-    	else {
-    		if(timer.get() == 0)timer.start(); 
-    		if(timer.get() > (Robot.targetRPM/masterShooter.getSelectedSensorVelocity(0))/3325){
-    			Robot.greenLEDSubsystem.set(!Robot.greenLEDSubsystem.get());
-    			timer.stop();
-    			timer.reset();
-    		}
-    		Robot.oi.Psoc5.setOutput(8, false);
-    		Robot.oi.Psoc5.setOutput(7, true);
-    	}
+//    	if(Robot.targetRPM == 0){
+//    		Robot.greenLEDSubsystem.set(false);
+//    		Robot.oi.Psoc5.setOutput(8, false);
+//    		Robot.oi.Psoc5.setOutput(7, false);
+//    	}
+//    	else if(Math.abs(Robot.targetRPM - masterShooter.getSelectedSensorVelocity(0)) < 50){
+//    		Robot.greenLEDSubsystem.set(true);
+//    		Robot.oi.Psoc5.setOutput(8, true);
+//    		Robot.oi.Psoc5.setOutput(7, false);
+//    	}
+//    	else {
+//    		if(timer.get() == 0)timer.start();
+//    		if(timer.get() > (Robot.targetRPM/masterShooter.getSelectedSensorVelocity(0))/3325){
+//    			Robot.greenLEDSubsystem.set(!Robot.greenLEDSubsystem.get());
+//    			timer.stop();
+//    			timer.reset();
+//    		}
+//    		Robot.oi.Psoc5.setOutput(8, false);
+//    		Robot.oi.Psoc5.setOutput(7, true);
+//    	}
     }
     
     public void enable(){
@@ -95,8 +99,10 @@ public class ShooterSubsystem extends Subsystem {
     public void disable(){
 //    	masterShooter.disableControl();
 //    	slaveShooter.disableControl();
-		masterShooter.set(ControlMode.Disabled, 0);
-		slaveShooter.set(ControlMode.Disabled, 0);
+//		masterShooter.set(ControlMode.Disabled, 0);
+//		slaveShooter.set(ControlMode.Disabled, 0);
+		masterShooter.neutralOutput();
+		slaveShooter.neutralOutput();
     }
 }
 
