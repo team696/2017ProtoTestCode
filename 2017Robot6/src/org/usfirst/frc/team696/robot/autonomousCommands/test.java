@@ -20,11 +20,11 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class test extends CommandGroup {
 
     public test() {
-    	addSequential(new Aim());
-    	addSequential(new Drive());
-    	addSequential(new Aim());
-    	addSequential(new Drive());
-    	addSequential(new Aim());
-    	addSequential(new Drive());
+//    	addSequential(new Aim());
+//    	addSequential(new Drive());
+//    	addSequential(new Aim());
+//    	addSequential(new Drive());
+//    	addSequential(new Aim());
+//    	addSequential(new Drive());
     }
 }

@@ -11,36 +11,41 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Drive extends Command {
 
-	double targetDistance = 0;
-	double distanceError = 0;
-	double currentDistance = 0;
-	double directionError = 0;
+	public static double targetDistance = 0;
+	public static double distanceError = 0;
+	public static double currentDistance = 0;
+	public static double directionError = 0;
 	double tempTargetDirection = 0;
+	double commandedTurn = 0;
+	double commandedDrive = 0;
 
-	double speed = 0;
-	double turn = 0;
+	public static double speed = 0;
+	public static double turn = 0;
 	double leftValue = 0;
 	double rightValue = 0;
 	boolean isFinished = false;
-	double maxSpeed = 0.75;
+	double maxSpeed = 0;
+	double rampSpeed = 0;
 	Timer isFinishedTimer = new Timer();
+
+	public static double kPB = 0.0185; // 0.0185
+	public static double kIB = 0.0001; // 0.0001
+	public static double kDB = 0; // 0
+	public static double alphaB = 0.5; // 0.5
 	
-	double kPB = 0.0185;
-	double kIB = 0.0001;
-	double kDB = 0;
-	double alphaB = 0.5;
+	public static double kPF = 0.013; // 0.013
+	public static double kIF = 0.0001; // 0.001
+	public static double kDF = 0; // 0
+	public static double alphaF = 0.5; // 0.5
+
+	public static PID distancePID = new PID(kPB, kIB, kDB, alphaB);
+	public static PID directionPID = new PID(0.03, 0.0, 0.00, 0.2);
 	
-	double kPF = 0.013;
-	double kIF = 0.0001;
-	double kDF = 0;
-	double alphaF = 0.5;
-	
-	PID distancePID = new PID(kPB, kIB, kDB, alphaB);
-	PID directionPID = new PID(0.03, 0.0, 0.00, 0.2);
-	
-    public Drive(double distance, double direction) {
-    	targetDistance = distance;
-		tempTargetDirection = direction;
+    public Drive(double distance, double direction, double maxSpeed, double rampSpeed) {
+    	this.targetDistance = distance;
+		this.tempTargetDirection = direction;
+		this.maxSpeed = maxSpeed;
+		this.rampSpeed = rampSpeed;
     }
     
     public Drive() {
@@ -53,7 +58,7 @@ public class Drive extends Command {
     	Robot.rightDriveEncoder.reset();
     	if(!Robot.useCamera)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
     	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
-    	maxSpeed = 0.75;
+//    	maxSpeed = 0.75;
     	if(Robot.useCamera){
     		directionPID.setPID(0.08, 0.004, 0.0, 0.2);
     		maxSpeed = 0.3;
@@ -63,6 +68,7 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+
     	currentDistance = -((Robot.leftDriveEncoder.getDistance() + Robot.rightDriveEncoder.getDistance()) / 2);
 		distanceError = targetDistance - currentDistance;
 		
@@ -79,8 +85,32 @@ public class Drive extends Command {
 		
 		distancePID.setError(distanceError);
 		directionPID.setError(directionError);
+
+		commandedDrive = distancePID.getValue() * 5;
+//		commandedTurn = distancePID.getValue();
+//
+		if(speed < 0.05 && commandedDrive > 0) {
+			speed = 0.05;					/* instant jump up from 0 -- removes delay of wheels spinning towards beginning of joystick
+												movement. */
+		}
+
+		if(speed > -0.05 && commandedDrive < 0) {
+			speed = -0.05;					// instant jump down from 0
+		}
+
+		if(speed < commandedDrive) {
+			speed+=rampSpeed;                //forward ramping
+
+		}
+
+		if(speed > commandedDrive) {
+			speed-=rampSpeed;               //backward ramping
+		}
+
+
+
 		
-		speed = distancePID.getValue();
+//		speed = distancePID.getValue();
 		if(speed > maxSpeed)speed = maxSpeed;
 		if(speed < -maxSpeed)speed = -maxSpeed;
 		turn = directionPID.getValue();
@@ -112,7 +142,7 @@ public class Drive extends Command {
 			isFinishedTimer.reset();
 		}
 		
-		System.out.println("Direction Error: " + directionError + "Target Direction: " + tempTargetDirection);
+//		System.out.println("Direction Error: " + directionError + "Target Direction: " + tempTargetDirection);
 
 		/*if(Robot.tracking || Robot.autonomousCommand.isRunning())*/Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }
