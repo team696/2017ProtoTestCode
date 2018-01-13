@@ -5,17 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="743fcd84-b4bf-4aaf-b09d-31129a54597a" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/ZeroYaw.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/Center.java" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/Robot.class" afterPath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/Robot.class" />
-      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.class" afterPath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.class" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/CenterLeft.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/LeftPeg.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/LeftPegActive.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegActive.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeaveLeft.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeaveRight.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeftShoot.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeftShootVision.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegRightShoot.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegRightShootVision.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/RightPeg.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/RightPegActive.class" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/autonomousCommands/test.class" afterPath="" />
       <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/commands/Drive.class" afterPath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/commands/Drive.class" />
-      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/subsystems/DriveTrainSubsystem.class" afterPath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/subsystems/DriveTrainSubsystem.class" />
       <change beforePath="$PROJECT_DIR$/dist/FRCUserProgram.jar" afterPath="$PROJECT_DIR$/dist/FRCUserProgram.jar" />
       <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.java" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/CenterLeft.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/LeftPeg.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/LeftPegActive.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegActive.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeaveLeft.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeaveRight.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeftShoot.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeftShootVision.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegRightShoot.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegRightShootVision.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/RightPeg.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/RightPegActive.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/test.java" afterPath="" />
       <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/Drive.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/Drive.java" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/DriveTrainSubsystem.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/DriveTrainSubsystem.java" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,8 +57,8 @@
       <file leaf-file-name="Robot.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="601">
-              <caret line="235" column="50" lean-forward="false" selection-start-line="235" selection-start-column="50" selection-end-line="235" selection-end-column="50" />
+            <state relative-caret-position="351">
+              <caret line="166" column="0" lean-forward="false" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -63,16 +87,6 @@
                 <element signature="e#1585#1586#0" expanded="true" />
                 <element signature="e#1631#1632#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MiddlePegLeaveRight.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeaveRight.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="15" column="13" lean-forward="false" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -107,11 +121,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Drive.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Drive.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/Drive.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="201">
-              <caret line="47" column="27" lean-forward="true" selection-start-line="47" selection-start-column="27" selection-end-line="47" selection-end-column="27" />
+            <state relative-caret-position="76">
+              <caret line="92" column="39" lean-forward="false" selection-start-line="92" selection-start-column="39" selection-end-line="92" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -119,24 +133,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CenterLeft.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/CenterLeft.java">
+      <file leaf-file-name="Center.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/Center.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="25">
-              <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state relative-caret-position="101">
+              <caret line="21" column="55" lean-forward="false" selection-start-line="21" selection-start-column="55" selection-end-line="21" selection-end-column="55" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MiddlePeg.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="13" column="24" lean-forward="false" selection-start-line="13" selection-start-column="24" selection-end-line="13" selection-end-column="24" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -180,10 +184,11 @@
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/ShooterSubsystem.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/DriveTrainSubsystem.java" />
-        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/ZeroYaw.java" />
-        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/Drive.java" />
+        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/CenterLeft.java" />
+        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/Drive.java" />
+        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/Center.java" />
       </list>
     </option>
   </component>
@@ -395,12 +400,12 @@
       <workItem from="1515793967474" duration="366000" />
       <workItem from="1515794702287" duration="181000" />
       <workItem from="1515817700582" duration="879000" />
-      <workItem from="1515864437867" duration="3813000" />
+      <workItem from="1515864437867" duration="12554000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39047000" />
+    <option name="totallyTimeSpent" value="47788000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="2902" height="1762" extended-state="6" />
@@ -408,7 +413,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32977387" sideWeight="0.49583334" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977387" sideWeight="0.49583334" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -793,14 +798,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="235" column="50" lean-forward="false" selection-start-line="235" selection-start-column="50" selection-end-line="235" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/ZeroYaw.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -813,20 +810,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/CenterLeft.java">
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="25">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state relative-caret-position="351">
+          <caret line="166" column="0" lean-forward="false" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/Drive.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="92" column="39" lean-forward="false" selection-start-line="92" selection-start-column="39" selection-end-line="92" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/commands/Drive.java">
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/Center.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="47" column="27" lean-forward="true" selection-start-line="47" selection-start-column="27" selection-end-line="47" selection-end-column="27" />
+        <state relative-caret-position="101">
+          <caret line="21" column="55" lean-forward="false" selection-start-line="21" selection-start-column="55" selection-end-line="21" selection-end-column="55" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

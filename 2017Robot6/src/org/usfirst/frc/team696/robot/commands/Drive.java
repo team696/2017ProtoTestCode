@@ -39,9 +39,11 @@ public class Drive extends Command {
 	PID distancePID = new PID(kPB, kIB, kDB, alphaB);
 	PID directionPID = new PID(0.03, 0.0, 0.00, 0.2);
 	
-    public Drive(double distance, double direction) {
+    public Drive(double distance, double direction, double maxSpeed, double maxTurn) {
     	targetDistance = distance;
 		tempTargetDirection = direction;
+		this.maxSpeed = maxSpeed;
+		this.maxTurn = maxTurn;
     }
     
     public Drive() {
@@ -54,8 +56,8 @@ public class Drive extends Command {
     	Robot.rightDriveEncoder.reset();
     	if(!Robot.useCamera)Robot.targetDirection = tempTargetDirection;
     	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
-    	maxSpeed = 0.75;
-    	maxTurn = 0.75;
+//    	maxSpeed = 0.75;
+//    	maxTurn = 0.75;
     	if(Robot.useCamera){
     		directionPID.setPID(0.08, 0.004, 0.0, 0.2);
     		maxSpeed = 0.3;
@@ -101,7 +103,7 @@ public class Drive extends Command {
 //			Robot.oi.Psoc5.setOutput(6, false);
 //		}
 		
-		if(Math.abs(distanceError) < 2 && Math.abs(directionError) < 2){
+		if(Math.abs(distanceError) < 5 && Math.abs(directionError) < 5){
 //			if(Robot.autonomousCommand.isRunning()){
 //			if(isFinishedTimer.get() == 0)isFinishedTimer.start();
 //			if(isFinishedTimer.get() > 0.2){

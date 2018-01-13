@@ -1,9 +1,6 @@
 package org.usfirst.frc.team696.robot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.cscore.AxisCamera;
-import edu.wpi.cscore.CameraServerJNI;
-import edu.wpi.first.wpilibj.CameraServer;
 
 //works at LAR
 
@@ -27,10 +24,6 @@ import org.usfirst.frc.team696.robot.commands.Aim;
 import org.usfirst.frc.team696.robot.commands.AutoLightShow;
 import org.usfirst.frc.team696.robot.commands.RunBeamBreak;
 import org.usfirst.frc.team696.robot.commands.RunShooter;
-import org.usfirst.frc.team696.robot.commands.SetClimber;
-import org.usfirst.frc.team696.robot.commands.SetConveyor;
-import org.usfirst.frc.team696.robot.commands.SetHopper;
-import org.usfirst.frc.team696.robot.commands.SetShooter;
 import org.usfirst.frc.team696.robot.subsystems.ClimberSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ConveyorSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.DriveTrainSubsystem;
@@ -171,20 +164,8 @@ public class Robot extends IterativeRobot {
     	leftDriveEncoder.setReverseDirection(true);//practice
 //		rightDriveEncoder.setReverseDirection(true);//competition
 		
-		chooser.addObject("Middle Peg Leve Left", new MiddlePegLeaveLeft());
-		chooser.addObject("Middle Peg Leave Right", new MiddlePegLeaveRight());
-		chooser.addObject("test", new test());
-		chooser.addObject("Middle Peg", new MiddlePeg());
-		chooser.addObject("left Peg", new LeftPeg());
-		chooser.addObject("Middle Peg Left Shoot", new MiddlePegLeftShoot());
-		chooser.addObject("Middle Peg Right Shoot", new MiddlePegRightShoot());
-		chooser.addObject("Middle Peg Left Shoot Vision", new MiddlePegLeftShootVision());
-		chooser.addObject("Middle Peg Right Shoot Vision", new MiddlePegRightShootVision());
-		chooser.addObject("Middle Peg Active", new MiddlePegActive());
-		chooser.addObject("Right Peg Active", new RightPegActive());
-		chooser.addObject("Left Peg Active", new LeftPegActive());
-		chooser.addObject("Right Peg", new RightPeg());
-		chooser.addObject("Center Pos", new CenterLeft());
+
+		chooser.addObject("Center Pos", new Center());
 		SmartDashboard.putData("Auto mode", chooser);
 //		CameraServer.getInstance().addAxisCamera("10.6.96.3");
 		
