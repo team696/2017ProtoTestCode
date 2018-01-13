@@ -21,19 +21,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team696.robot.autonomousCommands.LeftPeg;
-import org.usfirst.frc.team696.robot.autonomousCommands.LeftPegActive;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePeg;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegActive;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeaveLeft;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeaveRight;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShoot;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegLeftShootVision;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShoot;
-import org.usfirst.frc.team696.robot.autonomousCommands.MiddlePegRightShootVision;
-import org.usfirst.frc.team696.robot.autonomousCommands.RightPeg;
-import org.usfirst.frc.team696.robot.autonomousCommands.RightPegActive;
-import org.usfirst.frc.team696.robot.autonomousCommands.test;
+import org.usfirst.frc.team696.robot.autonomousCommands.*;
 import org.usfirst.frc.team696.robot.commands.Drive;
 import org.usfirst.frc.team696.robot.commands.Aim;
 import org.usfirst.frc.team696.robot.commands.AutoLightShow;
@@ -196,6 +184,7 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Right Peg Active", new RightPegActive());
 		chooser.addObject("Left Peg Active", new LeftPegActive());
 		chooser.addObject("Right Peg", new RightPeg());
+		chooser.addObject("Center Pos", new CenterLeft());
 		SmartDashboard.putData("Auto mode", chooser);
 //		CameraServer.getInstance().addAxisCamera("10.6.96.3");
 		

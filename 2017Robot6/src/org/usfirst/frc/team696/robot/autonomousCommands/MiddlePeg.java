@@ -16,6 +16,6 @@ public class MiddlePeg extends CommandGroup {
 //    	addSequential(new VoltageDrive(0.5, 2.5));
 		addSequential(new WaitForGear(), 10);
 		addSequential(new Drive(-50, 0), 0.5);
-		addSequential(new Drive(0, 90), 0.5);
+		addSequential(new Drive(0, 90));
     }
 }

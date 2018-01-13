@@ -23,6 +23,7 @@ public class Drive extends Command {
 	double rightValue = 0;
 	boolean isFinished = false;
 	double maxSpeed = 0.75;
+	double maxTurn = 0.5;
 	Timer isFinishedTimer = new Timer();
 	
 	double kPB = 0.0185;
@@ -51,9 +52,10 @@ public class Drive extends Command {
     protected void initialize() {
     	Robot.leftDriveEncoder.reset();
     	Robot.rightDriveEncoder.reset();
-    	if(!Robot.useCamera)Robot.targetDirection = Robot.navX.getYaw() + tempTargetDirection;
+    	if(!Robot.useCamera)Robot.targetDirection = tempTargetDirection;
     	else Robot.targetDirection = Robot.navX.getYaw() + Robot.targetDirection;
     	maxSpeed = 0.75;
+    	maxTurn = 0.75;
     	if(Robot.useCamera){
     		directionPID.setPID(0.08, 0.004, 0.0, 0.2);
     		maxSpeed = 0.3;
@@ -79,11 +81,17 @@ public class Drive extends Command {
 		
 		distancePID.setError(distanceError);
 		directionPID.setError(directionError);
+
+
 		
 		speed = distancePID.getValue();
+		if(speed < 0.15 && speed > -0.15)speed = speed * 3;
 		if(speed > maxSpeed)speed = maxSpeed;
 		if(speed < -maxSpeed)speed = -maxSpeed;
 		turn = directionPID.getValue();
+		if(turn < 0.15 && turn > -0.15)turn = turn * 5;
+		if(turn > maxTurn)turn = maxTurn;
+		if(turn < -maxTurn)turn = -maxTurn;
 		
 		leftValue = speed + turn;
 		rightValue = speed - turn;
@@ -112,7 +120,8 @@ public class Drive extends Command {
 			isFinishedTimer.reset();
 		}
 		
-		System.out.println("Direction Error: " + directionError + "Target Direction: " + tempTargetDirection);
+//		System.out.println("Direction Error: " + directionError + "Target Direction: " + tempTargetDirection);
+		System.out.println(Robot.navX.getYaw() + "              " + currentDistance);
 
 		/*if(Robot.tracking || Robot.autonomousCommand.isRunning())*/Robot.driveTrainSubsystem.tankDrive(leftValue, rightValue);
     }
