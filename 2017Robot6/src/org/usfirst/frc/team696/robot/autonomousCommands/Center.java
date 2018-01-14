@@ -41,8 +41,8 @@ public class Center extends CommandGroup {
             addSequential(new ZeroYaw());
             addSequential(new Drive(40, 0, 0.75, 0), 0.5);
             addSequential(new Wait(0));
-            addSequential(new Drive(100, -45, 0.75, 0.5), 1.2);
-            addSequential(new Drive(40, 0, 0.5, 0.4), 1);
+            addSequential(new Drive(90, -50, 0.75, 0.5), 1.2);
+            addSequential(new Drive(50, 0, 0.5, 0.4), 1);
             addSequential(new Wait(0.5));
             addSequential(new VoltageDrive(0.4, 1));
 //            addSequential(new Drive(-60, 90, 0.3, 0.4), 2);
@@ -50,9 +50,13 @@ public class Center extends CommandGroup {
 //            addSequential(new Drive(140, 0, 0.5, 1), 2);
 //            addSequential(new Wait(0.3));
 //            addSequential(new Drive(50, 90, 0.5, 0.75), 2);
-            addSequential(new Drive(-20, -90, 0.5, 0.75), 2);
-            addSequential(new Drive(60, -90, 0.75, 0), 2);
-            addSequential(new Drive(100, 0, 1, 0.5), 2);
+            addSequential(new Drive(-20, -90, 0.5, 0.75), 1);
+            addSequential(new Drive(50, -90, 0.75, 0), 1);
+            addSequential(new Drive(120, 0, 0.9, 0.4), 1.5);
+            addSequential(new Drive(80, 90, 0.75, 0.5), 1.5);
+            addSequential(new Drive(10, 180, 0.5, 0.75), 1.5);
+
+
         }
 
         if(gameData.charAt(0) == 'R'){

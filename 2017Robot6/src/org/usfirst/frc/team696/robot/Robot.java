@@ -166,6 +166,7 @@ public class Robot extends IterativeRobot {
 		
 
 		chooser.addObject("Center Pos", new Center());
+		chooser.addObject("Left Pos", new Left());
 		SmartDashboard.putData("Auto mode", chooser);
 //		CameraServer.getInstance().addAxisCamera("10.6.96.3");
 		
