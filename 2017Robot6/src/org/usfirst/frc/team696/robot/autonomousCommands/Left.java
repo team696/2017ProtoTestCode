@@ -12,7 +12,7 @@ public class Left extends CommandGroup {
 
     public Left() {
 
-        if(gameData.charAt(0) == 'L') {
+        if(gameData.charAt(0) == 'R' && gameData.charAt(1) == 'L') {
 
             addSequential(new ZeroYaw());
             addSequential(new Drive(40, 0, 0.75, 0), 1);
@@ -30,7 +30,14 @@ public class Left extends CommandGroup {
 ////            addSequential(new Drive( 50, ))
 
         }
-        
+        if(gameData.charAt(0) == 'L' && gameData.charAt(1) == 'R'){ // Auto #2. Inregrate color sensor
+
+            addSequential (new ZeroYaw());
+            addSequential(new Drive(220, 0, 0.8,0.08), 3.0);
+            addSequential(new Drive(30,90,0.85,0.50), 3.0);
+
+
+        }
 
     }
 
