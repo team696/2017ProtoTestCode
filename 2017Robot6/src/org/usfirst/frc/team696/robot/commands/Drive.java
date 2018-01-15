@@ -91,7 +91,7 @@ public class Drive extends Command {
 		if(speed > maxSpeed)speed = maxSpeed;
 		if(speed < -maxSpeed)speed = -maxSpeed;
 		turn = directionPID.getValue();
-		if(turn < 0.15 && turn > -0.15)turn = turn * 5;
+		if(turn < 0.15 && turn > -0.15)turn = turn * 3;
 		if(turn > maxTurn)turn = maxTurn;
 		if(turn < -maxTurn)turn = -maxTurn;
 		
