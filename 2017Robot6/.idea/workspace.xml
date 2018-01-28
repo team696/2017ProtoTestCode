@@ -5,90 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="743fcd84-b4bf-4aaf-b09d-31129a54597a" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/RGBSensor.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/Timer.java" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/build/jars/CTRE_Phoenix.jar" afterPath="$PROJECT_DIR$/build/jars/CTRE_Phoenix.jar" />
+      <change beforePath="$PROJECT_DIR$/build/jars/WPILib.jar" afterPath="$PROJECT_DIR$/build/jars/WPILib.jar" />
       <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/Robot.class" afterPath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/Robot.class" />
-      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/subsystems/PivotSubsystem.class" afterPath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/subsystems/PivotSubsystem.class" />
-      <change beforePath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/subsystems/ShooterSubsystem.class" afterPath="$PROJECT_DIR$/build/org/usfirst/frc/team696/robot/subsystems/ShooterSubsystem.class" />
       <change beforePath="$PROJECT_DIR$/dist/FRCUserProgram.jar" afterPath="$PROJECT_DIR$/dist/FRCUserProgram.jar" />
       <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/PivotSubsystem.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/PivotSubsystem.java" />
-      <change beforePath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/ShooterSubsystem.java" afterPath="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/ShooterSubsystem.java" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/.gitignore" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/nav6/IMUProtocol$GyroUpdate.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/nav6/IMUProtocol$QuaternionUpdate.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/nav6/IMUProtocol$StreamCommand.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/nav6/IMUProtocol$StreamResponse.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/nav6/IMUProtocol$YPRUpdate.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/nav6/IMUProtocol.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/nav6/frc/IMU.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/nav6/frc/IMUAdvanced.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol$AHRSUpdate.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol$AHRS_DATA_ACTION.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol$AHRS_DATA_TYPE.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol$AHRS_TUNING_VAR_ID.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol$BoardID.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol$DataSetResponse.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol$MagCalData.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol$TuningVar.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/com/kauailabs/navx_mxp/AHRSProtocol.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/OI.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/Robot.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/RobotMap.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/LeftPeg.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/LeftPegActive.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/LeftPegLeave.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegActive.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeaveLeft.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeaveRight.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeftShoot.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegLeftShootVision.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegRightShoot.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePegRightShootVision.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/NoEncResetTest.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/RightPeg.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/RightPegActive.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/RightPegLeave.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/autonomousCommands/test.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/Aim.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/AutoLightShow.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/CloseGearFlap.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/Drive.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/GroundIntakeClose.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/GroundIntakeIntake.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/GroundIntakeOuttake.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/OpenGearFlap.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/RunBeamBreak.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/RunShooter.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/SetClimber.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/SetConveyor.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/SetHood.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/SetHopper.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/SetShooter.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/SetVisionLight.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/VoltageDrive.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/Wait.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/WaitForGear.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/commands/ZeroYaw.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/ClimberSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/ConveyorSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/DriveTrainSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/GearBeamBreakSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/GearIntakeFlapSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/GreenLEDSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/HoodSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/HopperServoSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/HopperSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/PivotSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/RedLEDSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/ShooterSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/subsystems/VisionLightSubsystem.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/utilities/DriveCmd.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/utilities/JoystickAnalogButton.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/utilities/NavXSource.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/utilities/PID.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/utilities/SixMotorDrive.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../2017Robot6_xbox/bin/org/usfirst/frc/team696/robot/utilities/Util.class" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -106,12 +31,44 @@
       <file leaf-file-name="Robot.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="550">
-              <caret line="406" column="38" lean-forward="true" selection-start-line="406" selection-start-column="38" selection-end-line="406" selection-end-column="38" />
+            <state relative-caret-position="25">
+              <caret line="182" column="41" lean-forward="false" selection-start-line="182" selection-start-column="41" selection-end-line="182" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1515794257366" expanded="true" signature="16149:16193" ph="//..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="I2C.java" pinned="false" current-in-tab="false">
+        <entry file="jar://$wpilib.sources$!/edu/wpi/first/wpilibj/I2C.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2825">
+              <caret line="129" column="17" lean-forward="false" selection-start-line="129" selection-start-column="17" selection-end-line="129" selection-end-column="17" />
+              <folding>
+                <element signature="e#4698#4699#0" expanded="true" />
+                <element signature="e#4772#4773#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RGBSensor.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/RGBSensor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="400">
+              <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Timer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/Timer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -168,36 +125,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DriveCmd.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/DriveCmd.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SixMotorDrive.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/SixMotorDrive.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PID.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/PID.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="50">
-              <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="RobotMap.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/RobotMap.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -215,12 +142,14 @@
       <list>
         <option value="FRCSubsystem" />
         <option value="FRCPIDSubsystem" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
       <find>setSetpoint</find>
+      <find>rgbSensor</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -243,6 +172,7 @@
         <option value="$PROJECT_DIR$/src/PivotSubsystem2.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/PivotSubsystem.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/ShooterSubsystem.java" />
+        <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/RGBSensor.java" />
         <option value="$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java" />
       </list>
     </option>
@@ -274,6 +204,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -297,23 +229,14 @@
               <item name="2017Robot6" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="robot" type="462c0819:PsiDirectoryNode" />
-              <item name="autonomousCommands" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="2017Robot6" type="b2602c69:ProjectViewProjectNode" />
-              <item name="2017Robot6" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="robot" type="462c0819:PsiDirectoryNode" />
-              <item name="commands" type="462c0819:PsiDirectoryNode" />
+              <item name="utilities" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -323,9 +246,14 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../2018BuildSeason" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../2018BuildSeason/2018Robot1" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.usfirst.frc.team696.robot.utilities" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -454,11 +382,13 @@
       <workItem from="1515715667028" duration="1340000" />
       <workItem from="1515793967474" duration="366000" />
       <workItem from="1515794702287" duration="181000" />
+      <workItem from="1517091102054" duration="5690000" />
+      <workItem from="1517175917801" duration="407000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="34355000" />
+    <option name="totallyTimeSpent" value="40452000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="2902" height="1762" extended-state="6" />
@@ -476,9 +406,9 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.153125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979852" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="FRC" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32852665" sideWeight="0.49340278" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15658364" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="FRC" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3288375" sideWeight="0.49340278" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -490,8 +420,8 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32977387" sideWeight="0.4965278" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32977387" sideWeight="0.49583334" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.4965278" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32947975" sideWeight="0.49583334" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -526,32 +456,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/autonomousCommands/MiddlePeg.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="11" column="13" lean-forward="false" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11275">
-          <caret line="451" column="88" lean-forward="false" selection-start-line="451" selection-start-column="88" selection-end-line="451" selection-end-column="88" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1515794257366" expanded="true" signature="16149:16193" ph="//..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/PivotSubsystem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="49" lean-forward="false" selection-start-line="0" selection-start-column="49" selection-end-line="0" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/subsystems/ShooterSubsystem.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1325">
@@ -574,7 +478,6 @@
           <caret line="451" column="88" lean-forward="false" selection-start-line="451" selection-start-column="88" selection-end-line="451" selection-end-column="88" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1515794257366" expanded="true" signature="16149:16193" ph="//..." />
           </folding>
         </state>
       </provider>
@@ -601,7 +504,6 @@
           <caret line="451" column="88" lean-forward="false" selection-start-line="451" selection-start-column="88" selection-end-line="451" selection-end-column="88" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1515794257366" expanded="true" signature="16149:16193" ph="//..." />
           </folding>
         </state>
       </provider>
@@ -643,7 +545,6 @@
           <caret line="451" column="88" lean-forward="false" selection-start-line="451" selection-start-column="88" selection-end-line="451" selection-end-column="88" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1515794257366" expanded="true" signature="16149:16193" ph="//..." />
           </folding>
         </state>
       </provider>
@@ -670,7 +571,6 @@
           <caret line="451" column="65" lean-forward="true" selection-start-line="451" selection-start-column="65" selection-end-line="451" selection-end-column="65" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1515794257366" expanded="true" signature="16149:16193" ph="//..." />
           </folding>
         </state>
       </provider>
@@ -888,13 +788,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/Timer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/utilities/RGBSensor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="16" column="40" lean-forward="false" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$wpilib.sources$!/edu/wpi/first/wpilibj/I2C.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2825">
+          <caret line="129" column="17" lean-forward="false" selection-start-line="129" selection-start-column="17" selection-end-line="129" selection-end-column="17" />
+          <folding>
+            <element signature="e#4698#4699#0" expanded="true" />
+            <element signature="e#4772#4773#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/usfirst/frc/team696/robot/Robot.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="550">
-          <caret line="406" column="38" lean-forward="true" selection-start-line="406" selection-start-column="38" selection-end-line="406" selection-end-column="38" />
+        <state relative-caret-position="25">
+          <caret line="182" column="41" lean-forward="false" selection-start-line="182" selection-start-column="41" selection-end-line="182" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1515794257366" expanded="true" signature="16149:16193" ph="//..." />
           </folding>
         </state>
       </provider>

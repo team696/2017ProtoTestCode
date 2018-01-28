@@ -56,12 +56,15 @@ import org.usfirst.frc.team696.robot.subsystems.PivotSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.RedLEDSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.ShooterSubsystem;
 import org.usfirst.frc.team696.robot.subsystems.VisionLightSubsystem;
+//import org.usfirst.frc.team696.robot.utilities.RGBSensor;
 import org.usfirst.frc.team696.robot.utilities.Util;
 
 import com.kauailabs.nav6.frc.IMU;
 import com.kauailabs.nav6.frc.IMUAdvanced;
 
 public class Robot extends IterativeRobot {
+
+	public static I2C rgbSensor;
 	
 	public static ClimberSubsystem climberSubsystem = new ClimberSubsystem(RobotMap.climberMotorA, RobotMap.climberMotorB);
 	public static ConveyorSubsystem conveyorSubsystem = new ConveyorSubsystem(RobotMap.conveyorMotor);
@@ -76,6 +79,7 @@ public class Robot extends IterativeRobot {
 	public static ShooterSubsystem shooterSubsystem = new ShooterSubsystem(RobotMap.masterShooterTalon, RobotMap.slaveShooterTalon);
 	public static VisionLightSubsystem visionLightSubsystem = new VisionLightSubsystem(RobotMap.visionLight, RobotMap.peltier);
 	public static HopperServoSubsystem hopperServoSubsystem = new HopperServoSubsystem(RobotMap.hopperServo1, RobotMap.hopperServo2);
+//	public static RGBSensor rgbSensorUtility = new RGBSensor(rgbSensor);
 	
 	public static PowerDistributionPanel PDP = new PowerDistributionPanel();
 	
@@ -175,7 +179,9 @@ public class Robot extends IterativeRobot {
 		/*
 		 * initialize pixycam
 		 */
-		pixy = new I2C(Port.kOnboard, 0x54);
+//		pixy = new I2C(Port.kOnboard, 0x54);
+		rgbSensor = new I2C(Port.kOnboard, 0x39);
+		System.out.println(rgbSensor.addressOnly());
 		
 		leftDriveEncoder.setDistancePerPulse(distancePerPulse);
 		rightDriveEncoder.setDistancePerPulse(distancePerPulse);
@@ -218,6 +224,7 @@ public class Robot extends IterativeRobot {
 		 * set off position of hood release
 		 */
 		hoodSubsystem.setAngle(139);
+//		RGBSensor.disable();
 		
 		
 		/*
@@ -340,8 +347,7 @@ public class Robot extends IterativeRobot {
 		/*
 		 * run shooter when button 5 is pushed on gamepad
 		 */
-		if(oi.Psoc5.getRawButton(2))runShooter = true;
-		else runShooter = false;
+		runShooter = oi.Psoc5.getRawButton(2);
 		
 		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.openPos();
 		if(oi.Psoc5.getRawButton(15)) gearFlapSubsystem.closePos();
@@ -460,7 +466,7 @@ public class Robot extends IterativeRobot {
 		 * drive control
 		 * speed: forward speed
 		 * turn: turn rate
-		 * speedTurnScael: scale to change turn rate based on speed
+		 * speedTurnScale: scale to change turn rate based on speed
 		 */
 		speed = -oi.Psoc5.getRawAxis(0);
     	turn = oi.wheel.getRawAxis(0);
@@ -472,8 +478,9 @@ public class Robot extends IterativeRobot {
     	
 //    	System.out.println("Left Servo: " + gearFlapSubsystem.leftServo.getAngle() + "Right Servo: " + gearFlapSubsystem.rightServo.getAngle() + "    " + openGearFlap);
 //    	System.out.println("GearPivotOut: " + gearPivotOut + "            GearPivotStowed: " + gearPivotStowed + "            GetPosition: " + pivotSubsystem.getPosition() + "           Target: " + gearPivotTarget);
-		System.out.println("runShooter: " + runShooter + "              targetRPM: " + targetRPM + "               Encoder: " + ShooterSubsystem.masterShooter.getSelectedSensorVelocity(0) +
-				"               Shooter Target: " + shootersTarget);
+//		System.out.println("runShooter: " + runShooter + "              targetRPM: " + targetRPM + "               Encoder: " + ShooterSubsystem.masterShooter.getSelectedSensorVelocity(0) +
+//				"               Shooter Target: " + shootersTarget);
+//		System.out.println(RGBSensor.read16(RGBSensor.sensorRedL))
 
 
     	leftValue = speed + turn;
