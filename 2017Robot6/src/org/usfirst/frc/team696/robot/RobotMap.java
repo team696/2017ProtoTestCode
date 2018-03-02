@@ -58,7 +58,7 @@ public class RobotMap {
 //	public static int gearIntake = 10;
 	public static int gearIntakePDPChannel = 9;
 //	public static int gearIntakePDPChannel = 5;
-	public static int hopperServo1 = 16;
-	public static int hopperServo2 = 17;
+	public static int hopperServo1 = 18;
+	public static int hopperServo2 = 19;
 	
 }

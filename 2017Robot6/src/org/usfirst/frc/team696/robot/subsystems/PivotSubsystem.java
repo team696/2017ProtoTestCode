@@ -19,7 +19,7 @@ public class PivotSubsystem extends Subsystem {
 
 	public static TalonSRX pivot;
 	VictorSP intakeRoller;
-	double kP = 0.5;
+	double kP = 0;
 	int pidIdx = 0;
 	
 	public PivotSubsystem(int pivot, int intakeRoller) {
@@ -28,7 +28,7 @@ public class PivotSubsystem extends Subsystem {
 		this.intakeRoller = new VictorSP(intakeRoller);
 		
 //		this.pivot.changeControlMode(TalonControlMode.Position);
-		PivotSubsystem.pivot.set(ControlMode.Position, Robot.gearPivotTarget);
+		PivotSubsystem.pivot.set(ControlMode.Disabled, Robot.gearPivotTarget);
 
 //		this.pivot.reverseOutput(true);
 //		this.pivot.configReverseSoftLimitEnable(false, 20);
@@ -54,7 +54,7 @@ public class PivotSubsystem extends Subsystem {
 
 //		pivot.setSetpoint(setpoint);
 //		pivot.set(ControlMode.Position, setpoint);
-		this.pivot.set(ControlMode.Position, setpoint);
+		this.pivot.set(ControlMode.Disabled, setpoint);
     }
     
     public void constrainOutput(int forwardVoltage, int reverseVoltage){

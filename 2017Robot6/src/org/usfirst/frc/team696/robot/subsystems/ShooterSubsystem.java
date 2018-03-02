@@ -88,12 +88,18 @@ public class ShooterSubsystem extends Subsystem {
 //    		Robot.oi.Psoc5.setOutput(7, true);
 //    	}
     }
+
+    public void percentOutput(double speed){
+    	masterShooter.set(ControlMode.PercentOutput, speed);
+    	slaveShooter.set(ControlMode.Follower, masterShooter.getDeviceID());
+
+	}
     
     public void enable(){
 //    	masterShooter.enableControl();
 //    	slaveShooter.enableControl();
-		masterShooter.set(ControlMode.Velocity, Robot.targetRPM);
-		slaveShooter.set(ControlMode.Follower, masterShooter.getDeviceID());
+		masterShooter.set(ControlMode.Disabled, Robot.targetRPM);
+		slaveShooter.set(ControlMode.Disabled, masterShooter.getDeviceID());
     }
     
     public void disable(){

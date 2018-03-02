@@ -327,21 +327,35 @@ public class Robot extends IterativeRobot {
 		/*
 		 * Run hopper and conveyor when button 6 is pushed on gamepad
 		 */
-		
+
+		if(oi.wheel.getRawButtonPressed(2)) {
+			hopperServoSubsystem.spin();
+		}else{
+			hopperServoSubsystem.stop();
+		}
+
 		if(oi.Psoc5.getRawButton(1)){
 			runConveyor = true;
 			runHopper = true;
-			
+			hopperServoSubsystem.spin();
+
 		} else {
 			runConveyor = false;
 			runHopper = false;
+			hopperServoSubsystem.stop();
 		}
 
 		/*
 		 * run shooter when button 5 is pushed on gamepad
 		 */
-		if(oi.Psoc5.getRawButton(2))runShooter = true;
-		else runShooter = false;
+//		if(oi.Psoc5.getRawButton(2))runShooter = true;
+//		else runShooter = false;
+
+		if(oi.Psoc5.getRawButton(2)){
+			shooterSubsystem.percentOutput(0.6);
+		}else{
+			shooterSubsystem.percentOutput(0);
+		}
 		
 		if(oi.Psoc5.getRawButton(14) && !oldPsoc5[14])gearFlapSubsystem.openPos();
 		if(oi.Psoc5.getRawButton(15)) gearFlapSubsystem.closePos();
@@ -357,11 +371,11 @@ public class Robot extends IterativeRobot {
 		 * Run Hopper Servo
 		 */
 		
-		if(oi.Psoc5.getRawButton(1)){
-			hopperServoSubsystem.spin();
-		}else{
-			hopperServoSubsystem.stop();
-		}
+//		if(oi.Psoc5.getRawButton(1)){
+//			hopperServoSubsystem.spin();
+//		}else{
+//			hopperServoSubsystem.stop();
+//		}
 		
 		
 		/*
@@ -449,7 +463,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 //		pivotSubsystem.setSetpoint(gearPivotStowed);
-		PivotSubsystem.pivot.set(ControlMode.Position, gearPivotTarget);
+		PivotSubsystem.pivot.set(ControlMode.Disabled, gearPivotTarget);
 		pivotSubsystem.setIntake(gearIntakeSpeed);
 		
 		if(stopMotion) {
